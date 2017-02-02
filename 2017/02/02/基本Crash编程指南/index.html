@@ -104,15 +104,16 @@
 
 
 
-<meta name="description" content="iOS,Python,Unity">
-<meta property="og:type" content="website">
+<meta name="description" content="基本Crash编程指南ios崩溃分类：【两大类】NSException:程序抛出的异常，没有被捕获造成的。分类：NSGenericException：一般性异常。比如迭代器错误。NSRangeException：范围异常，通常发生在数组越界上。NSInvalidArgumentException：无效参数错误，比如消息转发出错，把一个消息转发给一个无法处理这则消息的对象：unrecognize">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Cheng JianFeng's Blog">
-<meta property="og:url" content="https://treasureu.github.io/index.html">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/02/基本Crash编程指南/index.html">
 <meta property="og:site_name" content="Cheng JianFeng's Blog">
-<meta property="og:description" content="iOS,Python,Unity">
+<meta property="og:description" content="基本Crash编程指南ios崩溃分类：【两大类】NSException:程序抛出的异常，没有被捕获造成的。分类：NSGenericException：一般性异常。比如迭代器错误。NSRangeException：范围异常，通常发生在数组越界上。NSInvalidArgumentException：无效参数错误，比如消息转发出错，把一个消息转发给一个无法处理这则消息的对象：unrecognize">
+<meta property="og:updated_time" content="2017-02-02T13:41:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cheng JianFeng's Blog">
-<meta name="twitter:description" content="iOS,Python,Unity">
+<meta name="twitter:description" content="基本Crash编程指南ios崩溃分类：【两大类】NSException:程序抛出的异常，没有被捕获造成的。分类：NSGenericException：一般性异常。比如迭代器错误。NSRangeException：范围异常，通常发生在数组越界上。NSInvalidArgumentException：无效参数错误，比如消息转发出错，把一个消息转发给一个无法处理这则消息的对象：unrecognize">
 
 
 
@@ -140,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="https://treasureu.github.io/"/>
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/02/基本Crash编程指南/"/>
 
 
 
 
 
-  <title> Cheng JianFeng's Blog </title>
+  <title>  | Cheng JianFeng's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -167,9 +168,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -293,9 +292,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -329,9 +328,6 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/02/基本Crash编程指南/" itemprop="url">
-                  未命名
-                </a>
               
             
           </h1>
@@ -378,6 +374,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
 
           
 
@@ -392,9 +393,7 @@
       
 
       
-        
-          
-            <?xml version="1.0" encoding="UTF-8"?>
+        <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="汇总贴"><meta name="altitude" content="14"><meta name="author" content="程剑锋"><meta name="created" content="2015-12-29 07:28:45 +0000"><meta name="latitude" content="31.22306814727845"><meta name="longitude" content="121.3562377596016"><meta name="source" content="desktop.mac"><meta name="updated" content="2017-01-17 04:51:06 +0000"><title>基本Crash编程指南</title></head><body><div><div><b>ios崩溃分类：【两大类】</b></div><div><div><ul><li>NSException:程序抛出的异常，没有被捕获造成的。<br></li><ul><li><b>分类</b>：</li><ul><li>NSGenericException：一般性异常。比如迭代器错误。</li><li>NSRangeException：范围异常，通常发生在数组越界上。</li><li>NSInvalidArgumentException：无效参数错误，比如消息转发出错，把一个消息转发给一个无法处理这则消息的对象：unrecognized selector sent to instance 0x1756f5f0。</li><li>NSInternalInconsistencyException：内部不一致异常。可能发生在Main.storyboard配置出错，以及UITableView的数据源和你插入或者删除的操作不一致等地方。</li><li>NSFileHandleOperationException：文件操作相关的异常。</li><li>NSObjectNotAvailableException</li><li>NSDestinationInvalidException</li><li>NSPortReceiveException</li><li>NSInconsistentArchiveException</li><li>NSFileHandleOperationException</li><li>…...</li></ul><li><b>参考资料</b>：<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Exceptions/Concepts/PredefinedExceptions.html#//apple_ref/doc/uid/20000057-BCIGHECA" target="_blank" rel="external">https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Exceptions/Concepts/PredefinedExceptions.html#//apple_ref/doc/uid/20000057-BCIGHECA</a></li></ul><li>Signal：各种其他类型的异常。<br></li><ul><li><b>分类</b>：</li><ul><li>SEGV:无效内存地址，比如空指针，未初始化指针，栈溢出，zombie对象访问等</li><li>SIGBUS：总线错误。与SIGSEGV不同的是，SIGSEGV访问的是无效地址（比如虚存映射不到物理内存），而SIGBUS访问的是有效地址，但总线访问异常（比如地址对齐问题）</li><li>SIGABRT：收到Abort信号，可能自身调用abort()或者收到外部发送过来的信号</li><li>SIGILL：尝试执行非法的指令，可能不被识别或者没有权限</li><li>SIGFPE：Floating Point Error,数学计算相关问题,比如除零操作</li><li>SIGPIPE：管道另一端没有进程接手数据</li></ul><li><b>参考资料</b>：</li><ul><li><span style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0);">signal函数：http://en.</span><a style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0);" href="http://cppreference.com/w/c/program/signal" target="_blank" rel="external">cppreference.com/w/c/program/signal</a><span style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0);"></span></li><li><span style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0);">
 signal handler详解：</span><span style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-font-kerning: none;"><u><a style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0);" href="http://www.cnblogs.com/clover-toeic/p/4126594.html" target="_blank" rel="external">www.cnblogs.com/clover-toeic/p/4126594.html</a></u></span></li><li><span style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-font-kerning: none;"><font style="font-size: 15px;">在【Linux】上若信号与硬件故障(如SIGBUS/SIGFPE/SIGILL/SIGSEGV)或定时器超时相关，该信号会发往引起该事件的线程。其它信号除非显式指定目标线程，否则通常发往主线程(哪怕信号处理函数由其他线程注册)，仅当主线程屏蔽该信号时才发往某个具有处理能力的线程。【<span style="font: 15.0px 'Helvetica Neue'; font-kerning: none; color: #000000; -webkit-text-stroke: 0px #000000">UNIX -&gt; BSD\Linux\FreeBSD -&gt; Mac OS</span>】</font></span></li></ul></ul><li><font face="Helvetica Neue"><span style="font-size: 15px;"><b>区别对比</b>：</span></font></li><ul><li>信号由操作系统发出，更为底层，与程序的执行是异步的，由特殊的处理函数进行异步处理（signal / signaction），与程序语言之间几乎没有集成，处理难度更大。</li><li>（编程语言）异常则由程序语言和运行时提供，是一种可控的、同步激发处理、被语言和运行时支持的、可进行结构化处理的流程控制机制（与 return 和 if else for while 等没有本质区别）。</li><li>总的来说，后者处理过程由于是语言直接支持的，难度较小，资源管理较容易，是一种比较「高级」的机制。后者是可以基于前者实现（也可以完全无关）。</li><li>除非环境明确要求，一般的程序流程控制只涉及后者；如果环境支持，可能会将 OS 发出的信号包装成对应的异常交给应用处理。</li></ul></ul></div><div><br></div><div><b><br></b></div><div><b>NSException与NSError内容</b>：</div><ul><li><b>基础知识</b>：</li></ul><ol><ul><li>ARC在默认情况下NSException不是线程安全的，<b>具体来说就是如果抛出异常，那么本应在作用域尾释放的对象现在却不会自动释放了。如果想生成异常安全代码，那么需要添加额外的编译标志： -fobjc-arc-exceptions，但是一旦添加，在未抛出异常时也会执行这段代码，使程序显得臃肿，效率下降</b>。</li><li>对此IOS的异常使用策略是：<b>只在极其极端的情况下才抛出异常，异常一旦抛出就无需考虑恢复问题，而且程序此时应该退出</b>。（俗称crash）</li><li>对于出现不那么严重的错误，我们通常可以返回 nil，或者 通过NSError**返回NSError对象来描述异常。
@@ -408,16 +407,41 @@ signal handler详解：</span><span style="font-family: 'Helvetica Neue'; font-s
 </li><ul><li>如果是NSException的异常，可以获取到以下完整信息：
 </li><ul><li>[exception  name]: 独一无二的exception编号</li><li>[exception  reason]: 具体崩溃的原因</li><li>[exception  callStackSymbols]: 是一个数组，返回了<b>发生崩溃所在的线程的调用栈信息（注意，仅针对发生崩溃的线程）</b>。我们使用 【arr description】即可转化为 string并上报。</li></ul><li>如果是signal异常：
 </li><ul><li>可以使用 backtrack（xx,xx） 和 backtrace_symbols( xx,xx )：获取到当前线程的调用栈。</li></ul></ul></ul><div><br></div><div><br></div><div><b>旧版本crash修复操作</b>：</div><div><ul><li>参考文章：<span style="font: 15.0px 'Helvetica Neue'; font-kerning: none; color: #000000; -webkit-text-stroke: 0px #000000"><u><a href="http://www.cocoawithlove.com/2010/05/handling-unhandled-exceptions-and.html" target="_blank" rel="external">http://www.cocoawithlove.com/2010/05/handling-unhandled-exceptions-and.html</a></u></span></li><li><span style="font-style: normal; font-variant-caps: normal; font-size: 15px; font-family: 'Helvetica Neue'; -webkit-font-kerning: none; color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; -webkit-text-stroke-color: rgb(0, 0, 0);"><font style="font-size: 15px;"><b>续命方法</b>：</font></span></li><ul><li><span style="font-style: normal; font-variant-caps: normal; font-size: 15px; font-family: 'Helvetica Neue'; -webkit-font-kerning: none; color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; -webkit-text-stroke-color: rgb(0, 0, 0);"><font style="font-size: 15px;">收集到数据后，将exception push到主线程</font></span></li><li><span style="font-style: normal; font-variant-caps: normal; font-size: 15px; font-family: 'Helvetica Neue'; -webkit-font-kerning: none; color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; -webkit-text-stroke-color: rgb(0, 0, 0);"><font style="font-size: 15px;">2.重启主线程的runloop</font></span></li></ul><li><font style="font-size: 15px;">代价：这将导致异常线程使用的堆栈内存被永久的泄露，且崩溃函数永远无法返回。同时只能应对较为简单的崩溃。</font></li><li><font style="font-size: 15px;">缺陷：有可能会失败，只能应对简单的crash。</font><span style="font: 15.0px 'Helvetica Neue'; font-kerning: none; color: #000000; -webkit-text-stroke: 0px #000000"><br></span></li></ul><div><span style="font-size: 15px;"><br></span></div></div><div><span style="font-size: 15px;"><br></span></div><div><span style="font-size: 15px;"><b>Mac机上获取Symbol</b>：</span></div><div><ul><li><span style="font-size: 15px;">文件主路径：<font style="font-size: 15px;">~/Library/Developer/Xcode/iOS DeviceSupport，该目录以系统作为划分依据。</font></span></li><li><span style="font-size: 15px;">具体子目录：</span></li><ul><li><span style="font-size: 15px;">Symbols/System/Library/Frameworks：公有框架，每个框架文件里的同名文件，就是符号表文件。比如 xxx.framework/xxx</span></li><ul><li><span style="font-size: 15px;">需要注意的是，框架可能还会有自己引用的framework和dylib，可以考虑递归获取。</span></li></ul><li><span style="font-size: 15px;"><font style="font-size: 15px;">Symbols/System/Library/PrivateFrameworks：公有框架，每个框架文件里的同名文件，就是符号表文件。比如 xxx.framework/xxx</font><br></span></li><ul><li><span style="font-size: 15px;"><font style="font-size: 15px;"><font style="font-size: 15px;">需要注意的是，框架可能还会有自己引用的framework和dylib，可以考虑递归获取。</font><br></font></span></li></ul><li><span style="font-size: 15px;">Symbol/usr/lib:下面有很多 dylib框架</span></li><li><span style="font-size: 15px;"><font style="font-size: 15px;">Symbol/usr/lib/system:下面有很多 dylib框架</font><br></span></li></ul><li><span style="font-size: 15px;">脚本文件：<a href="%E5%9F%BA%E6%9C%ACCrash%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97.resources/search_bin.sh">search_bin.sh</a></span></li></ul></div><div><span style="font-size: 15px;"><br></span></div><div><br></div></div></body></html>
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/logo.jpg" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/logo.jpg" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
     </div>
+  </div>
 
-    <div>
+
       
     </div>
 
@@ -426,311 +450,53 @@ signal handler详解：</span><span style="font-family: 'Helvetica Neue'; font-s
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2016/12/29/我的第一篇博客/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Cheng JianFeng">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Cheng JianFeng's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/12/29/我的第一篇博客/" rel="next" title="我的第一篇博客">
+                <i class="fa fa-chevron-left"></i> 我的第一篇博客
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2016/12/29/我的第一篇博客/" itemprop="url">
-                  我的第一篇博客
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-29T15:52:10+08:00">
-                2016-12-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/testCategories/" itemprop="url" rel="index">
-                    <span itemprop="name">testCategories</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/12/29/我的第一篇博客/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/29/我的第一篇博客/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>以上是文章摘要<br>
-          <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/29/我的第一篇博客/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
+          <span class="post-nav-divider"></span>
 
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2016/12/28/hello-world/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Cheng JianFeng">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Cheng JianFeng's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/28/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-28T14:51:55+08:00">
-                2016-12-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/12/28/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/28/hello-world/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/02/基本Crash编程指南/"
+     data-title=""
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/02/基本Crash编程指南/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
 
 
           </div>
@@ -738,6 +504,14 @@ signal handler详解：</span><span style="font-family: 'Helvetica Neue'; font-s
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/02/基本Crash编程指南/"
+           data-title="" data-url="https://treasureu.github.io/2017/02/02/基本Crash编程指南/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -980,6 +754,10 @@ signal handler详解：</span><span style="font-family: 'Helvetica Neue'; font-s
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
