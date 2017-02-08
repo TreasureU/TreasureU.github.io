@@ -304,7 +304,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/横竖屏适配经验/">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/iOS开发常见问题大全/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Cheng JianFeng">
@@ -329,8 +329,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/08/横竖屏适配经验/" itemprop="url">
-                  横竖屏适配经验
+                <a class="post-title-link" href="/2017/02/08/iOS开发常见问题大全/" itemprop="url">
+                  iOS开发常见问题大全
                 </a>
               
             
@@ -387,8 +387,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/02/08/横竖屏适配经验/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/横竖屏适配经验/" itemprop="commentCount"></span>
+                <a href="/2017/02/08/iOS开发常见问题大全/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/iOS开发常见问题大全/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -419,8 +419,861 @@
             
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="汇总贴"><meta name="author" content="673302055@163.com"><meta name="created" content="2015-10-22 05:48:54 +0000"><meta name="updated" content="2016-12-27 10:00:29 +0000"><title>横竖屏适配经验</title></head><body><div style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><div><b>autoresizingmask使用心得</b>：</div><ul><li>UIViewAutoresizingFlexibleBottomMargin 等单独使用时，是自动调整名字端的距离，维持对端的距离不变（完全不变），但本身大小维持不变。</li><li> UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin等对端组合使用时，可以让两边的边距等比例变化，锚点所处的绝对位置比例固定（适用于居中型的label），但本身大小不变。</li><li>UIViewAutoresizingFlexibleWidth等 当父视图变化时，其宽度随着父视图宽度的变化。变化规律是父视图增长或缩小多少，本身就增长或缩小多少。从而维持了左右间距不变。</li><li> UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin｜UIViewAutoresizingFlexibleHeight 这样才能做到在横向上的等比例变化。</li><li> 其他组合情况，都可以由上述几种组合方式推导出来。</li><li>注意，autoresizingmask是针对父视图的变化而变化的机制，同时，父视图拥有关闭子视图响应变化的autoresizingSubview开关机制</li><li>autoresizingmask这一属性不会被自动继承，对于每一个view都需要单独设置。</li></ul><div><br></div><div><br></div><div><b>横竖屏区分方式</b>：</div><ul><li>如果是VC，那么可以通过self.interfaceOrientation 去判断当前的具体方向。（至少需要在ViewDidLoad时及之后使用，否则方向为unknown ）</li><ul><li>该方法扩展一下，就是如果你的app拥有一个全局唯一的最底层VC，那么这个VC可以用于全局的任何地方的方向判断。比如Jdipad 中的 appdelegate.mainCtrl 。</li></ul><li>如果是View的话，可以通过判断某个view的bounds大小去判断横竖屏（注意，一定不能取frame，否则会出错）</li><ul><li>ios7上：windows的大小不会改变，但是他的坐标系计算方式发生变化。这导致vc.view.frame也不会发生变化。但是vc.view.frame的bounds会改变，这将导致下层view的布局可以发生变化。<br>
-ios8上：windows和vc.view.frame都发生变化，与普通的view变化一致。</li><li>可以直接使用vc.view.bounds的大小来判断横竖屏。该大小无论在哪个系统下都会旋转。</li><li>[uiscreen mainscreen]的bounds.size.width/height来判断方向。但要注意，这个大小可能会包含系统状态栏，同时这个值在<b>ios7上不会变的</b>.无论旋转与否。但是旋转会导致左边发生变化。在ios8上旋转会导致长宽值互换。</li></ul><li>采用状态栏的朝向来确定位置：【【UIApplication sharedApplication】 statusBarOrientation】，其值的类型是 UIInterfaceOrientation。（推荐）</li><li>使用设备 [UIDevice currentDevice].orientation 来判断方向，其值是一个UIDeviceOrientation</li><ul><li> device的方向可能会经常出现unknow的情况，比如设备处于斜置状态或者设备刚刚启动等情况。</li><li>关于UIDevice的使用前提，generatesDeviceOrientationNotifications 是一个属性，他通过 beginGeneratingDeviceOrientationNotifications 开启，请确保在代码中开启它。最好在初始化的时候即完成。</li><li>具体可以参考：<a href="http://foggry.com/blog/2014/08/08/ping-mu-xuan-zhuan-xue-xi-bi-ji/" target="_blank" rel="external">http://foggry.com/blog/2014/08/08/ping-mu-xuan-zhuan-xue-xi-bi-ji/</a></li><li>但我更加推荐使用 VC.interfaceOrientation 。</li></ul></ul><div><br></div><div><br></div><div><b>转屏处理方式</b>：</div><ul><li><b>方案一</b>：willRotateToInterfaceOrentation:dutation 以及  willAnimateRotateToInterfaceOrentation:dutation，但这两个方法在 iOS9上被废除了。</li><li><b>方案二</b>：viewWillTransitionToSize:WithTransitionCoordinator： 需要在ios8开始可用</li><li>最有效的方式是<b>支持两个版本的写法</b>：（不需要我们自己担心系统兼容性的问题，如果同时实现了两个函数，那么高版本系统上会只会回调viewWillTransitionToSize:WithTransitionCoordinator，而在低版本上只会回调willAnimateRotateToInterfaceOrentation:duration ，但我们一定要保证两个函数都实现了）</li><li><b>方案三</b>：如果是在UIView中需要对转屏做处理，可以注册通知 <b>UIApplicationWillChangeStatusBarOrientationNotification ,当</b>收到该通知时，就做转屏处理</li></ul><div><br></div><div><b>方案细节对比</b>：</div><div><ul><li>willRotateToInterfaceOrentation:duration ：</li><ul><li>此函数在<b>VC不是顶部VC</b>时（即其界面没有展示在屏幕上个），是<b>不会被调用的</b>。因此，我们需要在 viewWillAppear 中处理从上一个界面回退时的情况。</li><li>此函数调用时，<b>VC.view已经处于转屏后的大小</b>。（其相应的设置了约束的view也都已经变成了合适的大小），此时，我们可以<b>利用转屏后的frame进行手工布局</b>。</li></ul><li>viewWillTransitionToSize:WithTransitionCoordinator ：</li><ul><li>此函数只要该VC属于 rootViewController 的VC链中，其就可以被回调到。而且回调的顺序是：从 rootViewController 开始，一直回调到 叶子VC。（即当前页面是最后回调的）。因此使用这个函数时，不需要考虑回退时的界面布局问题。</li><li>此函数调用时，<b>VC.view维持在旧的大小没变</b>，如果此时按照老的写法来妄图按照此时的frame进行手工布局，必将导致错误。</li></ul><li>注意，在 viewWillAppear 时， vc,view的大小已经被为之后的值了，但是，其 <b>subView上的约束还未生效</b>。那些view的大小都是不合适的。</li></ul></div><div><br></div><div><b>注意事项</b>：</div><ul><li>在转屏时，tableView的contentOffset 是会发生变化的。<b>但这种变化并不是以动画的方式展现的，而是直接移动过去的。在转屏完成时，该定位就已经完成了</b>。</li><ul><li>如果转屏后，下方的大小足够支撑当前的 contentOffset （即 contentOffset + tableView.height ＞＝　contentSize）,那么转屏后，contentOffset维持不变。</li><li>如果转屏后，下方的大小不足以支撑当前的 contentOffset （即 contentOffset + tableView.height &lt;　contentSize ）,那么转屏后，contOffset将会发生变化。（目前未找到变化的规律，但是大致是定位到 首部（view连一屏都撑不满时） 或者是 定位到 中间位置（view还是比较长的））。</li></ul><li>假如我们在 willRotateToInterfaceOrentation:duration 或者 viewWillTransitionToSize:WithTransitionCoordinator 中对 contentOffset 进行修改，那么转屏完成时将直接定位到相应的位置，而不会有任何的动画效果和感知。对我们来说这一切仿佛是透明的。</li></ul><div><br></div><div><b>当转屏时，我们需要手动旋转坐标系的话</b>：（在iOS7上对直接添加到window上的view做旋转操作即可确保下面的view都正常展示）</div><div><br></div><div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>CGAffineTransform at;<br></div><div><font style="font-size: 12px; color: rgb(51, 51, 51);">UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;</font></div><div><font style="font-size: 12px; color: rgb(51, 51, 51);">if (orientation == UIInterfaceOrientationLandscapeLeft){</font></div><div><font style="font-size: 12px; color: rgb(51, 51, 51);">    at =CGAffineTransformMakeRotation(M_PI*3/2);</font></div><div><font style="font-size: 12px; color: rgb(51, 51, 51);">}else if(orientation == UIInterfaceOrientationLandscapeRight){</font></div><div><font style="font-size: 12px; color: rgb(51, 51, 51);">    at =CGAffineTransformMakeRotation(M_PI/2);</font></div><div><font style="font-size: 12px; color: rgb(51, 51, 51);">}else if ( orientation == UIInterfaceOrientationPortraitUpsideDown ){</font></div><div><font style="font-size: 12px; color: rgb(51, 51, 51);">    at =CGAffineTransformMakeRotation(-M_PI);</font></div><div><font style="font-size: 12px; color: rgb(51, 51, 51);">}</font></div><div><font style="font-size: 12px; color: rgb(51, 51, 51);">view.transform = at;</font></div></div><div>详细代码展示： <a style="color:#69aa35" href="evernote:///view/8887184/s39/4c06b08d-ea12-4377-a00a-97c12c20db14/4c06b08d-ea12-4377-a00a-97c12c20db14/" target="_blank" rel="external">View直接添加到windows的转屏处理方式</a></div></div><div><br></div></body></html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="汇总贴"><meta name="author" content="程剑锋"><meta name="created" content="2016-07-26 02:14:08 +0000"><meta name="source-url" content="http://www.cocoachina.com/ios/20151201/14432.html"><meta name="updated" content="2017-01-17 07:58:36 +0000"><title>iOS开发常见问题大全</title></head><body><div><br></div><div><b>代码问题</b>：</div><div><ul><li><b><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">使用</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;"><b>stringWithFormat</b></span> 格式化数字时的进位问题</b>：<span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">[</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">NSString</span> <span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">stringWithFormat</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">:</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">@"%.1f</span><span style="font-family: 'PingFang SC'; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">折</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">"</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">,rate]</span> ：在使用这个方法转化值时，会产生<b>进位问题</b>。即如果只保留一位小数，那么后面的尾数会四舍五入的进位。我们需要确认这个特性是否与我们想要的一致。</li></ul><div><br></div><ul><li><b>Block判空问题</b>：Block变量在使用时，一定要先判断是否为nil，如果为nil却直接调用，会引发crash。</li></ul><div><b><br></b></div><ul><li><b>NSNumber对象使用完整判空语句</b>：NSNumber对象会使用一种“标签指针”的技术来标注特定类型的数值，这种做法不使用NSNumber对象，而是将与数值相关的全部消息都放在指针值里面。此时，<b>我们使用 if( xxx ) 来判断它是否为nil的话，就会引发bug</b>。因为，该值可能会0，正好与 nil情况相似。因此，建议 if(  xxx ) 判断应该 使用 if( xxx != nil )编写完全。</li></ul><div><b><br></b></div><ul><li><b>原子特质属性使用方式</b>：如果对属性使用了 atomic 特质，那么即使在 实现文件中，也不能直接访问 实例变量，而应该通过 set/get 方法操作。</li></ul><div><br></div><ul><li><b>容器添加元素判空问题</b>：如果对象需要加入到 字典 或者是 数组中，那么一定要进行判空操作。<b>建议使用程序中的 safeAdd 方式</b>。</li></ul><div><br></div><ul><li><b>CoreFoundtion对象内存管理</b>：使用 CFRelease( xxx ) 时需要进行判空操作，否则会出现crash。</li></ul><div><br></div><ul><li><b>Xcode突然无法打印变量的系统bug：</b>修复方法：<a href="http://stackoverflow.com/questions/36151708/xcode-7-3-debugger-not-showing-custom-class-variables" target="_blank" rel="external">http://stackoverflow.com/questions/36151708/xcode-7-3-debugger-not-showing-custom-class-variables</a>。需要修改 build setting 中的内容方可。</li></ul><div><br></div><ul><li><b>在block内直接访问成员变量的问题</b>：在iOS中，使用block时，为了避免循环引用问题，我们一般会采用strongSelf-&gt;_xxxx，取访问成员变量。但是这种方式下，因为strongSelf可能为nil，从而导致crash问题。（如果是属性的话，那么是安全的）。因此，建议 所有Block 内使用成员变量的代码，都在最外层加上一个strongSelf  != nil 的判断。保护代码不受crash。</li></ul><div><br></div><ul><li>id对象方法调用的问题：
+</li><ul><li>如果某一个对象是从容器中取出来的，或者是一个ID类型，那么在使用它之前<b>必须判断它是否是我们预期中的类型</b>。</li><li>在OC中，如果调用未知方法是非常危险的，使用 <span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">performSelector</span> 调用前，最好先使用 <span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">respondsToSelector</span> 验证方法是否可调用。</li></ul></ul><div><br></div><ul><li>使用float时可能出现精度过低的问题，当有效数字位数达到8位时，会产生显示误差。</li></ul><div><br></div><div><br></div><div><b>非Retain显示屏字体模糊问题</b>：</div><ul><li>在我们在设置坐标时，如果坐标、大小的位置不是整数时，就将导致文字显示模糊。（与坐标、宽度设置均有关系，都需要设为整数值）</li><li>遇到这种问题，重点排查相应view的frame和center设置是否存在小数点设置。在设置值时可以采用 ceilf 向上取整设置值。</li><li>对于模糊效果来说，不只是本身的坐标设置有影响，superView以及其上祖先view的坐标设置，也会对它是否模糊产生影响。</li></ul><div><ul><li>虽然<b>在理论上我们可以编写任意大小的Rect，但是实际物理的布局大小是以像素点为单位进行的</b>，它无法完全依照我们的设想去完成布局。因此我们需要遵循这一规律：
+</li><ul><li>在一倍屏上，最小布局point单位是 1.</li><li>在二倍屏上，最小布局point单位是0.5.</li></ul></ul><div>          这一才能有效的保证布局的正确性和效率。</div></div><ul><ul><li>当我们碰到这类问题时：
+</li><ul><li>如果是普通的view上布局。那么请尽量避开这种值，在不同设备上格式化到最小标准单位。或者是统一到 1，最为简单。（其实很难看出来）</li><li>如果是对于 collectionView 这种 cellSize 、itemSpace等东西，如果我们写入这样的数值，那么系统会自动帮我们格式化到最小单位，然后将不足或者多余的大小，在 中间的space上补齐。又或者无法正常显示space。因此，我们<b>在设置值时就应该写入以最小单位为标准的值</b>。
+</li><ul><li>为了补齐大小，不产生余数。我们可以是cell之间的大小是不一样的。反正它也是由 delegate方法返回的。 -（CGSize）collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath*) indexPath.</li></ul></ul></ul></ul><div><br></div><div><br></div><div><b>系统字体变化的问题</b>：</div><ul><li>系统字体的大小不是一成不变的，随着系统的更新，字体的大小会发生细微的变化，此时，如果lable等宽度是写死的，那么将会导致显示为省略号。</li><li>建议不到万不得已，不要使用宽度写死的策略，应该使用sizeToFit去适应内容宽度。如果一定要写死，最好预留一定的宽度，比如1pt or 2pt。</li><li>历史事件：
+</li><ul><li>在ios6  -&gt;  ios7  时，字体大小发生变化。</li><li>在ios8  -&gt;  ios9  时，字体大小发生变化。</li></ul></ul><div><br></div><div><br></div><div><br></div><div><b>ios7上view的frame大小问题</b>：</div><ul><li>在ios7上，当 viewController 采用 <b>代码初始化方式初始化时（无xib参与）</b>，在viewDidLoad阶段，view.frame固定为 （0，0，768，1024）。而在 viewWillAppear 时，view.frame 恢复到其应有的大小。</li><li>当采用 <b>xib初始化</b>时，其 view.frame的大小一开始就可以初始化为正确的大小。</li></ul><div><br></div><div><br></div><div><b>iOS内存告警处理方式</b>：</div><div>当我们收到系统的内存告警<span style="text-align: left; background-color: rgb(255, 255, 255);"><font face="Arial">的时候，我们需要及时处理，才能确保app不会被杀死：</font></span></div><ul><li>appdelegate会调用回调函数：</li></ul><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);"><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">-（void）applicationDidReceiveMemoryWarning:(UIApplication *)application</span></span></span></div></div><ul><li>系统会发送通知：UIApplicationDidReceiveMemoryWarning </li><li>ViewController会回调函数：</li></ul><div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>-（void）didReceiveMemoryWarning;</div></div><ul><ul><li><span style="text-align: left; background-color: rgb(255, 255, 255);"><font face="Arial">每个view内部独有一个CALayer属性，<b>该属性是一个bitmap图像的容器类</b>。当UIView调用 drawRect时，CALayer才会创建这个 bitmap图像类。 具体占用内存的实际上是 bitmap这个对象，一般来说，CALayer只占48Bytes，UIView对象只占96Bytes，而一个全屏显示的iPad bitmap对象有12MB这么大。所以，当</font></span><span style="text-align: left; background-color: rgb(255, 255, 255);"><font face="Arial">didReceiveMemoryWarning被调用时，会释放该vc下所有view的 bitmap （<b>但是不会释放掉view本身</b>）。这样即可以回收内存，又可以在需要的时候通过 drawRect 函数重建 bitmap对象。 等于说，在ios6之后，我们需要在 </font></span><span style="text-align: left; background-color: rgb(255, 255, 255);"><font face="Arial">didReceiveMemoryWarning 中额外实现的（非必要，除非内存还是不够用），<b>只是对我们VC自己的 数据进行管理而已</b>。</font></span></li><li><span style="font-family: Arial;"><span style="background-color: rgb(255, 255, 255);">同时IOS针对bitmap的<b>内存回收还做了优化</b>，具体而言就是，在回收时是统一回收的，但是内存会被打上一个标志位，表示可被重新利用但未修改，只有在具体重用这块内存后，标志位才会被置为 已修改。那么，当需要重建这个bitmap 时，如果这个内存没有被重新利用，只需要直接复用就可以了，不需要再调用 drawRect来重建。</span></span></li><li><span style="font-family: Arial;"><span style="background-color: rgb(255, 255, 255);">数据清理操作：</span></span></li><ul><li><font face="Arial">资源文件等一定要释放</font></li><li><span style="font-family: Arial;">网络返回数据等选择性释放。如果选择释放，那么需要考虑好VC回退时如何恢复数据，是重新请求呢，还是之前做好持久化。</span></li></ul></ul></ul><div><br></div><div><br></div><div><b>iPad pro与模拟器上显示边界若隐若现问题</b>：</div><div>由于iPad Pro和模拟器的分辨率都较高，可以显示出即使是retain上也显示不出的像素，因此，有些图片的小于1px的边框，在这些屏幕上就有可能被显示出来。（但不是一定的，是随机的，因此会若隐若现）</div><div>如果有<b>这些情况出现，请首先怀疑是否图片存在问题</b>！</div><div>还有就是，怀疑问题思维要开阔，要勇于尝试！不要被常理所限制。</div><div><br></div><div><br></div><div><b>Cell获取问题</b>：当cell不可见时，是无法通过  <span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">[</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">_collectionListView</span> <span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">cellForItemAtIndexPath</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">:[</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">NSIndexPath</span> <span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">indexPathForRow</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">:i</span> <span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">inSection</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">:</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">1</span><span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; font-family: Monaco;">]]; 获取到cell的，即使它在之前已经被加载出来。</span></div><div><span style="font-size: 14px;"><span style="font-family: Monaco;"><br></span></span></div><div><span style="font-size: 14px;"><span style="font-family: Monaco;"><br></span></span></div><div><span style="font-size: 14px;"><span style="font-family: Monaco;"><b>NSDate相关问题</b>：</span></span></div><ul><li><span style="font-style: normal; font-variant: normal; font-weight: normal; font-family: Monaco;">NSTimeInterval是一个double类型的值，该值的小数点前一位表示秒，小数点后有6位，可以精确到微妙。</span></li></ul><div><span style="font-family: Monaco;">          举个例子：</span> <span style="font-style: normal; font-variant: normal; font-weight: normal; font-family: Menlo;"><b>time1 = 1451629204.236256 ,time2 = 1451629205.237414</b></span></div><ul><li><span style="font-family: Monaco;">获取当前时间距离1970年0点的时间间隔：</span> <span style="font-style: normal; font-variant: normal; font-weight: normal; font-family: Monaco;">NSTimeInterval</span> <span style="font-style: normal; font-variant: normal; font-weight: normal; font-family: Monaco;">time1 = [[</span><span style="font-style: normal; font-variant: normal; font-weight: normal; font-family: Monaco;">NSDate</span> <span style="font-style: normal; font-variant: normal; font-weight: normal; font-family: Monaco;">date</span><span style="font-style: normal; font-variant: normal; font-weight: normal; font-family: Monaco;">]</span> <span style="font-style: normal; font-variant: normal; font-weight: normal; font-family: Monaco;">timeIntervalSince1970</span><span style="font-style: normal; font-variant: normal; font-weight: normal; font-family: Monaco;">];</span></li></ul><div>          PS：<b>这个获取的时间是按照格林尼治标准时间设置，即我们是东8区与其差了8个时区，实际上是要多 8 * 3600 s的</b>。</div><div><br></div><div><br></div><div><b>BadBeef问题</b>：这个问题的起因是由于app内使用webview浏览M页时发生卡死。然后这个问题被webview发现了，系统为了有效的记录这一问题，所以自己主动去访问一个野指针，这个指针的地址就是0xbadbeef。</div><div><br></div><div><br></div><div><b>数据压缩与数据加密的顺序问题</b>：请遵循 <b>先压缩，后加密</b> 的顺序进行。这样做的好处在于：</div><ol><li>压缩率得到提升，先加密的话，压缩率会显著降低。几乎到了无法压缩的地步。</li><li>减少加密的运算量。</li></ol><div><br></div><div><br></div><div><b>Xcode不同project之间头文件引用错误的问题</b>：</div><ul><li><b>现象</b>：在同一个工程的不同project之间，我们的实现文件由于有相应的Target Membership 的关联，可以确保正确的关联到相应的project中。但是，对于头文件而言，由于没有Target Membership的关联设置，那么工程会随机找到第一个可以引用的头文件，这就可能会导致出错。</li><li><b>原因</b>：由于xcode的工程没有所谓的文件路径引用的概念，包含文件时仅以文件名作为区分要素，这也导致了错误的发生。</li><li><b>解决方案</b>：一定要确保在统一工程中，没有相同名字的文件出现，哪怕是不同的project也不行。（但是对于实现文件而言，还是可以的）</li></ul><div><br></div><div><br></div><div><b>链接问题解决</b>：（需要注意的是，这个问题是<b>发生在链接阶段，也就是编译是没有错误的</b>）</div><div>关于Other link flags的使用帮助：<a href="http://small.qiang.blog.163.com/blog/static/978493072013112571950/" target="_blank" rel="external">http://small.qiang.blog.163.com/blog/static/978493072013112571950/</a></div><div><br></div><div><br></div><div><b>关于找得到头文件但是找不到方法的解决方案</b>：有可能是该头文件的最外围包括了一层宏定义，在该宏没有打开的时候，这个头文件的定义是空的。</div><div><br></div><div><br></div><div><b>Xcode头文件查找问题</b>：</div><ul><li>xcode的头文件在同一个project里是跨target查找的，这里会引发以下几个问题：
+</li><ul><li>不同target的同名头文件，也就是说不同target之间不应该存在同名头文件，否则，各自target中可能会引用错误的头文件，导致编译出错。</li><li>跨target引用头文件，这个理论上应该需要被禁止。</li></ul><li>理想的方案：
+</li><ul><li>同一个project下的所有文件，都不应该存在同名文件，如果存在，那么请尽早修改名字。</li><li>如果有一些文件需要被跨Target使用，请单独的整理出这些文件，放到独立的文件夹中（便于后期管理），然后为各自的target添加依赖关系和 MemberShip 。</li></ul></ul><div><br></div><div><br></div><div><b>运行时动态库无法找到的问题</b>：</div><ul><li>现象：dyld: Library not loaded: ..................................................  ;  Reason: image not found</li><li>解决方案：需要在该 target 的配置中，general - embeded binaries 里添加这个确实的库，就可以解决这个问题了。</li><li>建议：以后<b>添加库都应该在general - embeded binarie 里添加</b>。</li></ul><div><br></div><div><br></div><div><b>关于cookies的写入问题</b>：</div><ol><li>新建NSHTTPCookie 对象时，需要传入一个字典对象去初始化属性，之后就只能读取这些属性而不能修改。通常需要设置的属性如下：
+</li><ol><li><span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">NSHTTPCookieName：cookie的名字</span></li><li><span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">NSHTTPCookieValue：cookie的值</span></li><li><span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">NSHTTPCookieDomain：cookie的作用域名，在设置的时候不要加上协议名（例如：”</span> <span style="color: rgb(0, 0, 0);"><span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;"><a href="http://api.m.jd.com/" target="_blank" rel="external">api.m.jd.com</a>" 即可,注意，cookie的匹配原则是从尾部开始匹配的，如果希望匹配所有京东的域名，可以使用 ".jd.com" </span><span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">）</span></span></li><li><span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">NSHTTPCookiePath：cookies的详细文件路路径,可以使用“/”表示通配。</span></li></ol></ol><div><span style="font-family: Monaco;"><br></span></div><div><b>关于drawRect的问题</b>：</div></div><div><ul><li>首先，draw代表的是一种绘制技术，它绘制的对象是在当前view的layer上完成的。相比于subview，其的显示层级是最低的。</li></ul><div><br></div></div><div><b>关于dispatch_once重入性问题</b>：dispatch_once是不可重入的，如果在dispatch_once中再次调用dispatch_once，会引起崩溃问题。这意味着，我们在获取单例对象时应该非常小心。</div><div><br></div><div><br></div><div><b>关于应用启动时就卡死的原因</b>：</div><ul><li><b>现象</b>：一直停留在启动页面，对于京东来说，就是红色京东狗页面。</li><li><b>原因</b>：很有可能是 load 、 initialization 或者是 <span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">__attribute__</span><span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">((constructor)) 函数出了问题，因为这些函数可以在main函数开始前执行，一旦在里面发生死锁，就会锁死在启动界面。</span></li></ul><div><span style="font-family: Monaco;"><br></span></div><div><b>iOS SIGPIPE崩溃原因与解决方案</b>：</div><ul><li><b>原因</b>：管道破裂。这个信号通常在进程间通信产生，比如采用FIFO(管道)通信的两个进程，读管道没打开或者意外终止就往管道写，写进程会收到SIGPIPE信号。此外用Socket通信的两个进程，写进程在写Socket的时候，读进程已经终止。</li><li><b>常见起因</b>：使用socket的时候一般都会收到这个SIGPIPE 信号，处理方法大部分都是忽略。我们需要在send的时候检测到服务器已经关闭连接，进行重新连接。正常情况下send函数返回-1表示发送失败，但是在iOS上SIGPIPE在send返回之前就终止了进程，所以我们需要忽略SIGPIPE，让send正常返回-1，然后重新连接服务器。</li><li><b>解决方案</b>：
+</li><ul><li>自己设置相应的回调函数，或者直接注册一个空函数。</li></ul></ul><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902);"><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">struct sigaction sa;</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">sa.sa_handler = SIG_IGN;</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">sigaction( SIGPIPE, &amp;sa, 0 );</span></span></span></div></div><ul><ul><li>设置socket不抛出SIGPIPE</li></ul></ul><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902);"><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">int set = 1;</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">setsockopt(sd, SOL_SOCKET, SO_NOSIGPIPE, (void *)&amp;set, sizeof(int));</span></span></span></div></div><ul><li><b>参考文章</b>：<a href="http://blog.csdn.net/tangaowen/article/details/46822167" target="_blank" rel="external">http://blog.csdn.net/tangaowen/article/details/46822167</a></li></ul><div><br></div><div><br></div><div><br></div><div><b>NSString文件操作相关的方法</b>：</div><div><ul><li>定义在 NSPathUtilities.h 中，属于NSString (NSStringPathExtensions) 分类。</li><li>常见方法：
+</li><ul><li>路径组装</li><li>路径拆分</li><li>文件名获取</li><li>后缀名获取</li><li>绝对路径</li></ul></ul><div><br></div></div><div><br></div><div><b style="font-weight: bold;">静态库中发生unrecognized selector ：</b>需要特别关注调用的方法是否是分类方法，是的话，一般是由于程序没有加载静态库中的分类方法。需要在Other linker Flag 中添加处理【一般加上 -Objc 即可】。</div><div><br></div><div><br></div><div><b>Bitcode库有效性校验</b>：</div><ul><li>参考文章：<a href="http://www.cocoachina.com/ios/20151201/14432.html" target="_blank" rel="external">http://www.cocoachina.com/ios/20151201/14432.html</a></li><li>主要内容：
+</li><ul><li>.a校验： <span style="color: rgb(127, 127, 127); font-family: &quot;Helvetica Neue&quot;, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(250, 250, 250);">otool -arch armv7 -l xxxx.a | grep __bitcode | wc -l ，可以具体指定某一类型的架构校验</span></li><li>.framework校验： <span style="color: rgb(127, 127, 127); font-family: &quot;Helvetica Neue&quot;, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(250, 250, 250);">otool -l xxxx | grep __LLVM | wc -l ，当然也可以指定架构校验 </span> <span style="color: rgb(127, 127, 127); font-family: &quot;Helvetica Neue&quot;, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(250, 250, 250);">otool -arch armv7 -l xxxx | grep __LLVM | wc -l</span></li></ul><li>结果有效性：并不保证完全有效，仅作参考作用。</li></ul><div><br></div></body></html>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/iOS安全模式开发/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/08/iOS安全模式开发/" itemprop="url">
+                  iOS安全模式开发
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:42:12+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/08/iOS安全模式开发/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/iOS安全模式开发/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="17.77412033081055"><meta name="author" content="程剑锋"><meta name="created" content="2016-12-19 09:03:18 +0000"><meta name="latitude" content="31.22298665391854"><meta name="longitude" content="121.3562362172647"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-12-21 06:11:09 +0000"><title>iOS安全模式开发</title></head><body><div><b>参考文章</b>：</div><div><ul><li>微信读书实现：<a href="http://www.cnblogs.com/fengmin/p/5552024.html" target="_blank" rel="external">http://www.cnblogs.com/fengmin/p/5552024.html</a>【一般般】</li><li>天猫实现：<a href="http://pingguohe.net/2016/06/20/safemode.html" target="_blank" rel="external">http://pingguohe.net/2016/06/20/safemode.html</a>【模式不咋地】</li></ul></div><div><br></div><div><b>自己实现的方案</b>：</div><ul><li><b>关于安全模式的定位：</b>安全模式是为了保护应用启动时连续发生崩溃的情况，对于其他情况下发生的崩溃，统统不做保护。</li><li><b>开发注意事项：</b><ul><li><b>安全模式保护的时间阈值</b>：延时任务启动的时间阈值，代表了安全模式需要保护的启动时间有多长。
+<ul><li>在默认执行热修复的情况下，阈值一般很小，只保护热修复无法完成的情况，比如0.1s；否则，阈值一般取5s。</li><li>超出这个阈值时发生的崩溃，不计入崩溃计数。</li><li>如果阈值设置较大的话，需要注意保护用户手动kill的情况，以及应用升级、系统升级等情况。【但是这些可以依靠多次计数的特性，自动归零】</li></ul></li><li><b>文件清除范围</b>：
+<ul><li>清除硬盘文件时，为了保证系统的稳定性，需要保留原来的系统文件夹结构。【3个大文件夹，2个小文件夹】</li><li>NSUserDefaults需要被重置。</li><li>keychain中的数据暂时不做清除。</li></ul></li></ul></li><li><b>模块流程图</b>：</li></ul><div><img src="iOS%E5%AE%89%E5%85%A8%E6%A8%A1%E5%BC%8F%E5%BC%80%E5%8F%91.resources/JDiPad%E5%AE%89%E5%85%A8%E6%A8%A1%E5%BC%8F%E6%B5%81%E7%A8%8B%E5%9B%BE.png" height="655" width="962"></div><div><br></div></body></html>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/iOS图片加载与显示优化指南/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/08/iOS图片加载与显示优化指南/" itemprop="url">
+                  iOS图片加载与显示优化指南
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:42:12+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/08/iOS图片加载与显示优化指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/iOS图片加载与显示优化指南/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="20.82293510437012"><meta name="author" content="673302055@163.com"><meta name="created" content="2015-11-24 07:09:17 +0000"><meta name="latitude" content="31.2230676042118"><meta name="longitude" content="121.3561479905174"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-12-24 07:39:41 +0000"><title>iOS图片加载与显示优化指南</title></head><body><div><b>图片资源有着多种不同的加载方式</b>：</div><ul><li>缓存加载方式：当使用该方式时，加载的图片会被自动缓存到内存中，以方便下次调用时快速使用，节省时间但是会消耗内存。但在合适的时候会由系统自动释放。主要用于经常使用的图片。<b>且这种方式加载的图片在加载的时候就完成了解压操作。否则解压操作会被放到绘制前进行。</b></li><ul><li>京东内部定义宏： <span style="font: 14.0px Monaco; font-variant-ligatures: no-common-ligatures; color: #ffc173">JDImg(__name__) </span>,名字不需要后缀，会自动匹配1x图和2x图。</li><li>函数实现： <span style="font: 14.0px Monaco; font-variant-ligatures: no-common-ligatures; color: #ffc173">[UIImage imageNamed:__name__]</span></li></ul><li>单次加载方式：直接从硬盘加载图片，加载后不将图片缓存在内存中，主要用于使用频率不高的图片。</li><ul><li>京东内部定义宏： <span style="font: 14.0px Monaco; font-variant-ligatures: no-common-ligatures; color: #ffc173">JDImgContentOfFile(__name__, __type__)</span>，需要名字和后缀分开写，<b>也可以自动匹配1x图和2x图</b>。</li><li>函数实现： <span style="font: 14.0px Monaco; font-variant-ligatures: no-common-ligatures; color: #ffc173">[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:__name__ ofType:__type__]]</span></li></ul><li><font face="Monaco"><b>注意事项</b>：经常使用是指经常需要拿这张图片给 view对象赋值，而一次赋值后多次使用这个view对象不算做是经常使用。</font></li></ul><div><br></div><div><br></div><div><b>图片格式</b>：（苹果做过优化的格式是 JPEG 和 PNG）</div><ul><li>JPEG的压缩率比PNG高，因为其使用了更为复杂的压缩算法。因此：</li><ul><li>加载时间：JPEG优于PNG</li><li>解码时间：PNG优于JPEG</li><li>但综合来说，两者的性能差异不大。</li></ul><li>PNG和JPEG压缩算法作用于两种不同的图片类型：</li><ul><li>PNG格式允许透明度，而且产生大量的图像文件，是不适合压缩图像照片;</li><li>JPEG是适合于小文件和提供了一系列的压缩质量，以适应题材，但不允许透明度。</li></ul><li>混合图片：</li><ul><li>基本思路：对于包含透明的图片来说，最好是使用压缩透明通道的PNG图片和压缩RGB部分的JPEG图片混合起来加载。这就对任何格式都适用了，而且无论从质量还是文件尺寸还是加载性能来说都和PNG和JPEG的图片相近。</li><li>开源实现：<a href="https://github.com/nicklockwood/JPNG" target="_blank" rel="external">https://github.com/nicklockwood/JPNG</a></li></ul></ul><div><br></div><div><br></div><div><b>图像性能问题</b>：</div><ul><li>加载问题：当需要从闪存（比RAM慢200倍）加载图片，或者是网络加载图片时，会有较长的等待时间。</li><ul><li>解决方案：</li><ul><li style="">使用缓存解决IO问题</li><li style="">在快速滑动时，可以采用低分辨率图片代替高分辨率图片展示，以获取良好的性能，然后在停下来时，替换为高分辨率图片</li></ul></ul><li>解压问题：</li><ul><li>原因：当加载图片的时候，iOS通常会延迟解压图片的时间，一般直到准备绘制前才会进行解压之后。这就会在准备绘制图片的时候影响性能，因为需要在绘制之前进行解压。</li><li>解决方案：</li><ul><li><b>使用 imageNamed加载图片</b>：最简单的方法就是使用 UIImage 的 +imageNamed: 方法避免延时加载。不像 +imageWithContentsOfFile: （和其他别的 UIImage 加载方法），这个方法会在加载图片之后立刻进行解压（就和本章之前我们谈到的好处一样）。问题在于 +imageNamed: 只对从应用资源束中的图片有效，所以对用户生成的图片内容或者是下载的图片就没法使用了。</li><li><b>在异步线程解压图片，将图片解压为Bitmap形式。细节可以参考AFNetworking的操作。</b></li></ul></ul><li><b>绘制问题</b>：<b>能高效绘制在iOS上的图片也有一个大小限制</b>。</li><ul><li>原因：所有显示在屏幕上的图片最终都会被转化为OpenGL纹理，同时OpenGL有一个最大的纹理尺寸（通常是2048*2048，或4096*4096，这个取决于设备型号）。如果你想在单个纹理中显示一个比这大的图，即便图片已经存在于内存中了，你仍然会遇到很大的性能问题，因为Core Animation强制用CPU处理图片而不是更快的GPU。</li><li>参照表：<b>ios设备情况概览</b> <a href="http://iosres.com/" target="_blank" rel="external">http://iosres.com/</a></li></ul></ul><div><br></div><div><br></div><div><b>图片打包存储方式</b>：</div><div><div></div><div><ul><li>images.xcassets图片打包方式：</li><ul><li>目前只支持png格式的图片</li><li>图片只支持<b>[UIImage imageNamed：]</b>的方式实例化，但是不能从Bundle中加载 。</li><li>在编译时，Images.xcassets中的所有文件会被打包为Assets.car的文件。</li><li>针对 其管理方式的分析：<a href="http://blog.csdn.net/yongyinmg/article/details/23845319" target="_blank" rel="external"><a href="http://blog.csdn.net/yongyinmg/article/details/23845319" target="_blank" rel="external">http://blog.csdn.net/yongyinmg/article/details/23845319</a></a></li><ul><li>其内部采用的是.json文件作为配置文件。</li><li>当拖入图片资源时，会默认做一次copy，在相应文件夹下生成文件。如果命名重复，则会自动重命名。</li></ul><li>在页面的属性栏，可以详细配置图片适配的设备、图片间隙、缩放方式和不同内存的使用策略等。</li></ul><li>直接导入项目，命名上要分为@1x[可省略],@2x,@3x.</li></ul><br></div><div><br></div><div><br></div></div></body></html>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/app性能问题定位与解决/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/08/app性能问题定位与解决/" itemprop="url">
+                  app性能问题定位与解决
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:42:12+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/08/app性能问题定位与解决/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/app性能问题定位与解决/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="汇总贴"><meta name="author" content="673302055@163.com"><meta name="created" content="2015-10-17 09:38:23 +0000"><meta name="source-url" content="http://www.cocoachina.com/cms/wap.php?action=article&amp;id=15238"><meta name="updated" content="2016-10-14 06:56:45 +0000"><title>app性能问题定位与解决</title></head><body>
+<div>
+<div style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;">
+<div><span style="color: rgb(4, 51, 255);"><b>-------------------------------基础概念-------------------------</b></span></div>
+<div><b><span style="color: rgb(4, 51, 255);"><br></span></b></div>
+<div><b>iOS设备图形显示架构：</b></div>
+<div><img src="app%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D%E4%B8%8E%E8%A7%A3%E5%86%B3.resources/52355AB3-35EC-4031-A51C-331EF1AEB45C.png" height="198" width="294"></div>
+<div><br></div>
+<div><b>ios设备情况概览</b>：<a href="http://iosres.com/" target="_blank" rel="external">http://iosres.com/</a></div>
+<div><b><span style="color: rgb(4, 51, 255);"><br></span></b></div>
+<div><br></div>
+<div><b>图像渲染流程</b>：</div>
+<ul>
+<li>动画和屏幕上组合的图层实际上被一个单独的进程管理，而不是你的应用程序。这个进程就是所谓的渲染服务。在iOS5和之前的版本是SpringBoard进程（同时管理着iOS的主屏）。在iOS6之后的版本中叫做 BackBoard 。</li>
+<li>所有的图像渲染都是分为两大部分，六个阶段完成的：
+<ul>
+<li>在 APP 内部的有4个阶段 ：
+<ul>
+<li><span style="color: rgb(45, 79, 201);"><b>布局（CPU,可被控制）</b>：在这个阶段，程序设置 View/Layer 的层级信息，设置 layer 的属性，如 frame，background color 等等。</span></li>
+<li><span style="color: rgb(129, 182, 255);"><span style="color: rgb(45, 79, 201);"><b>显示</b></span></span><span style="color: rgb(45, 79, 201);"><b>（CPU,可被控制）</b></span> <span style="color: rgb(129, 182, 255);"><span style="color: rgb(45, 79, 201);">：这是图层寄宿图片被绘制的阶段，无论是通过 setContents 将一个 image 传給 layer，还是通过 drawRect：或 drawLayer:inContext：来画出来的。所以 drawRect：等函数是在这个阶段被调用的。</span></span></li>
+<li><b>准备（CPU）</b>：在这个阶段，Core Animation 框架准备要渲染的 layer 的各种属性数据，以及要做的动画的参数，准备传递給 render server。同时在这个阶段也会解压要渲染的 image。（除了用 imageNamed：方法从 bundle 加载的 image 会立刻解压之外，<b>其他的比如直接从硬盘读入，或者从网络上下载的 image 不会立刻解压，只有在真正要渲染的时候才会解压</b>）。</li>
+<li><b>提交(CPU)</b>：在这个阶段，Core Animation 打包 layer 的信息以及需要做的动画的参数，通过 IPC（inter-Process Communication）传递給 render server。</li>
+</ul>
+</li>
+<li>在 APP 外部的2个阶段，当这些数据到达 render server 后，会被反序列化成 render tree。然后 render server 会做下面的两件事：
+<ul>
+<li><b>生成渲染树(GPU)：</b>根据 layer 的各种属性（如果是动画的，会计算动画 layer 的属性的中间值）<b>,计算呈现树</b>，，转化为被OpenGL渲染的可视化三角形（即渲染树）。</li>
+<li><b>OpenGL渲染</b><b>(GPU)</b> <b>：</b>渲染可见的三角形到屏幕。接收提交的纹理（Texture）和顶点描述（三角形），应用变换（transform）、混合并渲染，然后输出到屏幕上。</li>
+<li>如果做动画的话，前面的两个步骤会一直重复知道动画结束。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="display:inline;list-style:none;">
+<ul>
+<li>我们都知道 iOS 设备的屏幕刷新频率是 60HZ。如果上面的这些步骤在一个刷新周期之内无法做完（1/60s），就会造成掉帧。</li>
+<li>所以一共有六个阶段；最后两个阶段在动画过程中不停地重复。<b>前五个阶段都在软件层面处理（通过CPU），只有最后一个被GPU执行。<span style="color: rgb(186, 0, 255);">而且，你真正只能控制前两个阶段：布局和显示</span>。</b>Core Animation框架在内部处理剩下的事务，你也控制不了它.</li>
+</ul>
+</li>
+<li>GPU效率影响因素：（相比于CPU，GPU能做的事比较单一：即<span style="color: rgb(227, 0, 0);"><b>只做渲染操作</b></span>）
+<ul>
+<li><b>太多的几何结构（其实瓶颈不在GPU处理上，而是在数据传输上）</b> - 这发生在需要太多的三角板来做变换，以应对处理器的栅格化的时候。现代iOS设备的图形芯片可以处理几百万个三角板，所以在CoreAnimation中几何结构并不是GPU的瓶颈所在。<b>但由于图层在显示之前通过IPC发送到渲染服务器的时候（图层实际上是由很多小物体组成的特别重量级的对象），太多的图层就会引起CPU的瓶颈。这就限制了一次展示的图层个数</b>（见本章后续“CPU相关操作”）。</li>
+<li><b>重绘</b> - 主要由重叠的半透明图层引起。GPU的填充比率（用颜色填充像素的比率）是有限的，所以需要避免重绘（每一帧用相同的像素填充多次）的发生。在现代iOS设备上，GPU都会应对重绘；即使是iPhone 3GS都可以处理高达2.5的重绘比率，并任然保持60帧率的渲染（这意味着你可以绘制一个半的整屏的冗余信息，而不影响性能），并且新设备可以处理更多。</li>
+<li><b>离屏绘制</b> - 这发生在当不能直接在屏幕上绘制，并且必须绘制到离屏图片的上下文中的时候。
+<ul>
+<li>OpenGL 中，GPU 屏幕渲染有以下两种方式：
+<ul>
+<li>On-Screen Rendering 意为当前屏幕渲染，指的是 GPU 的渲染操作是在当前用于显示的屏幕缓冲区中进行。</li>
+<li>Off-Screen Rendering 意为离屏渲染，指的是 GPU 在当前屏幕缓冲区以外新开辟一个缓冲区进行渲染操作。</li>
+</ul>
+</li>
+<li>离屏渲染的代价：（只要是两方面）
+<ul>
+<li><b>创建新缓冲区</b>:要想进行离屏渲染，首先要创建一个新的缓冲区。</li>
+<li><b>上下文切换</b>:离屏渲染的整个过程，需要多次切换上下文环境：先是从当前屏幕（On-Screen）切换到离屏（Off-Screen）；等到离屏渲染结束以后，将离屏缓冲区的渲染结果显示到屏幕上有需要将上下文环境从离屏切换到当前屏幕。而上下文环境的切换是要付出很大代价的。</li>
+</ul>
+</li>
+<li>引发离屏渲染的因素：
+<ul>
+<li>CALayer 的 border、圆角、阴影、遮罩（mask），CASharpLayer 的矢量图形显示，通常会触发离屏渲染（offscreen rendering），而离屏渲染通常发生在 GPU 中。</li>
+</ul>
+</li>
+<li>解决方案：
+<ul>
+<li>开启 shouldRasterize 属性：由CPU将layer缓存为图片，将计算转嫁给CPU。（当我们发现屏幕卡顿，GPU占用很高，但是CPU不高时，可以采用此方法。）</li>
+<li>或者采用图片来代替代码绘制</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="display:inline;list-style:none;">
+<ul>
+<li><b>过大的图片</b> - 如果视图绘制超出GPU支持的2048x2048或者4096x4096尺寸的纹理，就必须要用CPU在图层每次显示之前对图片预处理（自动完成），同样也会降低性能。</li>
+</ul>
+</li>
+<li>CPU效率影响因素：
+<ul>
+<li><b>布局计算</b> - 如果你的视图层级过于复杂，当视图呈现或者修改的时候，计算图层帧率就会消耗一部分时间。<b>特别是使用iOS6的自动布局机制尤为明显，它应该是比老版的自动调整逻辑加强了CPU的工作</b>。</li>
+<li><b>视图懒加载</b> - iOS只会当视图控制器的视图显示到屏幕上时才会加载它。这对内存使用和程序启动时间很有好处，但是当呈现到屏幕上之前，按下按钮导致的许多工作都会不能被及时响应。比如控制器从数据库中获取数据，或者视图从一个nib文件中加载，或者涉及IO的图片显示（见后续“IO相关操作”），都会比CPU正常操作慢得多。</li>
+<li><b>Core Graphics绘制</b> - <b>如果对视图实现了 -drawRect: 方法，或者 CALayerDelegate 的 -drawLayer:inContext: 方法，那么在绘制任何东西之前都会产生一个巨大的性能开销</b>。为了支持对图层内容的任意绘制，CoreAnimation必须创建一个内存中等大小的寄宿图片。然后一旦绘制结束之后，必须把图片数据通过IPC传到渲染服务器。在此基础上，Core Graphics绘制就会变得十分缓慢，所以在一个对性能十分挑剔的场景下这样做十分不好。 （<b>因此，建议使用专业的layer类型去处理相关的事项</b>）</li>
+<li><b>解压图片</b> - PNG或者JPEG压缩之后的图片文件会比同质量的位图小得多。但是在图片绘制到屏幕上之前，必须把它扩展成完整的未解压的尺寸（通常等同于图片宽 x 长 x 4个字节）。为了节省内存，iOS通常直到真正绘制的时候才去解码图片（14章“图片IO”会更详细讨论）。根据你加载图片的方式，第一次对图层内容赋值的时候（直接或者间接使用 UIImageView ）或者把它绘制到Core Graphics中</li>
+<li><b>图层转化</b> - 当图层被成功打包，发送到渲染服务器之后，CPU仍然要做如下工作：为了显示屏幕上的图层，Core Animation必须对渲染树种的每个可见图层通过OpenGL循环转换成纹理三角板。由于GPU并不知晓Core Animation图层的任何结构，所以必须要由CPU做这些事情。<b>这里CPU涉及的工作和图层个数成正比，所以如果在你的层级关系中有太多的图层，就会导致CPU没一帧的渲染，即使这些事情不是你的应用程序可控的</b>。</li>
+</ul>
+</li>
+<li><b>IO相关操作</b>：
+<ul>
+<li>一个典型的例子就是两个视图控制器之间的过渡效果，这就需要从一个nib文件或者是它的内容中懒加载，或者一个旋转的图片，可能在内存中尺寸太大，需要动态滚动来加载。</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>参考文章</b>：</div>
+<ul>
+<li>OpenGL ES 基础以及 iOS 设备渲染探究优化： <a href="http://rannie.github.io/ios/2016/02/22/ios-display-opengles.html" target="_blank" rel="external">http://rannie.github.io/ios/2016/02/22/ios-display-opengles.html</a></li>
+</ul>
+<div><br></div>
+<div><span style="color: rgb(4, 51, 255);"><b>----------------------------------性能问题定位</b></span><span style="color: rgb(4, 51, 255);"><b>----------------------------------</b></span></div>
+<div><b><span style="color: rgb(4, 51, 255);"><br></span></b></div>
+<div><b>性能问题定位的基本方法：</b></div>
+<ul>
+<li>ios建议流畅的界面需要保持60HZ的刷新频率，这表示每一帧的界面计算和显示需要在16ms内完成。</li>
+<li>如果我们使用Core Animation去完成动画的话，就意味着动画的FPS是60HZ，这是由系统决定的，我们无法改变。（属性动画、关键帧动画、动画组和过渡动画均是如此）。但当我们使用NSTimer和CADispalyLink去更新动画时，帧数是可以由我们自己控制的。</li>
+<li>不要使用模拟器去定位性能问题，因为模拟器的CPU强于手机，但是GPU由于使用软件去模拟硬件操作，所以性能弱于手机。</li>
+<li>在使用profile时，一定要选择Release模式，其符号化会通过dSYM文件来完成。</li>
+<li>用于定位性能问题的Instrument主要工具：(可以使用 Blank 工具，将多个工具组合到一个视图内查看，添加工具可以点击右上角的 + 完成)
+<ul>
+<li>Time Profile - 用来测量被方法/函数打断的CPU使用情况。</li>
+<li>Core Animation - 用来调试各种Core Animation性能问题。</li>
+<li>GPU Grive：查看GPU的使用率</li>
+<li>OpenGL ES驱动 - 用来调试GPU性能问题。这个工具在编写Open GL代码的时候很有用，但有时也用来处理Core Animation的工作。</li>
+</ul>
+</li>
+<li><span style="color: rgb(45, 79, 201);">定位问题的基本思路</span>：
+<ul>
+<li>将以上三个工具放到一个 blank 中进行同时运行。</li>
+<li>查看帧率是否正常</li>
+<li>查看CPU和GPU的使用占比如何</li>
+<li>查看CPU使用占比，如果一个函数的占比不超过40%，那么一般来说都是正常的现象。</li>
+<li>如果CPU没问题，那么就定位Core Animation 和 Open GL ES中的问题项。</li>
+</ul>
+</li>
+</ul>
+<div><b><span style="color: rgb(4, 51, 255);"><br></span></b></div>
+<div><b><span style="color: rgb(4, 51, 255);"><br></span></b></div>
+<div><span style="color: rgb(4, 51, 255);"><br></span></div>
+<div><b>cell耗时定位</b>：</div>
+<ul>
+<li>使用吴迪的工具类：DWURecyclingAlert</li>
+<li>使用方法：直接导入该文件即可，注意，其中的 DEBUG 宏是工程默认添加的，但是可以被删除。需要确认自己的工程内有没有这个宏，没有的话，需要替换为其他宏。</li>
+<li>github地址：<a href="https://github.com/diwu/DWURecyclingAlert" target="_blank" rel="external">https://github.com/diwu/DWURecyclingAlert</a></li>
+<li>目前该调优工具对于 <b>手动布局 的cell</b>，有较好的性能测算效果。但是对于 使用了 <b>autolayout 的cell，测算效果并不准确</b>。因为它遗漏掉了自动布局的时间。</li>
+<li>它主要监测的是 获取cell对象所花费的时间（cellForRaw）以及 cell对象绘制所花费的时间（drawRect）</li>
+<li>针对于这两个时间来说，如果之和超过 10ms（计算的是CPU时间，需要为GPU预留6ms的时间），那么就存在潜在的性能问题。</li>
+<li><b>性能建议</b>：对于没有多种布局情况的cell，尽量使用 手动布局的方式编写，这样可以尽可能的提高效率。</li>
+</ul>
+<div><b><br></b></div>
+<div><b>CPU耗时定位</b>：</div>
+<ul>
+<li>主要工具：TimeProfile</li>
+<li><b>它是时间分析工具，计算的是时间分配比例，与CPU占用率无关，可能是由IO引起的卡顿问题</b></li>
+<li>参考文章：<a href="http://www.jianshu.com/p/9e1f0b44935c" target="_blank" rel="external">http://www.jianshu.com/p/9e1f0b44935c</a></li>
+<li>使用技巧：（在右下边栏打开以下选项）
+<ul>
+<li>通过线程分离 - 这可以通过执行的线程进行分组。如果代码被多线程分离的话，那么就可以判断到底是哪个线程造成了问题。</li>
+<li>隐藏系统库 - 可以隐藏所有苹果的框架代码，来帮助我们寻找哪一段代码造成了性能瓶颈。由于我们不能优化框架方法，所以这对定位到我们能实际修复的代码很有用。 （<b>但有些时候，我们希望暴露出系统调用的问题的话，就不要隐藏掉</b>）</li>
+<li>只显示Obj-C代码 - 隐藏除了Objective-C之外的所有代码。大多数内部的CoreAnimation代码都是用C或者C++函数。</li>
+</ul>
+</li>
+<li>注意事项：
+<ul>
+<li>它会累积截止目前为止的函数运行时间占比，因此，我们需要在我们想要<b>测试的界面长时间运行代码，以便将问题暴露出来</b>。</li>
+<li>在进行profile前，工程的需要在build setting — build options — debug information format  应该选为 DWARF with dSYM file，这样可以在函数call tree中直观的展示函数名（否则是伪编码）。</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><b>GPU耗时定位</b>：</div>
+<ul>
+<li>UIKIT性能调优：<a href="http://www.cocoachina.com/cms/wap.php?action=article&amp;id=15238" target="_blank" rel="external">http://www.cocoachina.com/cms/wap.php?action=article&amp;id=15238</a> （使用core animation进行性能调优）</li>
+<li>Core Animation工具使用：
+<ul>
+<li>使用 <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Blended Layers 勘探图层混合情况：</span>
+<ul>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">绿色越多越好，红色越少越好。</span></span></span></li>
+<li>避免图层混合，尽量将opaque的值位置为 NO（UIView的opaque属性默认值就是true，也就是说只要不是人为设置成透明，都不会出现图层混合）。但是如果view中的alpha不为1的话，也会出现图层混合。</li>
+<li>对于UIImageView来说，如果不仅它自身需要是不透明的，它的图片也不能含有alpha通道。</li>
+<li>个人认为比opaque属性更重要的是backgroundColor属性，如果不设置这个属性，控件依然被认为是透明的。因此尽量避免设置 背景色为clearColor（但默认就是这个值，因此需要我们手动修改）</li>
+<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">如果label文字有中文，依然会出现图层混合，这是因为此时label多了一个sublayer。此时，需要使用 label.</span><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">masksToBounds</span></span></span> <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">= YES,使其绘制性能得到提升。（单纯的</span><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">masksToBounds</span></span></span> 不会引发性能问题<span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">）</span></li>
+</ul>
+</li>
+<li>使用 <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Hits Green and Misses Red 检测光栅化的命中情况：</span>
+<ul>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">绿色越多越好，红色越少越好。</span></span></span></li>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">当我们设置layer.shouldRasterize = true时，表示需要将这个控件光栅化。</span></span></span></li>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">使用光栅化表示将这个控件渲染为位图保存在缓存中，当屏幕滑动，重新使用到该控件时，我们可以使用缓存而不需要重新生成。</span></span></span></li>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">但是光栅化存在以下几个问题：</span></span></span>
+<ul>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">需要额外的消耗内存以及写入操作</span></span></span></li>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">缓存的有效时间很短，如果超过100ms没用到，缓存就失效，会被删除。</span></span></span></li>
+<li>光栅化命中需要控件内容完全一致，对于label这类的控件来说，几乎是不可能的。</li>
+</ul>
+</li>
+<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">因此光栅化仅适用于较复杂的、静态的效果</span></li>
+<li>目前，默认情况下光栅化都是关闭的。</li>
+</ul>
+</li>
+<li>使用  <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Copied Images 来检测图片的颜色空间是否被GPU支持：</span>
+<ul>
+<li>如果需要GPU做实时格式转换的，那么会被标为蓝色。蓝色应该越少越好。</li>
+</ul>
+</li>
+<li>使用  <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Misaligned Images 来检测图片是否被缩放：</span>
+<ul>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">当图片显示为黄色是表示图片被缩放，如果没有像素对齐，则标记为紫色。没颜色最好。</span></span></span></li>
+</ul>
+</li>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">使用 </span></span></span> <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Offscreen-Rendered Yellow 来检测离屏渲染：</span>
+<ul>
+<li>离屏渲染会被显示为黄色，应该尽量避免。</li>
+<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">离屏渲染意味着把渲染结果临时保存，等用到时再取出，因此相对于普通渲染更占用资源。</span></li>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">可能导致离屏渲染的操作：</span></span></span>
+<ul>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">重写drawRect方法</span></span></span></li>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">有mask或者是阴影(layer.masksToBounds, layer.shadow*)，模糊效果也是一种mask</span></span></span></li>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">layer.shouldRasterize = true</span></span></span></li>
+</ul>
+</li>
+<li>当使用圆角时，需要取舍，如果频繁出现的话，<b>那么可以考虑使用光栅化技术加快速度。或者将 view 转化为 自带圆角的image 来完成显示</b>。</li>
+</ul>
+</li>
+<li>使用  <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Compositing Fast-Path Blue 检测由CPU完成路径混合操作的区域：</span>
+<ul>
+<li>如果是由cpu完成，那么将被标记为蓝色，蓝色越多越好。</li>
+</ul>
+</li>
+<li>使用  <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Flash updated Regions 检测在变化时需要重绘的区域：</span>
+<ul>
+<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">如果为黄色，则表示是需要重绘的区域。</span></span></span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Open GL ES工具使用：
+<ul>
+<li>Renderer Utilization - 如果这个值超过了~50%，就意味着你的动画可能对帧率有所限制，很可能因为离屏渲染或者是重绘导致的过度混合。</li>
+<li>Tiler Utilization - 如果这个值超过了~50%，就意味着你的动画可能限制于几何结构方面，也就是在屏幕上有太多的图层占用了。</li>
+</ul>
+</li>
+</ul>
+<div><span style="color: rgb(37, 37, 37);"><br></span></div>
+<div><span style="color: rgb(37, 37, 37);"><br></span></div>
+<div><span style="color: rgb(4, 51, 255);"><b>-------------------------</b></span><span style="color: rgb(4, 51, 255);"><b>--------</b></span><span style="color: rgb(4, 51, 255);"><b>-----</b><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><b>性能调优建议</b></span></span><b>--------------</b></span><span style="color: rgb(4, 51, 255);"><b>--------</b></span><span style="color: rgb(4, 51, 255);"><b>----------------</b></span></div>
+<div><span style="color: rgb(37, 37, 37);"><br></span></div>
+<div><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);"><b>性能调优建议</b>：</span></span></span></div>
+<div><b>参考文章</b>：</div>
+<ul>
+<li>性能调优总指南：<a href="http://blog.jobbole.com/37984/" target="_blank" rel="external"><a href="http://blog.jobbole.com/37984/" target="_blank" rel="external">http://blog.jobbole.com/37984/</a></a></li>
+<li>优化请求性能： <a style="color:#69aa35" href="evernote:///view/8887184/s39/facaa2dd-586f-46c6-818e-766ba3637363/facaa2dd-586f-46c6-818e-766ba3637363/" target="_blank" rel="external">优化请求性能</a></li>
+<li>基本容器性能分析： <a style="color:#69aa35" href="evernote:///view/8887184/s39/713b8c45-e7e4-445a-b125-3e073eb68e26/713b8c45-e7e4-445a-b125-3e073eb68e26/" target="_blank" rel="external">基本容器collection对象性能分析</a></li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>内存相关建议</b>：</div>
+<ul>
+<li>大量临时对象采用autorelease保护。在ARC下使用@autorelease 块语句包裹。</li>
+<li>资源懒加载机制：（但这样做会拖慢使用时速度，如果是运行时卡顿严重但是内存消耗不大，那么建议不要使用这种机制）
+<ul>
+<li>图片<b>懒加载</b>：在TableView中有大量图片行，再快速滑动时，不加载图片，等停止滑动时，获取当前显示在屏幕上的cell，然后开始加载它们。</li>
+<li>对于属性对象的分配上（如果可能的话）我们也应该重载他们的get函数，并在get函数内部去分配它。</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>界面性能具体建议</b>：</div>
+<ul>
+<li>CALayer在无用户交互的地方可以代替UIView。可以节省内存和运行时间。</li>
+<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">最好使控件的opaque属性设置为true，backgroundColor最好有一个固定的颜色且不透明。</span></li>
+<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">如无特殊需要，不要设置低于1的alpha值，最好让图片没有alpha通道。</span></li>
+<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">确保图片颜色格式被GPU支持，避免劳烦CPU转换。</span></li>
+<li><span style="color: rgb(37, 37, 37);">当有复杂及大量文本排布的需求时，使用CATextLayer/Core Text/Text Kit代替 UILabel是一个提升性能的很好方案。而且文本其实也是图片，是绘制到寄宿图上的图片，对性能的消耗不可忽视。</span></li>
+<li><span style="color: rgb(37, 37, 37);">圆角和阴影的处理方案请参考CPU性能优化以及关于圆角的解决方案</span></li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>GPU性能建议</b>：</div>
+<ul>
+<li><b>纹理的渲染</b>：
+<ul>
+<li>图片过多的情况：所有的 Bitmap，包括图片、文本、栅格化的内容，最终都要由内存提交到显存，绑定为 GPU Texture。不论是提交到显存的过程，还是 GPU 调整和渲染 Texture 的过程，都要消耗不少 GPU 资源。当在较短时间显示大量图片时（比如 TableView 存在非常多的图片并且快速滑动时），CPU 占用率很低，GPU 占用非常高，界面仍然会掉帧。避免这种情况的方法只能是尽量减少在短时间内大量图片的显示，尽可能将多张图片合成为一张进行显示。</li>
+<li>图片过大的情况：当图片过大，超过 GPU 的最大纹理尺寸时，图片需要先由 CPU 进行预处理，这对 CPU 和 GPU 都会带来额外的资源消耗。目前来说，iPhone 4S 以上机型，纹理尺寸上限都是 4096x4096。</li>
+</ul>
+</li>
+<li><b>视图的混合</b>：
+<ul>
+<li>对于不透明的图层，尽量设置opaque=1，以避免无用的 Alpha 通道合成。</li>
+<li>把多个视图预先渲染为一张图片来显示。（计算转嫁给CPU，并且缓存下来）</li>
+</ul>
+</li>
+<li><b>离屏渲染问题</b>：（CALayer 的 <b>border、圆角、阴影、遮罩（mask）</b>，CASharpLayer 的矢量图形显示，通常会触发离屏渲染（offscreen rendering））
+<ul>
+<li>采用图片来代替代码绘制：比如将复杂图层制作成为图片或者是光栅化（建议前者，光栅化的性能消耗也较大）</li>
+<li>对于复杂形状的阴影，设置shadowPath来减少CPU计算的工作。（优先采用这种方案而不是光栅化）</li>
+<li>当有<b>圆角/阴影/复杂图层时可以考虑</b>开启 shouldRasterize 属性：由CPU将layer缓存为图片，将计算转嫁给CPU。请把此方案作为最后的方案处理。
+<ul>
+<li>当我们发现屏幕卡顿，GPU占用很高，但是CPU不高时，可以采用此方法。</li>
+<li>请使用Core Animation确认缓存的命中率，如果命中率不高，则放弃使用。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>CPU性能相关</b>：</div>
+<ul>
+<li><b>布局更新</b>是相当消耗性能的地方：
+<ul>
+<li>设置属性消耗性能：CALayer 内部并没有属性，当调用属性方法时，它内部是通过运行时 resolveInstanceMethod 为对象临时添加一个方法，并把对应属性值保存到内部的一个 Dictionary 里，同时还会通知 delegate、创建动画等等，非常消耗资源。UIView 的关于显示相关的属性（比如 frame/bounds/transform）等实际上都是 CALayer 属性映射来的，所以对 UIView 的这些属性进行调整时，消耗的资源要远大于一般的属性。对此你在应用中，应该尽量减少不必要的属性修改。</li>
+<li>布局计算本身也可能相当消耗性能。所以尽量提前计算好布局，在需要时一次性调整好对应属性，而不要多次、频繁的计算和调整这些属性。</li>
+</ul>
+</li>
+<li><b>图片解码</b>：
+<ul>
+<li>原因：当你用 UIImage 或 CGImageSource 的那几个方法创建图片时，图片数据并不会立刻解码。图片设置到 UIImageView 或者 CALayer.contents 中去，并且 CALayer 被提交到 GPU 前，CGImage中的数据才会得到解码。这一步是发生在主线程的，并且不可避免。</li>
+<li>解决方案：如果想要绕开这个机制，常见的做法是在后台线程先把图片绘制到 CGBitmapContext 中，然后从 Bitmap 直接创建图片。</li>
+</ul>
+</li>
+<li><b>文本显示大小的计算</b>：如果一个界面中包含大量文本（比如微博微信朋友圈等），文本的宽高计算会占用很大一部分资源，并且不可避免。如果你对文本显示没有特殊要求，可以参考下 UILabel 内部的实现方式：用 [NSAttributedString boundingRectWithSize:options:context:] 来计算文本宽高，用 -[NSAttributedString drawWithRect:options:context:] 来绘制文本。尽管这两个方法性能不错，但仍旧需要放到后台线程进行以避免阻塞主线程。如果你用 CoreText 绘制文本，那就可以先生成 CoreText 排版对象，然后自己计算了，并且 CoreText 对象还能保留以供稍后绘制使用。</li>
+<li><b>文本渲染</b>：屏幕上能看到的所有文本内容控件，包括 UIWebView，在底层都是通过 CoreText 排版、绘制为 Bitmap 显示的。常见的文本控件 （UILabel、UITextView 等），其排版和绘制都是在主线程进行的，当显示大量文本时，CPU 的压力会非常大。对此解决方案只有一个，那就是自定义文本控件，用 TextKit 或最底层的 CoreText 对文本异步绘制。尽管这实现起来非常麻烦，但其带来的优势也非常大，CoreText 对象创建好后，能直接获取文本的宽高等信息，避免了多次计算（调整 UILabel 大小时算一遍、UILabel 绘制时内部再算一遍）；CoreText 对象占用内存较少，可以缓存下来以备稍后多次渲染。</li>
+<li><b>软件绘图</b>：图像的绘制通常是指用那些以 CG 开头的方法把图像绘制到画布中，然后从画布创建图片并显示这样一个过程。这个最常见的地方就是 [UIView drawRect:] 里面了。由于 CoreGraphic 方法通常都是线程安全的，所以图像的绘制可以很容易的放到后台线程进行。一个简单异步绘制的过程大致如下（实际情况会比这个复杂得多，但原理基本一致）：</li>
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>- (void)display {</div>
+<div>    dispatch_async(backgroundQueue, ^{</div>
+<div>        CGContextRef ctx = CGBitmapContextCreate(...);</div>
+<div>        // draw in context...</div>
+<div>        CGImageRef img = CGBitmapContextCreateImage(ctx);</div>
+<div>        CFRelease(ctx);</div>
+<div>        dispatch_async(mainQueue, ^{</div>
+<div>            layer.contents = img;</div>
+<div>        });</div>
+<div>    });</div>
+<div>}</div>
+</div>
+<ul>
+<li>轻微影响的因子：
+<ul>
+<li>对于频繁使用的数据结构，一般采用C语言结构，而不是采用OC类封装，因为每一种方法的访问（普通方法、类方法、属性访问等都是方法访问的一种），都是采用消息转发的传递机制完成的，其开销远大于普通的函数栈调用。因此，从性能角度考虑，也应该使用C结构完成这种工作（比如，CGPoint）。</li>
+<li><b>对象销毁：</b>复杂对象的销毁比较消耗性能，可以放到后台线程执行。（可采用block捕获的形式）</li>
+<li>通过资源文件初始化对象，比如在storyBoard中初始化对象或者xib。（比较轻微）</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><b style="color: rgb(37, 37, 37);">减少图层对象</b><font color="#252525">：（实现减少混合和排版以及IPC传输的目的）——<span style="color: rgb(4, 51, 255);">只有在图层极多且性能出现问题时，才需要优化</span></font></div>
+<ul>
+<li><span style="color: rgb(37, 37, 37);">Core Animation非常擅长处理对视觉效果无意义的图层。但是经常性地,<b>你自己的代码会比Core Animation更早地想知道一个图层是否是有用的</b>。理想状况下,在图层对象在创建之前就想知道,以避免创建和配置不必要图层的额外工作。</span></li>
+<li><span style="color: rgb(37, 37, 37);">可以通过精确的代码控制，只添加会展示的图层到图层树中去。</span></li>
+<li><span style="color: rgb(37, 37, 37);">通过复用展示图层可以减少对象的创建与销毁，从而提高性能。</span></li>
+<li>详细代码参考《iOS核心动画高级编程》 — 348</li>
+<li>不可见图层分类如下：
+<ul>
+<li>图层在屏幕边界之外,或是在父图层边界之外。</li>
+<li>完全在一个不透明图层之后。</li>
+<li>完全透明</li>
+</ul>
+</li>
+</ul>
+<div><span style="color: rgb(37, 37, 37);"><br></span></div>
+<div><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);"><br></span></span></span></div>
+<div><b>光栅化的使用例子</b>：</div>
+<ul>
+<li>每一行的字符和头像在每一帧刷新的时候并不需要变，所以看起来 UITableViewCell 的图层非常适合做缓存。我们可以使用 shouldRasterize 来缓存图层内容。这将会让图层离屏之后渲染一次然后把结果保存起来，直到下次利用的时候去更新。</li>
+<li>关于cell重用与离屏渲染的问题：
+<ul>
+<li>cell重用是指在内存层面发生的对象重用。<b>但是当这个layer层级被转化为渲染树并被提交给GPU渲染时，GPU还是需要渲染树的要求，生成新的一帧画面。这与cell是否被重用没有关系</b>。一个是内存层面的复用，一个是GPU渲染层级时的事，完全不搭嘎的。</li>
+</ul>
+</li>
+<li>适合光栅化的场景：当一个屏幕上出现大量的离屏渲染因素，且这个layer可以长时间保留在屏幕上时（<b>这个长时间是以帧率来计算的，一般来说，只要不是动画，那么就都可以算是长时间</b>）</li>
+<li>请把光栅化作为最后的解决方案处理</li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>解决圆角的方案</b>：（优先级从高到低）</div>
+<ul>
+<li>直接生成图片来解决。在生成图片解决时，<b>可以使用九宫格图片，即使用layer.contentCenter 属性</b>，圈定九宫格范围，以适配任意大小的内容。</li>
+<li>采用CALshapeLayer生成圆角图层。</li>
+<li>可以使用光栅化来解决</li>
+</ul>
+<div><br></div>
+<div><b>参考文章</b>：</div>
+<ul>
+<li>ios保持界面流畅的技巧：<a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/" target="_blank" rel="external">http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/</a></li>
+<li><br></li>
+</ul>
+<div><br></div>
+</div>
+</div>
+</body></html>
           
         
       
@@ -1147,849 +2000,6 @@ ios8上：windows和vc.view.frame都发生变化，与普通的view变化一致�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/app性能问题定位与解决/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Cheng JianFeng">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Cheng JianFeng's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/08/app性能问题定位与解决/" itemprop="url">
-                  app性能问题定位与解决
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:42:12+08:00">
-                2017-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/08/app性能问题定位与解决/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/app性能问题定位与解决/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="汇总贴"><meta name="author" content="673302055@163.com"><meta name="created" content="2015-10-17 09:38:23 +0000"><meta name="source-url" content="http://www.cocoachina.com/cms/wap.php?action=article&amp;id=15238"><meta name="updated" content="2016-10-14 06:56:45 +0000"><title>app性能问题定位与解决</title></head><body>
-<div>
-<div style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;">
-<div><span style="color: rgb(4, 51, 255);"><b>-------------------------------基础概念-------------------------</b></span></div>
-<div><b><span style="color: rgb(4, 51, 255);"><br></span></b></div>
-<div><b>iOS设备图形显示架构：</b></div>
-<div><img src="app%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D%E4%B8%8E%E8%A7%A3%E5%86%B3.resources/52355AB3-35EC-4031-A51C-331EF1AEB45C.png" height="198" width="294"></div>
-<div><br></div>
-<div><b>ios设备情况概览</b>：<a href="http://iosres.com/" target="_blank" rel="external">http://iosres.com/</a></div>
-<div><b><span style="color: rgb(4, 51, 255);"><br></span></b></div>
-<div><br></div>
-<div><b>图像渲染流程</b>：</div>
-<ul>
-<li>动画和屏幕上组合的图层实际上被一个单独的进程管理，而不是你的应用程序。这个进程就是所谓的渲染服务。在iOS5和之前的版本是SpringBoard进程（同时管理着iOS的主屏）。在iOS6之后的版本中叫做 BackBoard 。</li>
-<li>所有的图像渲染都是分为两大部分，六个阶段完成的：
-<ul>
-<li>在 APP 内部的有4个阶段 ：
-<ul>
-<li><span style="color: rgb(45, 79, 201);"><b>布局（CPU,可被控制）</b>：在这个阶段，程序设置 View/Layer 的层级信息，设置 layer 的属性，如 frame，background color 等等。</span></li>
-<li><span style="color: rgb(129, 182, 255);"><span style="color: rgb(45, 79, 201);"><b>显示</b></span></span><span style="color: rgb(45, 79, 201);"><b>（CPU,可被控制）</b></span> <span style="color: rgb(129, 182, 255);"><span style="color: rgb(45, 79, 201);">：这是图层寄宿图片被绘制的阶段，无论是通过 setContents 将一个 image 传給 layer，还是通过 drawRect：或 drawLayer:inContext：来画出来的。所以 drawRect：等函数是在这个阶段被调用的。</span></span></li>
-<li><b>准备（CPU）</b>：在这个阶段，Core Animation 框架准备要渲染的 layer 的各种属性数据，以及要做的动画的参数，准备传递給 render server。同时在这个阶段也会解压要渲染的 image。（除了用 imageNamed：方法从 bundle 加载的 image 会立刻解压之外，<b>其他的比如直接从硬盘读入，或者从网络上下载的 image 不会立刻解压，只有在真正要渲染的时候才会解压</b>）。</li>
-<li><b>提交(CPU)</b>：在这个阶段，Core Animation 打包 layer 的信息以及需要做的动画的参数，通过 IPC（inter-Process Communication）传递給 render server。</li>
-</ul>
-</li>
-<li>在 APP 外部的2个阶段，当这些数据到达 render server 后，会被反序列化成 render tree。然后 render server 会做下面的两件事：
-<ul>
-<li><b>生成渲染树(GPU)：</b>根据 layer 的各种属性（如果是动画的，会计算动画 layer 的属性的中间值）<b>,计算呈现树</b>，，转化为被OpenGL渲染的可视化三角形（即渲染树）。</li>
-<li><b>OpenGL渲染</b><b>(GPU)</b> <b>：</b>渲染可见的三角形到屏幕。接收提交的纹理（Texture）和顶点描述（三角形），应用变换（transform）、混合并渲染，然后输出到屏幕上。</li>
-<li>如果做动画的话，前面的两个步骤会一直重复知道动画结束。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li style="display:inline;list-style:none;">
-<ul>
-<li>我们都知道 iOS 设备的屏幕刷新频率是 60HZ。如果上面的这些步骤在一个刷新周期之内无法做完（1/60s），就会造成掉帧。</li>
-<li>所以一共有六个阶段；最后两个阶段在动画过程中不停地重复。<b>前五个阶段都在软件层面处理（通过CPU），只有最后一个被GPU执行。<span style="color: rgb(186, 0, 255);">而且，你真正只能控制前两个阶段：布局和显示</span>。</b>Core Animation框架在内部处理剩下的事务，你也控制不了它.</li>
-</ul>
-</li>
-<li>GPU效率影响因素：（相比于CPU，GPU能做的事比较单一：即<span style="color: rgb(227, 0, 0);"><b>只做渲染操作</b></span>）
-<ul>
-<li><b>太多的几何结构（其实瓶颈不在GPU处理上，而是在数据传输上）</b> - 这发生在需要太多的三角板来做变换，以应对处理器的栅格化的时候。现代iOS设备的图形芯片可以处理几百万个三角板，所以在CoreAnimation中几何结构并不是GPU的瓶颈所在。<b>但由于图层在显示之前通过IPC发送到渲染服务器的时候（图层实际上是由很多小物体组成的特别重量级的对象），太多的图层就会引起CPU的瓶颈。这就限制了一次展示的图层个数</b>（见本章后续“CPU相关操作”）。</li>
-<li><b>重绘</b> - 主要由重叠的半透明图层引起。GPU的填充比率（用颜色填充像素的比率）是有限的，所以需要避免重绘（每一帧用相同的像素填充多次）的发生。在现代iOS设备上，GPU都会应对重绘；即使是iPhone 3GS都可以处理高达2.5的重绘比率，并任然保持60帧率的渲染（这意味着你可以绘制一个半的整屏的冗余信息，而不影响性能），并且新设备可以处理更多。</li>
-<li><b>离屏绘制</b> - 这发生在当不能直接在屏幕上绘制，并且必须绘制到离屏图片的上下文中的时候。
-<ul>
-<li>OpenGL 中，GPU 屏幕渲染有以下两种方式：
-<ul>
-<li>On-Screen Rendering 意为当前屏幕渲染，指的是 GPU 的渲染操作是在当前用于显示的屏幕缓冲区中进行。</li>
-<li>Off-Screen Rendering 意为离屏渲染，指的是 GPU 在当前屏幕缓冲区以外新开辟一个缓冲区进行渲染操作。</li>
-</ul>
-</li>
-<li>离屏渲染的代价：（只要是两方面）
-<ul>
-<li><b>创建新缓冲区</b>:要想进行离屏渲染，首先要创建一个新的缓冲区。</li>
-<li><b>上下文切换</b>:离屏渲染的整个过程，需要多次切换上下文环境：先是从当前屏幕（On-Screen）切换到离屏（Off-Screen）；等到离屏渲染结束以后，将离屏缓冲区的渲染结果显示到屏幕上有需要将上下文环境从离屏切换到当前屏幕。而上下文环境的切换是要付出很大代价的。</li>
-</ul>
-</li>
-<li>引发离屏渲染的因素：
-<ul>
-<li>CALayer 的 border、圆角、阴影、遮罩（mask），CASharpLayer 的矢量图形显示，通常会触发离屏渲染（offscreen rendering），而离屏渲染通常发生在 GPU 中。</li>
-</ul>
-</li>
-<li>解决方案：
-<ul>
-<li>开启 shouldRasterize 属性：由CPU将layer缓存为图片，将计算转嫁给CPU。（当我们发现屏幕卡顿，GPU占用很高，但是CPU不高时，可以采用此方法。）</li>
-<li>或者采用图片来代替代码绘制</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li style="display:inline;list-style:none;">
-<ul>
-<li><b>过大的图片</b> - 如果视图绘制超出GPU支持的2048x2048或者4096x4096尺寸的纹理，就必须要用CPU在图层每次显示之前对图片预处理（自动完成），同样也会降低性能。</li>
-</ul>
-</li>
-<li>CPU效率影响因素：
-<ul>
-<li><b>布局计算</b> - 如果你的视图层级过于复杂，当视图呈现或者修改的时候，计算图层帧率就会消耗一部分时间。<b>特别是使用iOS6的自动布局机制尤为明显，它应该是比老版的自动调整逻辑加强了CPU的工作</b>。</li>
-<li><b>视图懒加载</b> - iOS只会当视图控制器的视图显示到屏幕上时才会加载它。这对内存使用和程序启动时间很有好处，但是当呈现到屏幕上之前，按下按钮导致的许多工作都会不能被及时响应。比如控制器从数据库中获取数据，或者视图从一个nib文件中加载，或者涉及IO的图片显示（见后续“IO相关操作”），都会比CPU正常操作慢得多。</li>
-<li><b>Core Graphics绘制</b> - <b>如果对视图实现了 -drawRect: 方法，或者 CALayerDelegate 的 -drawLayer:inContext: 方法，那么在绘制任何东西之前都会产生一个巨大的性能开销</b>。为了支持对图层内容的任意绘制，CoreAnimation必须创建一个内存中等大小的寄宿图片。然后一旦绘制结束之后，必须把图片数据通过IPC传到渲染服务器。在此基础上，Core Graphics绘制就会变得十分缓慢，所以在一个对性能十分挑剔的场景下这样做十分不好。 （<b>因此，建议使用专业的layer类型去处理相关的事项</b>）</li>
-<li><b>解压图片</b> - PNG或者JPEG压缩之后的图片文件会比同质量的位图小得多。但是在图片绘制到屏幕上之前，必须把它扩展成完整的未解压的尺寸（通常等同于图片宽 x 长 x 4个字节）。为了节省内存，iOS通常直到真正绘制的时候才去解码图片（14章“图片IO”会更详细讨论）。根据你加载图片的方式，第一次对图层内容赋值的时候（直接或者间接使用 UIImageView ）或者把它绘制到Core Graphics中</li>
-<li><b>图层转化</b> - 当图层被成功打包，发送到渲染服务器之后，CPU仍然要做如下工作：为了显示屏幕上的图层，Core Animation必须对渲染树种的每个可见图层通过OpenGL循环转换成纹理三角板。由于GPU并不知晓Core Animation图层的任何结构，所以必须要由CPU做这些事情。<b>这里CPU涉及的工作和图层个数成正比，所以如果在你的层级关系中有太多的图层，就会导致CPU没一帧的渲染，即使这些事情不是你的应用程序可控的</b>。</li>
-</ul>
-</li>
-<li><b>IO相关操作</b>：
-<ul>
-<li>一个典型的例子就是两个视图控制器之间的过渡效果，这就需要从一个nib文件或者是它的内容中懒加载，或者一个旋转的图片，可能在内存中尺寸太大，需要动态滚动来加载。</li>
-</ul>
-</li>
-</ul>
-<div><br></div>
-<div><br></div>
-<div><b>参考文章</b>：</div>
-<ul>
-<li>OpenGL ES 基础以及 iOS 设备渲染探究优化： <a href="http://rannie.github.io/ios/2016/02/22/ios-display-opengles.html" target="_blank" rel="external">http://rannie.github.io/ios/2016/02/22/ios-display-opengles.html</a></li>
-</ul>
-<div><br></div>
-<div><span style="color: rgb(4, 51, 255);"><b>----------------------------------性能问题定位</b></span><span style="color: rgb(4, 51, 255);"><b>----------------------------------</b></span></div>
-<div><b><span style="color: rgb(4, 51, 255);"><br></span></b></div>
-<div><b>性能问题定位的基本方法：</b></div>
-<ul>
-<li>ios建议流畅的界面需要保持60HZ的刷新频率，这表示每一帧的界面计算和显示需要在16ms内完成。</li>
-<li>如果我们使用Core Animation去完成动画的话，就意味着动画的FPS是60HZ，这是由系统决定的，我们无法改变。（属性动画、关键帧动画、动画组和过渡动画均是如此）。但当我们使用NSTimer和CADispalyLink去更新动画时，帧数是可以由我们自己控制的。</li>
-<li>不要使用模拟器去定位性能问题，因为模拟器的CPU强于手机，但是GPU由于使用软件去模拟硬件操作，所以性能弱于手机。</li>
-<li>在使用profile时，一定要选择Release模式，其符号化会通过dSYM文件来完成。</li>
-<li>用于定位性能问题的Instrument主要工具：(可以使用 Blank 工具，将多个工具组合到一个视图内查看，添加工具可以点击右上角的 + 完成)
-<ul>
-<li>Time Profile - 用来测量被方法/函数打断的CPU使用情况。</li>
-<li>Core Animation - 用来调试各种Core Animation性能问题。</li>
-<li>GPU Grive：查看GPU的使用率</li>
-<li>OpenGL ES驱动 - 用来调试GPU性能问题。这个工具在编写Open GL代码的时候很有用，但有时也用来处理Core Animation的工作。</li>
-</ul>
-</li>
-<li><span style="color: rgb(45, 79, 201);">定位问题的基本思路</span>：
-<ul>
-<li>将以上三个工具放到一个 blank 中进行同时运行。</li>
-<li>查看帧率是否正常</li>
-<li>查看CPU和GPU的使用占比如何</li>
-<li>查看CPU使用占比，如果一个函数的占比不超过40%，那么一般来说都是正常的现象。</li>
-<li>如果CPU没问题，那么就定位Core Animation 和 Open GL ES中的问题项。</li>
-</ul>
-</li>
-</ul>
-<div><b><span style="color: rgb(4, 51, 255);"><br></span></b></div>
-<div><b><span style="color: rgb(4, 51, 255);"><br></span></b></div>
-<div><span style="color: rgb(4, 51, 255);"><br></span></div>
-<div><b>cell耗时定位</b>：</div>
-<ul>
-<li>使用吴迪的工具类：DWURecyclingAlert</li>
-<li>使用方法：直接导入该文件即可，注意，其中的 DEBUG 宏是工程默认添加的，但是可以被删除。需要确认自己的工程内有没有这个宏，没有的话，需要替换为其他宏。</li>
-<li>github地址：<a href="https://github.com/diwu/DWURecyclingAlert" target="_blank" rel="external">https://github.com/diwu/DWURecyclingAlert</a></li>
-<li>目前该调优工具对于 <b>手动布局 的cell</b>，有较好的性能测算效果。但是对于 使用了 <b>autolayout 的cell，测算效果并不准确</b>。因为它遗漏掉了自动布局的时间。</li>
-<li>它主要监测的是 获取cell对象所花费的时间（cellForRaw）以及 cell对象绘制所花费的时间（drawRect）</li>
-<li>针对于这两个时间来说，如果之和超过 10ms（计算的是CPU时间，需要为GPU预留6ms的时间），那么就存在潜在的性能问题。</li>
-<li><b>性能建议</b>：对于没有多种布局情况的cell，尽量使用 手动布局的方式编写，这样可以尽可能的提高效率。</li>
-</ul>
-<div><b><br></b></div>
-<div><b>CPU耗时定位</b>：</div>
-<ul>
-<li>主要工具：TimeProfile</li>
-<li><b>它是时间分析工具，计算的是时间分配比例，与CPU占用率无关，可能是由IO引起的卡顿问题</b></li>
-<li>参考文章：<a href="http://www.jianshu.com/p/9e1f0b44935c" target="_blank" rel="external">http://www.jianshu.com/p/9e1f0b44935c</a></li>
-<li>使用技巧：（在右下边栏打开以下选项）
-<ul>
-<li>通过线程分离 - 这可以通过执行的线程进行分组。如果代码被多线程分离的话，那么就可以判断到底是哪个线程造成了问题。</li>
-<li>隐藏系统库 - 可以隐藏所有苹果的框架代码，来帮助我们寻找哪一段代码造成了性能瓶颈。由于我们不能优化框架方法，所以这对定位到我们能实际修复的代码很有用。 （<b>但有些时候，我们希望暴露出系统调用的问题的话，就不要隐藏掉</b>）</li>
-<li>只显示Obj-C代码 - 隐藏除了Objective-C之外的所有代码。大多数内部的CoreAnimation代码都是用C或者C++函数。</li>
-</ul>
-</li>
-<li>注意事项：
-<ul>
-<li>它会累积截止目前为止的函数运行时间占比，因此，我们需要在我们想要<b>测试的界面长时间运行代码，以便将问题暴露出来</b>。</li>
-<li>在进行profile前，工程的需要在build setting — build options — debug information format  应该选为 DWARF with dSYM file，这样可以在函数call tree中直观的展示函数名（否则是伪编码）。</li>
-</ul>
-</li>
-</ul>
-<div><br></div>
-<div><b>GPU耗时定位</b>：</div>
-<ul>
-<li>UIKIT性能调优：<a href="http://www.cocoachina.com/cms/wap.php?action=article&amp;id=15238" target="_blank" rel="external">http://www.cocoachina.com/cms/wap.php?action=article&amp;id=15238</a> （使用core animation进行性能调优）</li>
-<li>Core Animation工具使用：
-<ul>
-<li>使用 <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Blended Layers 勘探图层混合情况：</span>
-<ul>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">绿色越多越好，红色越少越好。</span></span></span></li>
-<li>避免图层混合，尽量将opaque的值位置为 NO（UIView的opaque属性默认值就是true，也就是说只要不是人为设置成透明，都不会出现图层混合）。但是如果view中的alpha不为1的话，也会出现图层混合。</li>
-<li>对于UIImageView来说，如果不仅它自身需要是不透明的，它的图片也不能含有alpha通道。</li>
-<li>个人认为比opaque属性更重要的是backgroundColor属性，如果不设置这个属性，控件依然被认为是透明的。因此尽量避免设置 背景色为clearColor（但默认就是这个值，因此需要我们手动修改）</li>
-<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">如果label文字有中文，依然会出现图层混合，这是因为此时label多了一个sublayer。此时，需要使用 label.</span><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">masksToBounds</span></span></span> <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">= YES,使其绘制性能得到提升。（单纯的</span><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">masksToBounds</span></span></span> 不会引发性能问题<span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">）</span></li>
-</ul>
-</li>
-<li>使用 <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Hits Green and Misses Red 检测光栅化的命中情况：</span>
-<ul>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">绿色越多越好，红色越少越好。</span></span></span></li>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">当我们设置layer.shouldRasterize = true时，表示需要将这个控件光栅化。</span></span></span></li>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">使用光栅化表示将这个控件渲染为位图保存在缓存中，当屏幕滑动，重新使用到该控件时，我们可以使用缓存而不需要重新生成。</span></span></span></li>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">但是光栅化存在以下几个问题：</span></span></span>
-<ul>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">需要额外的消耗内存以及写入操作</span></span></span></li>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">缓存的有效时间很短，如果超过100ms没用到，缓存就失效，会被删除。</span></span></span></li>
-<li>光栅化命中需要控件内容完全一致，对于label这类的控件来说，几乎是不可能的。</li>
-</ul>
-</li>
-<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">因此光栅化仅适用于较复杂的、静态的效果</span></li>
-<li>目前，默认情况下光栅化都是关闭的。</li>
-</ul>
-</li>
-<li>使用  <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Copied Images 来检测图片的颜色空间是否被GPU支持：</span>
-<ul>
-<li>如果需要GPU做实时格式转换的，那么会被标为蓝色。蓝色应该越少越好。</li>
-</ul>
-</li>
-<li>使用  <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Misaligned Images 来检测图片是否被缩放：</span>
-<ul>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">当图片显示为黄色是表示图片被缩放，如果没有像素对齐，则标记为紫色。没颜色最好。</span></span></span></li>
-</ul>
-</li>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">使用 </span></span></span> <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Offscreen-Rendered Yellow 来检测离屏渲染：</span>
-<ul>
-<li>离屏渲染会被显示为黄色，应该尽量避免。</li>
-<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">离屏渲染意味着把渲染结果临时保存，等用到时再取出，因此相对于普通渲染更占用资源。</span></li>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">可能导致离屏渲染的操作：</span></span></span>
-<ul>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">重写drawRect方法</span></span></span></li>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">有mask或者是阴影(layer.masksToBounds, layer.shadow*)，模糊效果也是一种mask</span></span></span></li>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">layer.shouldRasterize = true</span></span></span></li>
-</ul>
-</li>
-<li>当使用圆角时，需要取舍，如果频繁出现的话，<b>那么可以考虑使用光栅化技术加快速度。或者将 view 转化为 自带圆角的image 来完成显示</b>。</li>
-</ul>
-</li>
-<li>使用  <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Color Compositing Fast-Path Blue 检测由CPU完成路径混合操作的区域：</span>
-<ul>
-<li>如果是由cpu完成，那么将被标记为蓝色，蓝色越多越好。</li>
-</ul>
-</li>
-<li>使用  <span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">Flash updated Regions 检测在变化时需要重绘的区域：</span>
-<ul>
-<li><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);">如果为黄色，则表示是需要重绘的区域。</span></span></span></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Open GL ES工具使用：
-<ul>
-<li>Renderer Utilization - 如果这个值超过了~50%，就意味着你的动画可能对帧率有所限制，很可能因为离屏渲染或者是重绘导致的过度混合。</li>
-<li>Tiler Utilization - 如果这个值超过了~50%，就意味着你的动画可能限制于几何结构方面，也就是在屏幕上有太多的图层占用了。</li>
-</ul>
-</li>
-</ul>
-<div><span style="color: rgb(37, 37, 37);"><br></span></div>
-<div><span style="color: rgb(37, 37, 37);"><br></span></div>
-<div><span style="color: rgb(4, 51, 255);"><b>-------------------------</b></span><span style="color: rgb(4, 51, 255);"><b>--------</b></span><span style="color: rgb(4, 51, 255);"><b>-----</b><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><b>性能调优建议</b></span></span><b>--------------</b></span><span style="color: rgb(4, 51, 255);"><b>--------</b></span><span style="color: rgb(4, 51, 255);"><b>----------------</b></span></div>
-<div><span style="color: rgb(37, 37, 37);"><br></span></div>
-<div><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);"><b>性能调优建议</b>：</span></span></span></div>
-<div><b>参考文章</b>：</div>
-<ul>
-<li>性能调优总指南：<a href="http://blog.jobbole.com/37984/" target="_blank" rel="external"><a href="http://blog.jobbole.com/37984/" target="_blank" rel="external">http://blog.jobbole.com/37984/</a></a></li>
-<li>优化请求性能： <a style="color:#69aa35" href="evernote:///view/8887184/s39/facaa2dd-586f-46c6-818e-766ba3637363/facaa2dd-586f-46c6-818e-766ba3637363/" target="_blank" rel="external">优化请求性能</a></li>
-<li>基本容器性能分析： <a style="color:#69aa35" href="evernote:///view/8887184/s39/713b8c45-e7e4-445a-b125-3e073eb68e26/713b8c45-e7e4-445a-b125-3e073eb68e26/" target="_blank" rel="external">基本容器collection对象性能分析</a></li>
-</ul>
-<div><br></div>
-<div><br></div>
-<div><b>内存相关建议</b>：</div>
-<ul>
-<li>大量临时对象采用autorelease保护。在ARC下使用@autorelease 块语句包裹。</li>
-<li>资源懒加载机制：（但这样做会拖慢使用时速度，如果是运行时卡顿严重但是内存消耗不大，那么建议不要使用这种机制）
-<ul>
-<li>图片<b>懒加载</b>：在TableView中有大量图片行，再快速滑动时，不加载图片，等停止滑动时，获取当前显示在屏幕上的cell，然后开始加载它们。</li>
-<li>对于属性对象的分配上（如果可能的话）我们也应该重载他们的get函数，并在get函数内部去分配它。</li>
-</ul>
-</li>
-</ul>
-<div><br></div>
-<div><br></div>
-<div><b>界面性能具体建议</b>：</div>
-<ul>
-<li>CALayer在无用户交互的地方可以代替UIView。可以节省内存和运行时间。</li>
-<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">最好使控件的opaque属性设置为true，backgroundColor最好有一个固定的颜色且不透明。</span></li>
-<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">如无特殊需要，不要设置低于1的alpha值，最好让图片没有alpha通道。</span></li>
-<li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">确保图片颜色格式被GPU支持，避免劳烦CPU转换。</span></li>
-<li><span style="color: rgb(37, 37, 37);">当有复杂及大量文本排布的需求时，使用CATextLayer/Core Text/Text Kit代替 UILabel是一个提升性能的很好方案。而且文本其实也是图片，是绘制到寄宿图上的图片，对性能的消耗不可忽视。</span></li>
-<li><span style="color: rgb(37, 37, 37);">圆角和阴影的处理方案请参考CPU性能优化以及关于圆角的解决方案</span></li>
-</ul>
-<div><br></div>
-<div><br></div>
-<div><b>GPU性能建议</b>：</div>
-<ul>
-<li><b>纹理的渲染</b>：
-<ul>
-<li>图片过多的情况：所有的 Bitmap，包括图片、文本、栅格化的内容，最终都要由内存提交到显存，绑定为 GPU Texture。不论是提交到显存的过程，还是 GPU 调整和渲染 Texture 的过程，都要消耗不少 GPU 资源。当在较短时间显示大量图片时（比如 TableView 存在非常多的图片并且快速滑动时），CPU 占用率很低，GPU 占用非常高，界面仍然会掉帧。避免这种情况的方法只能是尽量减少在短时间内大量图片的显示，尽可能将多张图片合成为一张进行显示。</li>
-<li>图片过大的情况：当图片过大，超过 GPU 的最大纹理尺寸时，图片需要先由 CPU 进行预处理，这对 CPU 和 GPU 都会带来额外的资源消耗。目前来说，iPhone 4S 以上机型，纹理尺寸上限都是 4096x4096。</li>
-</ul>
-</li>
-<li><b>视图的混合</b>：
-<ul>
-<li>对于不透明的图层，尽量设置opaque=1，以避免无用的 Alpha 通道合成。</li>
-<li>把多个视图预先渲染为一张图片来显示。（计算转嫁给CPU，并且缓存下来）</li>
-</ul>
-</li>
-<li><b>离屏渲染问题</b>：（CALayer 的 <b>border、圆角、阴影、遮罩（mask）</b>，CASharpLayer 的矢量图形显示，通常会触发离屏渲染（offscreen rendering））
-<ul>
-<li>采用图片来代替代码绘制：比如将复杂图层制作成为图片或者是光栅化（建议前者，光栅化的性能消耗也较大）</li>
-<li>对于复杂形状的阴影，设置shadowPath来减少CPU计算的工作。（优先采用这种方案而不是光栅化）</li>
-<li>当有<b>圆角/阴影/复杂图层时可以考虑</b>开启 shouldRasterize 属性：由CPU将layer缓存为图片，将计算转嫁给CPU。请把此方案作为最后的方案处理。
-<ul>
-<li>当我们发现屏幕卡顿，GPU占用很高，但是CPU不高时，可以采用此方法。</li>
-<li>请使用Core Animation确认缓存的命中率，如果命中率不高，则放弃使用。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<div><br></div>
-<div><br></div>
-<div><b>CPU性能相关</b>：</div>
-<ul>
-<li><b>布局更新</b>是相当消耗性能的地方：
-<ul>
-<li>设置属性消耗性能：CALayer 内部并没有属性，当调用属性方法时，它内部是通过运行时 resolveInstanceMethod 为对象临时添加一个方法，并把对应属性值保存到内部的一个 Dictionary 里，同时还会通知 delegate、创建动画等等，非常消耗资源。UIView 的关于显示相关的属性（比如 frame/bounds/transform）等实际上都是 CALayer 属性映射来的，所以对 UIView 的这些属性进行调整时，消耗的资源要远大于一般的属性。对此你在应用中，应该尽量减少不必要的属性修改。</li>
-<li>布局计算本身也可能相当消耗性能。所以尽量提前计算好布局，在需要时一次性调整好对应属性，而不要多次、频繁的计算和调整这些属性。</li>
-</ul>
-</li>
-<li><b>图片解码</b>：
-<ul>
-<li>原因：当你用 UIImage 或 CGImageSource 的那几个方法创建图片时，图片数据并不会立刻解码。图片设置到 UIImageView 或者 CALayer.contents 中去，并且 CALayer 被提交到 GPU 前，CGImage中的数据才会得到解码。这一步是发生在主线程的，并且不可避免。</li>
-<li>解决方案：如果想要绕开这个机制，常见的做法是在后台线程先把图片绘制到 CGBitmapContext 中，然后从 Bitmap 直接创建图片。</li>
-</ul>
-</li>
-<li><b>文本显示大小的计算</b>：如果一个界面中包含大量文本（比如微博微信朋友圈等），文本的宽高计算会占用很大一部分资源，并且不可避免。如果你对文本显示没有特殊要求，可以参考下 UILabel 内部的实现方式：用 [NSAttributedString boundingRectWithSize:options:context:] 来计算文本宽高，用 -[NSAttributedString drawWithRect:options:context:] 来绘制文本。尽管这两个方法性能不错，但仍旧需要放到后台线程进行以避免阻塞主线程。如果你用 CoreText 绘制文本，那就可以先生成 CoreText 排版对象，然后自己计算了，并且 CoreText 对象还能保留以供稍后绘制使用。</li>
-<li><b>文本渲染</b>：屏幕上能看到的所有文本内容控件，包括 UIWebView，在底层都是通过 CoreText 排版、绘制为 Bitmap 显示的。常见的文本控件 （UILabel、UITextView 等），其排版和绘制都是在主线程进行的，当显示大量文本时，CPU 的压力会非常大。对此解决方案只有一个，那就是自定义文本控件，用 TextKit 或最底层的 CoreText 对文本异步绘制。尽管这实现起来非常麻烦，但其带来的优势也非常大，CoreText 对象创建好后，能直接获取文本的宽高等信息，避免了多次计算（调整 UILabel 大小时算一遍、UILabel 绘制时内部再算一遍）；CoreText 对象占用内存较少，可以缓存下来以备稍后多次渲染。</li>
-<li><b>软件绘图</b>：图像的绘制通常是指用那些以 CG 开头的方法把图像绘制到画布中，然后从画布创建图片并显示这样一个过程。这个最常见的地方就是 [UIView drawRect:] 里面了。由于 CoreGraphic 方法通常都是线程安全的，所以图像的绘制可以很容易的放到后台线程进行。一个简单异步绘制的过程大致如下（实际情况会比这个复杂得多，但原理基本一致）：</li>
-</ul>
-<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
-<div>- (void)display {</div>
-<div>    dispatch_async(backgroundQueue, ^{</div>
-<div>        CGContextRef ctx = CGBitmapContextCreate(...);</div>
-<div>        // draw in context...</div>
-<div>        CGImageRef img = CGBitmapContextCreateImage(ctx);</div>
-<div>        CFRelease(ctx);</div>
-<div>        dispatch_async(mainQueue, ^{</div>
-<div>            layer.contents = img;</div>
-<div>        });</div>
-<div>    });</div>
-<div>}</div>
-</div>
-<ul>
-<li>轻微影响的因子：
-<ul>
-<li>对于频繁使用的数据结构，一般采用C语言结构，而不是采用OC类封装，因为每一种方法的访问（普通方法、类方法、属性访问等都是方法访问的一种），都是采用消息转发的传递机制完成的，其开销远大于普通的函数栈调用。因此，从性能角度考虑，也应该使用C结构完成这种工作（比如，CGPoint）。</li>
-<li><b>对象销毁：</b>复杂对象的销毁比较消耗性能，可以放到后台线程执行。（可采用block捕获的形式）</li>
-<li>通过资源文件初始化对象，比如在storyBoard中初始化对象或者xib。（比较轻微）</li>
-</ul>
-</li>
-</ul>
-<div><br></div>
-<div><b style="color: rgb(37, 37, 37);">减少图层对象</b><font color="#252525">：（实现减少混合和排版以及IPC传输的目的）——<span style="color: rgb(4, 51, 255);">只有在图层极多且性能出现问题时，才需要优化</span></font></div>
-<ul>
-<li><span style="color: rgb(37, 37, 37);">Core Animation非常擅长处理对视觉效果无意义的图层。但是经常性地,<b>你自己的代码会比Core Animation更早地想知道一个图层是否是有用的</b>。理想状况下,在图层对象在创建之前就想知道,以避免创建和配置不必要图层的额外工作。</span></li>
-<li><span style="color: rgb(37, 37, 37);">可以通过精确的代码控制，只添加会展示的图层到图层树中去。</span></li>
-<li><span style="color: rgb(37, 37, 37);">通过复用展示图层可以减少对象的创建与销毁，从而提高性能。</span></li>
-<li>详细代码参考《iOS核心动画高级编程》 — 348</li>
-<li>不可见图层分类如下：
-<ul>
-<li>图层在屏幕边界之外,或是在父图层边界之外。</li>
-<li>完全在一个不透明图层之后。</li>
-<li>完全透明</li>
-</ul>
-</li>
-</ul>
-<div><span style="color: rgb(37, 37, 37);"><br></span></div>
-<div><span style="font-size: 14px;"><span style="font-family: 'Helvetica Neue', Helvetica, STheiti, Arial, Tahoma, 微软雅黑, sans-serif, serif;"><span style="color: rgb(37, 37, 37);"><br></span></span></span></div>
-<div><b>光栅化的使用例子</b>：</div>
-<ul>
-<li>每一行的字符和头像在每一帧刷新的时候并不需要变，所以看起来 UITableViewCell 的图层非常适合做缓存。我们可以使用 shouldRasterize 来缓存图层内容。这将会让图层离屏之后渲染一次然后把结果保存起来，直到下次利用的时候去更新。</li>
-<li>关于cell重用与离屏渲染的问题：
-<ul>
-<li>cell重用是指在内存层面发生的对象重用。<b>但是当这个layer层级被转化为渲染树并被提交给GPU渲染时，GPU还是需要渲染树的要求，生成新的一帧画面。这与cell是否被重用没有关系</b>。一个是内存层面的复用，一个是GPU渲染层级时的事，完全不搭嘎的。</li>
-</ul>
-</li>
-<li>适合光栅化的场景：当一个屏幕上出现大量的离屏渲染因素，且这个layer可以长时间保留在屏幕上时（<b>这个长时间是以帧率来计算的，一般来说，只要不是动画，那么就都可以算是长时间</b>）</li>
-<li>请把光栅化作为最后的解决方案处理</li>
-</ul>
-<div><br></div>
-<div><br></div>
-<div><b>解决圆角的方案</b>：（优先级从高到低）</div>
-<ul>
-<li>直接生成图片来解决。在生成图片解决时，<b>可以使用九宫格图片，即使用layer.contentCenter 属性</b>，圈定九宫格范围，以适配任意大小的内容。</li>
-<li>采用CALshapeLayer生成圆角图层。</li>
-<li>可以使用光栅化来解决</li>
-</ul>
-<div><br></div>
-<div><b>参考文章</b>：</div>
-<ul>
-<li>ios保持界面流畅的技巧：<a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/" target="_blank" rel="external">http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/</a></li>
-<li><br></li>
-</ul>
-<div><br></div>
-</div>
-</div>
-</body></html>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/iOS图片加载与显示优化指南/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Cheng JianFeng">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Cheng JianFeng's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/08/iOS图片加载与显示优化指南/" itemprop="url">
-                  iOS图片加载与显示优化指南
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:42:12+08:00">
-                2017-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/08/iOS图片加载与显示优化指南/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/iOS图片加载与显示优化指南/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="20.82293510437012"><meta name="author" content="673302055@163.com"><meta name="created" content="2015-11-24 07:09:17 +0000"><meta name="latitude" content="31.2230676042118"><meta name="longitude" content="121.3561479905174"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-12-24 07:39:41 +0000"><title>iOS图片加载与显示优化指南</title></head><body><div><b>图片资源有着多种不同的加载方式</b>：</div><ul><li>缓存加载方式：当使用该方式时，加载的图片会被自动缓存到内存中，以方便下次调用时快速使用，节省时间但是会消耗内存。但在合适的时候会由系统自动释放。主要用于经常使用的图片。<b>且这种方式加载的图片在加载的时候就完成了解压操作。否则解压操作会被放到绘制前进行。</b></li><ul><li>京东内部定义宏： <span style="font: 14.0px Monaco; font-variant-ligatures: no-common-ligatures; color: #ffc173">JDImg(__name__) </span>,名字不需要后缀，会自动匹配1x图和2x图。</li><li>函数实现： <span style="font: 14.0px Monaco; font-variant-ligatures: no-common-ligatures; color: #ffc173">[UIImage imageNamed:__name__]</span></li></ul><li>单次加载方式：直接从硬盘加载图片，加载后不将图片缓存在内存中，主要用于使用频率不高的图片。</li><ul><li>京东内部定义宏： <span style="font: 14.0px Monaco; font-variant-ligatures: no-common-ligatures; color: #ffc173">JDImgContentOfFile(__name__, __type__)</span>，需要名字和后缀分开写，<b>也可以自动匹配1x图和2x图</b>。</li><li>函数实现： <span style="font: 14.0px Monaco; font-variant-ligatures: no-common-ligatures; color: #ffc173">[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:__name__ ofType:__type__]]</span></li></ul><li><font face="Monaco"><b>注意事项</b>：经常使用是指经常需要拿这张图片给 view对象赋值，而一次赋值后多次使用这个view对象不算做是经常使用。</font></li></ul><div><br></div><div><br></div><div><b>图片格式</b>：（苹果做过优化的格式是 JPEG 和 PNG）</div><ul><li>JPEG的压缩率比PNG高，因为其使用了更为复杂的压缩算法。因此：</li><ul><li>加载时间：JPEG优于PNG</li><li>解码时间：PNG优于JPEG</li><li>但综合来说，两者的性能差异不大。</li></ul><li>PNG和JPEG压缩算法作用于两种不同的图片类型：</li><ul><li>PNG格式允许透明度，而且产生大量的图像文件，是不适合压缩图像照片;</li><li>JPEG是适合于小文件和提供了一系列的压缩质量，以适应题材，但不允许透明度。</li></ul><li>混合图片：</li><ul><li>基本思路：对于包含透明的图片来说，最好是使用压缩透明通道的PNG图片和压缩RGB部分的JPEG图片混合起来加载。这就对任何格式都适用了，而且无论从质量还是文件尺寸还是加载性能来说都和PNG和JPEG的图片相近。</li><li>开源实现：<a href="https://github.com/nicklockwood/JPNG" target="_blank" rel="external">https://github.com/nicklockwood/JPNG</a></li></ul></ul><div><br></div><div><br></div><div><b>图像性能问题</b>：</div><ul><li>加载问题：当需要从闪存（比RAM慢200倍）加载图片，或者是网络加载图片时，会有较长的等待时间。</li><ul><li>解决方案：</li><ul><li style="">使用缓存解决IO问题</li><li style="">在快速滑动时，可以采用低分辨率图片代替高分辨率图片展示，以获取良好的性能，然后在停下来时，替换为高分辨率图片</li></ul></ul><li>解压问题：</li><ul><li>原因：当加载图片的时候，iOS通常会延迟解压图片的时间，一般直到准备绘制前才会进行解压之后。这就会在准备绘制图片的时候影响性能，因为需要在绘制之前进行解压。</li><li>解决方案：</li><ul><li><b>使用 imageNamed加载图片</b>：最简单的方法就是使用 UIImage 的 +imageNamed: 方法避免延时加载。不像 +imageWithContentsOfFile: （和其他别的 UIImage 加载方法），这个方法会在加载图片之后立刻进行解压（就和本章之前我们谈到的好处一样）。问题在于 +imageNamed: 只对从应用资源束中的图片有效，所以对用户生成的图片内容或者是下载的图片就没法使用了。</li><li><b>在异步线程解压图片，将图片解压为Bitmap形式。细节可以参考AFNetworking的操作。</b></li></ul></ul><li><b>绘制问题</b>：<b>能高效绘制在iOS上的图片也有一个大小限制</b>。</li><ul><li>原因：所有显示在屏幕上的图片最终都会被转化为OpenGL纹理，同时OpenGL有一个最大的纹理尺寸（通常是2048*2048，或4096*4096，这个取决于设备型号）。如果你想在单个纹理中显示一个比这大的图，即便图片已经存在于内存中了，你仍然会遇到很大的性能问题，因为Core Animation强制用CPU处理图片而不是更快的GPU。</li><li>参照表：<b>ios设备情况概览</b> <a href="http://iosres.com/" target="_blank" rel="external">http://iosres.com/</a></li></ul></ul><div><br></div><div><br></div><div><b>图片打包存储方式</b>：</div><div><div></div><div><ul><li>images.xcassets图片打包方式：</li><ul><li>目前只支持png格式的图片</li><li>图片只支持<b>[UIImage imageNamed：]</b>的方式实例化，但是不能从Bundle中加载 。</li><li>在编译时，Images.xcassets中的所有文件会被打包为Assets.car的文件。</li><li>针对 其管理方式的分析：<a href="http://blog.csdn.net/yongyinmg/article/details/23845319" target="_blank" rel="external"><a href="http://blog.csdn.net/yongyinmg/article/details/23845319" target="_blank" rel="external">http://blog.csdn.net/yongyinmg/article/details/23845319</a></a></li><ul><li>其内部采用的是.json文件作为配置文件。</li><li>当拖入图片资源时，会默认做一次copy，在相应文件夹下生成文件。如果命名重复，则会自动重命名。</li></ul><li>在页面的属性栏，可以详细配置图片适配的设备、图片间隙、缩放方式和不同内存的使用策略等。</li></ul><li>直接导入项目，命名上要分为@1x[可省略],@2x,@3x.</li></ul><br></div><div><br></div><div><br></div></div></body></html>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/iOS安全模式开发/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Cheng JianFeng">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Cheng JianFeng's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/08/iOS安全模式开发/" itemprop="url">
-                  iOS安全模式开发
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:42:12+08:00">
-                2017-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/08/iOS安全模式开发/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/iOS安全模式开发/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="17.77412033081055"><meta name="author" content="程剑锋"><meta name="created" content="2016-12-19 09:03:18 +0000"><meta name="latitude" content="31.22298665391854"><meta name="longitude" content="121.3562362172647"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-12-21 06:11:09 +0000"><title>iOS安全模式开发</title></head><body><div><b>参考文章</b>：</div><div><ul><li>微信读书实现：<a href="http://www.cnblogs.com/fengmin/p/5552024.html" target="_blank" rel="external">http://www.cnblogs.com/fengmin/p/5552024.html</a>【一般般】</li><li>天猫实现：<a href="http://pingguohe.net/2016/06/20/safemode.html" target="_blank" rel="external">http://pingguohe.net/2016/06/20/safemode.html</a>【模式不咋地】</li></ul></div><div><br></div><div><b>自己实现的方案</b>：</div><ul><li><b>关于安全模式的定位：</b>安全模式是为了保护应用启动时连续发生崩溃的情况，对于其他情况下发生的崩溃，统统不做保护。</li><li><b>开发注意事项：</b><ul><li><b>安全模式保护的时间阈值</b>：延时任务启动的时间阈值，代表了安全模式需要保护的启动时间有多长。
-<ul><li>在默认执行热修复的情况下，阈值一般很小，只保护热修复无法完成的情况，比如0.1s；否则，阈值一般取5s。</li><li>超出这个阈值时发生的崩溃，不计入崩溃计数。</li><li>如果阈值设置较大的话，需要注意保护用户手动kill的情况，以及应用升级、系统升级等情况。【但是这些可以依靠多次计数的特性，自动归零】</li></ul></li><li><b>文件清除范围</b>：
-<ul><li>清除硬盘文件时，为了保证系统的稳定性，需要保留原来的系统文件夹结构。【3个大文件夹，2个小文件夹】</li><li>NSUserDefaults需要被重置。</li><li>keychain中的数据暂时不做清除。</li></ul></li></ul></li><li><b>模块流程图</b>：</li></ul><div><img src="iOS%E5%AE%89%E5%85%A8%E6%A8%A1%E5%BC%8F%E5%BC%80%E5%8F%91.resources/JDiPad%E5%AE%89%E5%85%A8%E6%A8%A1%E5%BC%8F%E6%B5%81%E7%A8%8B%E5%9B%BE.png" height="655" width="962"></div><div><br></div></body></html>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Xcode宏、关键字与常用函数/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2147,7 +2157,7 @@ ios8上：windows和vc.view.frame都发生变化，与普通的view变化一致�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/KVO && KVC 教程/">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/基本Crash编程指南/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Cheng JianFeng">
@@ -2172,8 +2182,8 @@ ios8上：windows和vc.view.frame都发生变化，与普通的view变化一致�
             
               
                 
-                <a class="post-title-link" href="/2017/02/08/KVO && KVC 教程/" itemprop="url">
-                  KVO && KVC 教程
+                <a class="post-title-link" href="/2017/02/08/基本Crash编程指南/" itemprop="url">
+                  基本Crash编程指南
                 </a>
               
             
@@ -2230,8 +2240,8 @@ ios8上：windows和vc.view.frame都发生变化，与普通的view变化一致�
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/02/08/KVO && KVC 教程/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/KVO && KVC 教程/" itemprop="commentCount"></span>
+                <a href="/2017/02/08/基本Crash编程指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/基本Crash编程指南/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -2260,20 +2270,20 @@ ios8上：windows和vc.view.frame都发生变化，与普通的view变化一致�
         
           
             
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="20.81174278259277"><meta name="author" content="673302055@163.com"><meta name="created" content="2015-11-13 07:40:10 +0000"><meta name="latitude" content="31.22301675729363"><meta name="longitude" content="121.3561923877428"><meta name="source" content="desktop.mac"><meta name="updated" content="2017-02-06 02:36:52 +0000"><title>KVO &amp;&amp; KVC 教程</title></head><body><div style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><div><b>KVC基础教程</b>：</div><ul><li>在采用KVC协议时，需要实现以下几个方法，这些也是KVC的直接可使用接口，而不是内嵌支持接口：（设关键字为 xxx）
-<ul><li>相应的存取方法。（使用属性声明时，可自动完成）</li><li>&nbsp;&nbsp;如果key为集合元素，则需要实现额外的操作层方法：
-<ul><li>&nbsp;&nbsp;–(NSUInteger) countOfxxx;</li><li>&nbsp;&nbsp;–(id) objectInxxxAtIndex : (NSUInteger) idx;</li><li>–(id) objectInxxxAtIndex : (NSIndexSet*) idx;</li><li>–(void) getxxx: (id[]) aBuffer range : (NSRange) aRange;【可选】</li><li>–(void) insertObject: (id)anobject inxxxAtIndex : (NSUInteger) idx;【可变】</li><li>-(void) insertxxx : (NSArray*) array atIndexes: (NSUInteger) idx;【可变】</li><li>–(void) removeObjectFromxxxAtIndex : (NSInteger) idx;【可变】</li><li>-(void) removexxxAtIndexes : (NSIndexSet *) idx;【可变】</li><li>–(void) reolaceObjectInxxxAtIndex : (NSUInteger) index withObject : (id) obj;</li><li>-(void) replacexxxAtIndexes : (NSUIndexSet*) indexes withxxx : (NSArray*) arr; 【可变，可选】</li></ul></li><li>如果要支持一对多关系使用运算符，还需要看对象是否支持每种运算符的运算函数。</li></ul></li></ul><div><b><br></b></div><div><b><br></b></div><div><b>KVO基础教程</b>：</div><ul><li>KVC是使用KVO的基础，因此只有符合KVC协议的属性，才能作为KVO的关键字。</li><li>KVO中按照对象作用不同，可以划分为 观察者 和 被观察者。
-<ul><li>观察者：监视某个对象的属性的变化的角色。</li><li>被观察者：被观察的属性的归属者。</li></ul></li><li>采用KVO编程机制时，<b>回调函数的执行与被观察对象的键值改变是发生在一个线程中【与通知类似，在抛出通知的线程上执行】</b>。即当被观察的键值被改变时，就会去调用监视者的回调函数，等到回调函数执行完后，再继续执行键值改变后的流程。<br>
-而对于采用代理的方式而言，代理函数的调用可能发生在另外一个线程中。</li><li><b>被观察者</b>：<b>模型对象自己添加观察者到自己的属性</b>上（可以不是属性，但需要实现手动通知方法），使该属性变化时，自动调用关联的函数。
-<ul><li><span style="font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(248, 248, 248);">示例：[stockForKVO&nbsp;&nbsp;addObserver:self&nbsp;&nbsp;forKeyPath:@</span><span style="padding: 0px; border: none; font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(248, 248, 248);">"price"</span><span style="padding: 0px; border: none; font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(248, 248, 248);">&nbsp;&nbsp;options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld&nbsp;&nbsp;context:nil];</span></li><li><span style="font-size: 12px;"><span style="font-family: Consolas, 'Courier New', Courier, mono, serif;"><span style="background-color: rgb(248, 248, 248);">注意，new 和 old 传入的均为变化前和变化后的指向对象（即还是<b>以指针为单位</b>传入的）。</span></span></span></li><li><span style="font-size: 12px;"><span style="font-family: Consolas, 'Courier New', Courier, mono, serif;"><span style="background-color: rgb(248, 248, 248);">第三个参数是可选项，可以传入一个受监控的上下文环境。</span></span></span></li></ul></li><li><b>观察者：</b>添加的<b>KVO的回调函数</b>（这是观察者唯一需要做的事）&nbsp;&nbsp;<span style="padding: 0px; border: none; font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">-(</span><span style="padding: 0px; border: none; font-weight: bold; font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; font-style: normal; font-variant: normal; letter-spacing: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">void</span><span style="padding: 0px; border: none; font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">)observeValueForKeyPath:(NSString&nbsp;&nbsp;*)keyPath&nbsp;&nbsp;ofObject:(id)object&nbsp;&nbsp;change:(NSDictionary&nbsp;&nbsp;*)change&nbsp;&nbsp;context:(</span><span style="padding: 0px; border: none; font-weight: bold; font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; font-style: normal; font-variant: normal; letter-spacing: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">void</span><span style="padding: 0px; border: none; font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">&nbsp;&nbsp;*)context</span>&nbsp;&nbsp; 都是同一个，但会额外传入一个KeyPath作为区分。
-<ul><li>keyPath：KVO监视的路径</li><li>object：KVO监视的对象</li><li>change：对象KVO通知触发时，所附加的数据。附加哪些数据，则由 addobserver 时通过 option指定。</li></ul></li><li>KVO按照通知方式的不同：
-<ul><li>自动通知：<b>只能对属性/实例变量使用</b>。<b>而且只能监视指针值的变化</b>。可以参见自动通知key值要求：<a href="http://www.cnblogs.com/pengyingh/articles/2383629.html" target="_blank" rel="external">http://www.cnblogs.com/pengyingh/articles/2383629.html</a>。
-<ul><li>当对属性使用时，只要直接按照正常属性的使用方式使用即可。</li><li><b>当对实例变量使用时，一定要使用 setValue: forKey： 的方式调用</b>，否则无法触发通知。</li></ul></li><li>手动通知：灵活性较大，但需要实现一个附加函数，以及手动的触发通知。<b>可以对属性或者是实例变量，甚至是一个不存在的值使用</b>。
-<ul><li>附加函数：+&nbsp;&nbsp;(BOOL)automaticallyNotifiesObserversForKey:(NSString*)key，对于需要实现手动发送的key返回NO，其余则调用super。</li><li>手动触发：在property的值改变之前由被观察者调用 willChangeValueForKey: ，在值改变之后由被观察者调用 didChangeValueForKey: 。</li><li>如果一个操作造成了多个key的值的改变，则willChangeValueForKey:和didChangeValueForKey:<b>必须嵌套着调用</b>。</li></ul></li></ul></li><li><b>对成员变量使用KVO（自动通知方式）</b>：
-<ul><li>被观察的成员变量，可以是一个属性或者只是一个成员变量，且可以不是 NSObject的对象，可以只是内置的数据类型。虽然使用 setValue:forKey:的时候，只能使用id作为第二个参数，但是，系统会帮我们自动做好转换工作。（但不建议这么做）</li><li>成员变量默认是 protected类型，无法在外部直接访问。但可以通过KVC方式赋值。</li><li>setValue:forKey: 是运行时错误，在编译时不会报错。</li></ul></li><li><b>KVO自动监视（手动监视由我们自己决定）的本质</b>是 ，<font color="#E500FF">监视该对象路径下的，<b>指针是否变化</b></font>。如果是对象本身的内容发生变化，是不会被监视到的。举个例子，如果一个数组被观察着，如果这个数组是mutable的，那么当他addObject的时候，其内容变化了，但是指针没有发生变化，那么是无法被观察到并回调的。只有当直接使用等号，对该路径的指针变量赋值时，才会触发回调函数。</li><li>参考资料：
-<ul><li><b>基础教学（非常棒）</b>：<a href="http://www.jianshu.com/p/d104daf7a062" target="_blank" rel="external">http://www.jianshu.com/p/d104daf7a062</a><ul><li>关于KVO的 key 需要满足的条件</li><li>关于KVO需要涉及到的方法</li><li>关于KVO的change字典相关内容以及其关键字的意义</li></ul></li><li>&nbsp;&nbsp;主动通知和手动通知以及示例：<a href="http://www.cnblogs.com/pengyingh/articles/2383629.html" target="_blank" rel="external">http://www.cnblogs.com/pengyingh/articles/2383629.html</a></li></ul></li></ul><div><br></div><div><br></div><div><br></div><div><br></div></div></body></html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="汇总贴"><meta name="altitude" content="14"><meta name="author" content="程剑锋"><meta name="created" content="2015-12-29 07:28:45 +0000"><meta name="latitude" content="31.22306814727845"><meta name="longitude" content="121.3562377596016"><meta name="source" content="desktop.mac"><meta name="updated" content="2017-01-17 04:51:06 +0000"><title>基本Crash编程指南</title></head><body><div><div><b>ios崩溃分类：【两大类】</b></div><div><div><ul><li>NSException:程序抛出的异常，没有被捕获造成的。<br></li><ul><li><b>分类</b>：</li><ul><li>NSGenericException：一般性异常。比如迭代器错误。</li><li>NSRangeException：范围异常，通常发生在数组越界上。</li><li>NSInvalidArgumentException：无效参数错误，比如消息转发出错，把一个消息转发给一个无法处理这则消息的对象：unrecognized selector sent to instance 0x1756f5f0。</li><li>NSInternalInconsistencyException：内部不一致异常。可能发生在Main.storyboard配置出错，以及UITableView的数据源和你插入或者删除的操作不一致等地方。</li><li>NSFileHandleOperationException：文件操作相关的异常。</li><li>NSObjectNotAvailableException</li><li>NSDestinationInvalidException</li><li>NSPortReceiveException</li><li>NSInconsistentArchiveException</li><li>NSFileHandleOperationException</li><li>…...</li></ul><li><b>参考资料</b>：<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Exceptions/Concepts/PredefinedExceptions.html#//apple_ref/doc/uid/20000057-BCIGHECA" target="_blank" rel="external">https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Exceptions/Concepts/PredefinedExceptions.html#//apple_ref/doc/uid/20000057-BCIGHECA</a></li></ul><li>Signal：各种其他类型的异常。<br></li><ul><li><b>分类</b>：</li><ul><li>SEGV:无效内存地址，比如空指针，未初始化指针，栈溢出，zombie对象访问等</li><li>SIGBUS：总线错误。与SIGSEGV不同的是，SIGSEGV访问的是无效地址（比如虚存映射不到物理内存），而SIGBUS访问的是有效地址，但总线访问异常（比如地址对齐问题）</li><li>SIGABRT：收到Abort信号，可能自身调用abort()或者收到外部发送过来的信号</li><li>SIGILL：尝试执行非法的指令，可能不被识别或者没有权限</li><li>SIGFPE：Floating Point Error,数学计算相关问题,比如除零操作</li><li>SIGPIPE：管道另一端没有进程接手数据</li></ul><li><b>参考资料</b>：</li><ul><li><span style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0);">signal函数：http://en.</span><a style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0);" href="http://cppreference.com/w/c/program/signal" target="_blank" rel="external">cppreference.com/w/c/program/signal</a><span style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0);"></span></li><li><span style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0);">
+signal handler详解：</span><span style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-font-kerning: none;"><u><a style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0);" href="http://www.cnblogs.com/clover-toeic/p/4126594.html" target="_blank" rel="external">www.cnblogs.com/clover-toeic/p/4126594.html</a></u></span></li><li><span style="font-family: 'Helvetica Neue'; font-size: 15px; -webkit-text-stroke-color: rgb(0, 0, 0); -webkit-font-kerning: none;"><font style="font-size: 15px;">在【Linux】上若信号与硬件故障(如SIGBUS/SIGFPE/SIGILL/SIGSEGV)或定时器超时相关，该信号会发往引起该事件的线程。其它信号除非显式指定目标线程，否则通常发往主线程(哪怕信号处理函数由其他线程注册)，仅当主线程屏蔽该信号时才发往某个具有处理能力的线程。【<span style="font: 15.0px 'Helvetica Neue'; font-kerning: none; color: #000000; -webkit-text-stroke: 0px #000000">UNIX -&gt; BSD\Linux\FreeBSD -&gt; Mac OS</span>】</font></span></li></ul></ul><li><font face="Helvetica Neue"><span style="font-size: 15px;"><b>区别对比</b>：</span></font></li><ul><li>信号由操作系统发出，更为底层，与程序的执行是异步的，由特殊的处理函数进行异步处理（signal / signaction），与程序语言之间几乎没有集成，处理难度更大。</li><li>（编程语言）异常则由程序语言和运行时提供，是一种可控的、同步激发处理、被语言和运行时支持的、可进行结构化处理的流程控制机制（与 return 和 if else for while 等没有本质区别）。</li><li>总的来说，后者处理过程由于是语言直接支持的，难度较小，资源管理较容易，是一种比较「高级」的机制。后者是可以基于前者实现（也可以完全无关）。</li><li>除非环境明确要求，一般的程序流程控制只涉及后者；如果环境支持，可能会将 OS 发出的信号包装成对应的异常交给应用处理。</li></ul></ul></div><div><br></div><div><b><br></b></div><div><b>NSException与NSError内容</b>：</div><ul><li><b>基础知识</b>：</li></ul><ol><ul><li>ARC在默认情况下NSException不是线程安全的，<b>具体来说就是如果抛出异常，那么本应在作用域尾释放的对象现在却不会自动释放了。如果想生成异常安全代码，那么需要添加额外的编译标志： -fobjc-arc-exceptions，但是一旦添加，在未抛出异常时也会执行这段代码，使程序显得臃肿，效率下降</b>。</li><li>对此IOS的异常使用策略是：<b>只在极其极端的情况下才抛出异常，异常一旦抛出就无需考虑恢复问题，而且程序此时应该退出</b>。（俗称crash）</li><li>对于出现不那么严重的错误，我们通常可以返回 nil，或者 通过NSError**返回NSError对象来描述异常。
+</li><ul><li>前者通常用于带有返回值的函数调用中。</li><li>后者通常用于 delegate回调 以及普通函数调用中。</li></ul><li>当文件处于 objective-C++模式时，编译器会自动把  -fobjc-arc-exceptions 打开。</li></ul></ol><ul><li><b>NSError对象探究</b>：（可以参考P87）</li></ul><ol><ul><li>其有三大主要参数：Error domain (错误范围，字符串)、Error code（错误类型，整数型）、User Info(用户信息，字典)。</li><li>具体内部用法和外部用法可以参考P87</li></ul></ol><ul><li><b>try-catch-finally的执行顺序探究</b>：（尽量不要使用，因为NSException 存在资源管理问题或者效率问题）</li></ul><ol><ul><li>使用 try-catch-finally来捕获异常。</li><li>在三段式的结构中，如果发生什么，finally中的语句都将被执行。（即使是在 catch中再次抛出异常，需要打断当前函数执行，进入上一层异常处理时，也是需要先执行finally再执行上层语句的）</li><li>如果异常不能被当前的函数捕获，那么当前函数的执行将立即被打断，并将异常向上一级传递处理。具体可以参考文中代码实验。</li><li><b>参考文章</b>：<a href="http://www.cocoachina.com/ios/20141229/10787.html" target="_blank" rel="external">http://www.cocoachina.com/ios/20141229/10787.html</a></li></ul></ol><ul><li><b>附加</b>：使用assert语句判断正确：在assert（  表达式 ），当表达式结果为NO时，abort。</li></ul><div><b><br></b></div><div><b><br></b></div><div><b>单个crash文件解析方案</b>：（所需文件： xxx.app xxx.app.dsym xxx.crash ）</div><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);"><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">export DEVELOPER_DIR="/Applications/XCode.app/Contents/Developer"</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">/Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework/Versions/A/Resources/symbolicatecrash Jdipad.crash Jdipad.app.dSYM &gt;crash.txt</span></span></span></div></div><div><br></div><div><br></div><div><b>单条crash语句解析方案</b>：</div></div><ul><li>atos的语法：
+</li><ol><li>atos -arch &lt;体系架构&gt; -o &lt;符号表文件&gt; -l &lt;0x程序基地址&gt; &lt;0x语句地址&gt;     =&gt;   选取方案</li><li>atos -arch &lt;体系架构&gt; -o &lt;符号表文件&gt; &lt;0x偏移地址&gt;</li></ol><li><b>地址</b>：
+</li><ol><li>获取到该crash语句的 基地址（即Jdipad程序的object_addr） 和 语句符号地址 （即Jdipad程序的symbol_addr）。注意需要转换到16进制地址，且例如 0x12412314124,注意 前缀是必须的。</li><li>一个符号表文件的程序开始位置不一定是0，每个符号表可能是不同的，一般是0x1000或者0x4000，</li></ol><li><b>体系架构</b>：获取发生该崩溃的机器的体系结构（armv7\armv7s\arm64）。注意，这个体系结构是<b>设备向下兼容体系</b>，即如果一台armv7s的设备，但包没有armv7s的体系结构只有armv7和arm64的体系结构，那么该设备将运行在 armv7 的体系结构代码上。</li><li><b>符号表文件</b>：将 dSYM 文件 或者是 .app 文件放在同一目录下：
+</li><ol><li>使用 dSYM文件是一定可以解析成功的，里面包含所有的符号表信息：使用语句 atos -arch &lt;armxxx&gt; -o Jdipad.app.dSYM/Contents/Resources/DWARF/Jdipad -l &lt;baseaddr&gt; &lt;symboladdr&gt;</li><li>使用 .app文件解析也是可以的，但是要求.app在编译时将 strip style 选为 all symbols，并且 strip debug symbols during copy 选为 YES，此时.app内的二进制文件是可以接受解析的，否则是无效的。具体使用语句：atos -arch &lt;armxxx&gt; -o Jdipad.app/Jdipad -l &lt;0x baseaddr&gt; &lt;0x symboladdr&gt;</li></ol><li>如果找不到symbolicatecrash，可以使用 <span style="font: 12.0px 'Andale Mono'; font-variant-ligatures: no-common-ligatures; color: #29f914; background-color: #000000"> find /Applications/Xcode.app -name symbolicatecrash -type f</span> 来查找。</li><li>参考文章：<a href="http://blog.csdn.net/mkhgg/article/details/17247673" target="_blank" rel="external">http://blog.csdn.net/mkhgg/article/details/17247673</a></li><li>KSCrash上报中的字段：
+</li><ol><li>baseaddr + symboladdr 能解析出的是函数调用者的起始行代码</li><li>baseaddr + instructionaddr 能解析出的是 函数具体行的代码</li></ol><li>atos可以一次性解析多个数据：【这样可以显著提升速度】</li></ul><div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>atos -o /BuildProducts/Release/Sketch.app/Contents/MacOS/Sketch -arch x86_64 -l 0x10acde000  0x10acea1d3 0x10ace4bea 0x10ace4b7a</div><div>-[SKTGraphicView drawRect:] (in Sketch) (SKTGraphicView.m:445)</div><div>-[SKTGraphic drawHandlesInView:] (in Sketch) (NSGeometry.h:110)</div><div>-[SKTGraphic drawHandleInView:atPoint:] (in Sketch) (SKTGraphic.m:490)</div></div><ul><li>在符号表中，同一行代码调用在不同的arch中都是在同一个偏移位置的，因此必须在 atos 中指明 -arch 才能正确的解析数据。</li></ul><div><br></div><div><br></div><div><div><b>release版本crash调试方案</b>：</div><ul><li>使用数据线连接上设备</li><li>选中相应的设备，然后点击下方的箭头条</li><li>以此可以调出设备的控制台</li><li>其上会输出设备的控制台输出，此时，app如果有nslog，会选择输出到此处的控制台。</li></ul><div><br></div><div><br></div><div><b>基础crash上报方案</b>：</div></div><ul><li>Apple Developer文章：<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Exceptions/Exceptions.html#//apple_ref/doc/uid/10000012-BAJGFBFB" target="_blank" rel="external">https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Exceptions/Exceptions.html#//apple_ref/doc/uid/10000012-BAJGFBFB</a></li><li>基础crash捕捉机制：
+</li><ul><li>使用try-carch机制捕获crash：<a href="http://www.cocoachina.com/ios/20141229/10787.html" target="_blank" rel="external">http://www.cocoachina.com/ios/20141229/10787.html</a></li><li>使用信号量和异常回调函数捕捉crash：<a href="http://www.xuebuyuan.com/1593344.html" target="_blank" rel="external"><a href="http://www.xuebuyuan.com/1593344.html" target="_blank" rel="external"><a href="http://www.xuebuyuan.com/1593344.html" target="_blank" rel="external">http://www.xuebuyuan.com/1593344.html</a></a></a></li></ul><li>方案评价：
+</li><ul><li>该方案针对 NSException引起的crash，可以完美的捕捉到，并且根据崩溃的线程打印出crash线程的stack信息。</li><li>但是针对 signal引起的crash，将统一回调到主线程处理，打印主线程的调用栈信息。此时的信息是无效的。</li></ul><li><b>具体实现</b>：
+</li><ul><li>如果是NSException的异常，可以获取到以下完整信息：
+</li><ul><li>[exception  name]: 独一无二的exception编号</li><li>[exception  reason]: 具体崩溃的原因</li><li>[exception  callStackSymbols]: 是一个数组，返回了<b>发生崩溃所在的线程的调用栈信息（注意，仅针对发生崩溃的线程）</b>。我们使用 【arr description】即可转化为 string并上报。</li></ul><li>如果是signal异常：
+</li><ul><li>可以使用 backtrack（xx,xx） 和 backtrace_symbols( xx,xx )：获取到当前线程的调用栈。</li></ul></ul></ul><div><br></div><div><br></div><div><b>旧版本crash修复操作</b>：</div><div><ul><li>参考文章：<span style="font: 15.0px 'Helvetica Neue'; font-kerning: none; color: #000000; -webkit-text-stroke: 0px #000000"><u><a href="http://www.cocoawithlove.com/2010/05/handling-unhandled-exceptions-and.html" target="_blank" rel="external">http://www.cocoawithlove.com/2010/05/handling-unhandled-exceptions-and.html</a></u></span></li><li><span style="font-style: normal; font-variant-caps: normal; font-size: 15px; font-family: 'Helvetica Neue'; -webkit-font-kerning: none; color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; -webkit-text-stroke-color: rgb(0, 0, 0);"><font style="font-size: 15px;"><b>续命方法</b>：</font></span></li><ul><li><span style="font-style: normal; font-variant-caps: normal; font-size: 15px; font-family: 'Helvetica Neue'; -webkit-font-kerning: none; color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; -webkit-text-stroke-color: rgb(0, 0, 0);"><font style="font-size: 15px;">收集到数据后，将exception push到主线程</font></span></li><li><span style="font-style: normal; font-variant-caps: normal; font-size: 15px; font-family: 'Helvetica Neue'; -webkit-font-kerning: none; color: rgb(0, 0, 0); -webkit-text-stroke-width: 0px; -webkit-text-stroke-color: rgb(0, 0, 0);"><font style="font-size: 15px;">2.重启主线程的runloop</font></span></li></ul><li><font style="font-size: 15px;">代价：这将导致异常线程使用的堆栈内存被永久的泄露，且崩溃函数永远无法返回。同时只能应对较为简单的崩溃。</font></li><li><font style="font-size: 15px;">缺陷：有可能会失败，只能应对简单的crash。</font><span style="font: 15.0px 'Helvetica Neue'; font-kerning: none; color: #000000; -webkit-text-stroke: 0px #000000"><br></span></li></ul><div><span style="font-size: 15px;"><br></span></div></div><div><span style="font-size: 15px;"><br></span></div><div><span style="font-size: 15px;"><b>Mac机上获取Symbol</b>：</span></div><div><ul><li><span style="font-size: 15px;">文件主路径：<font style="font-size: 15px;">~/Library/Developer/Xcode/iOS DeviceSupport，该目录以系统作为划分依据。</font></span></li><li><span style="font-size: 15px;">具体子目录：</span></li><ul><li><span style="font-size: 15px;">Symbols/System/Library/Frameworks：公有框架，每个框架文件里的同名文件，就是符号表文件。比如 xxx.framework/xxx</span></li><ul><li><span style="font-size: 15px;">需要注意的是，框架可能还会有自己引用的framework和dylib，可以考虑递归获取。</span></li></ul><li><span style="font-size: 15px;"><font style="font-size: 15px;">Symbols/System/Library/PrivateFrameworks：公有框架，每个框架文件里的同名文件，就是符号表文件。比如 xxx.framework/xxx</font><br></span></li><ul><li><span style="font-size: 15px;"><font style="font-size: 15px;"><font style="font-size: 15px;">需要注意的是，框架可能还会有自己引用的framework和dylib，可以考虑递归获取。</font><br></font></span></li></ul><li><span style="font-size: 15px;">Symbol/usr/lib:下面有很多 dylib框架</span></li><li><span style="font-size: 15px;"><font style="font-size: 15px;">Symbol/usr/lib/system:下面有很多 dylib框架</font><br></span></li></ul><li><span style="font-size: 15px;">脚本文件：<a href="%E5%9F%BA%E6%9C%ACCrash%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97.resources/search_bin.sh">search_bin.sh</a></span></li></ul></div><div><span style="font-size: 15px;"><br></span></div><div><br></div></div></body></html>
           
         
       
