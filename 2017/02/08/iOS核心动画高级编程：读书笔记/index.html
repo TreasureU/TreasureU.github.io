@@ -1,0 +1,1850 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="读书笔记," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="iOS核心动画高级编程：读书笔记
+
+iOS设备图形显示架构：
+
+
+
+ios设备情况概览：http://iosres.com/
+
+
+示例演示代码：CoreAnimationTest-master.zip
+
+
+CALayer基础属性：
+
+每一个layer都可以分为 背景层 + 寄宿图层（content层）
+CALayer并不支持自动大小和自动布局。
+layer的坐标系相关属性：
+
+layer的坐">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS核心动画高级编程：读书笔记">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/08/iOS核心动画高级编程：读书笔记/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="iOS核心动画高级编程：读书笔记
+
+iOS设备图形显示架构：
+
+
+
+ios设备情况概览：http://iosres.com/
+
+
+示例演示代码：CoreAnimationTest-master.zip
+
+
+CALayer基础属性：
+
+每一个layer都可以分为 背景层 + 寄宿图层（content层）
+CALayer并不支持自动大小和自动布局。
+layer的坐标系相关属性：
+
+layer的坐">
+<meta property="og:image" content="https://treasureu.github.io/iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/6A8C3537-B909-4852-9DB9-BEB4872CBE3B.png">
+<meta property="og:image" content="https://treasureu.github.io/iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/B3710679-3A14-4F87-A21D-E23EAB61539B.png">
+<meta property="og:image" content="https://treasureu.github.io/iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/FB7D2ECC-6112-45A9-8416-117444BF8349.png">
+<meta property="og:image" content="https://treasureu.github.io/iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/3987957D-AEA3-4879-841A-8224A5300F35.png">
+<meta property="og:image" content="https://treasureu.github.io/iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/401868A1-6D72-42FB-B1F6-2DEE7A73D970.png">
+<meta property="og:image" content="https://treasureu.github.io/iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/9BA13562-0162-4D41-9637-A566DE163D40.png">
+<meta property="og:image" content="https://treasureu.github.io/iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/F633796A-9701-4DE3-AD74-9C0FA634EDA2.png">
+<meta property="og:updated_time" content="2017-02-08T06:28:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS核心动画高级编程：读书笔记">
+<meta name="twitter:description" content="iOS核心动画高级编程：读书笔记
+
+iOS设备图形显示架构：
+
+
+
+ios设备情况概览：http://iosres.com/
+
+
+示例演示代码：CoreAnimationTest-master.zip
+
+
+CALayer基础属性：
+
+每一个layer都可以分为 背景层 + 寄宿图层（content层）
+CALayer并不支持自动大小和自动布局。
+layer的坐标系相关属性：
+
+layer的坐">
+<meta name="twitter:image" content="https://treasureu.github.io/iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/6A8C3537-B909-4852-9DB9-BEB4872CBE3B.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/08/iOS核心动画高级编程：读书笔记/"/>
+
+
+
+
+
+  <title> iOS核心动画高级编程：读书笔记 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/iOS核心动画高级编程：读书笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS核心动画高级编程：读书笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:28:38+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/08/iOS核心动画高级编程：读书笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/iOS核心动画高级编程：读书笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="读书笔记"><meta name="altitude" content="20.48523902893066"><meta name="author" content="程剑锋"><meta name="created" content="2016-02-29 08:40:55 +0000"><meta name="latitude" content="31.22305266657873"><meta name="longitude" content="121.3562200125848"><meta name="source" content="desktop.mac"><meta name="source-url" content="http://blog.csdn.net/u013523426/article/details/50945164"><meta name="updated" content="2016-09-26 09:48:48 +0000"><title>iOS核心动画高级编程：读书笔记</title></head><body>
+<div>
+<div><b>iOS设备图形显示架构：</b></div>
+<div><img src="iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/6A8C3537-B909-4852-9DB9-BEB4872CBE3B.png" height="198" width="294"></div>
+<div style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;">
+<div><b><br></b></div>
+<div><b>ios设备情况概览</b>：<a href="http://iosres.com/" target="_blank" rel="external">http://iosres.com/</a></div>
+<div><br></div>
+<div><br></div>
+<div><b>示例演示代码</b>：<a href="iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/CoreAnimationTest-master.zip">CoreAnimationTest-master.zip</a></div>
+<div><br></div>
+<div><br></div>
+<div><b>CALayer基础属性</b>：</div>
+<ul>
+<li>每一个layer都可以分为 背景层 + 寄宿图层（content层）</li>
+<li><b>CALayer并不支持自动大小和自动布局</b>。</li>
+<li><span style="color: rgb(50, 135, 18);">layer的<b>坐标系相关属性</b></span>：
+<ul>
+<li>layer的坐标系以左上角为原点的。</li>
+<li>主要属性：frame、bounds、postion、 <span style="color: rgb(51, 51, 51); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; background-color: rgb(255, 255, 255);">anchorPoint、transform</span>
+<ul>
+<li>frame：由<b>其它几个变量经过计算后得出</b>，直接改变它的值，可以影响 view 的 size和postion。<b>frame的位置基准点永远都是左上角的点</b>。</li>
+<li>bounds：决定layer 的 size。</li>
+<li>postion：它指明了锚点相对于父图层的位置，从而可以影响layer的位置。</li>
+<li>anchorPoint：以锚点为基准点，确定layer的位置。<b>锚点还是layer做图形变换时的支点</b>。</li>
+<li><span style="color: rgb(51, 51, 51); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; background-color: rgb(255, 255, 255);">transform：可以决定矩形变换原则。可以在position不变的情况下，改变layer的位置等。</span></li>
+</ul>
+</li>
+<li><span style="color: rgb(51, 51, 51);">坐标属性之间的相互关系：</span>
+<ul>
+<li><span style="color: rgb(51, 51, 51);">layer的size影响：bounds 和 frame</span></li>
+<li><span style="color: rgb(51, 51, 51);">layer的position影响：</span>anchorPoint 和 position 和 frame（frame本质上是通过改变）</li>
+<li><font face="Helvetica Neue, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif" color="#333333"><span style="font-size: 14px;">即frame决定了该</span></font><font face="Helvetica Neue, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif" color="#333333"><span style="font-size: 14px;">layer</span></font><font face="Helvetica Neue, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif" color="#333333"><span style="font-size: 14px;">在 superL</span></font><font face="Helvetica Neue, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif" color="#333333"><span style="font-size: 14px;">ayer</span></font><font face="Helvetica Neue, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif" color="#333333"><span style="font-size: 14px;">中的位置，而 bounds决定了其 本地坐标系，该坐标系将决定其 subL</span></font><font face="Helvetica Neue, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif" color="#333333"><span style="font-size: 14px;">ayer</span></font><font face="Helvetica Neue, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif" color="#333333"><span style="font-size: 14px;">的布局。而本地坐标系的定位，就是相当于</span></font> <font face="Helvetica Neue, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif" color="#333333"><span style="font-size: 14px;">layer</span></font><font face="Helvetica Neue, Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif" color="#333333"><span style="font-size: 14px;">的 bounds.origin 在本地坐标系的相应位置，然后反推出原点位置即可。</span></font></li>
+<li>view的布局其实就是layer布局的一层封装，最后直接取的是layer中的值。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span style="color: rgb(50, 135, 18);">layer的<b>寄宿图有两种生成方式</b></span>：
+<ul>
+<li>layer的content赋值
+<ul>
+<li>直接对content属性进行赋值</li>
+<li>layer的delegate的<u>- (void)displayLayer:(CALayer *)layer中对layer的content进行赋值。</u></li>
+</ul>
+</li>
+<li>使用Custom Drawing绘制：
+<ul>
+<li>UIView的drawRect函数就是对自己封装的layer的一次绘制。</li>
+<li>layer的delegate的<u>- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx</u> 就是对layer的一次绘制。</li>
+<li>这种方式存在<b>性能问题</b>：
+<ul>
+<li>一旦你实现了 CALayerDelegate 协议中的 -drawLayer:inContext: 方法或者 UIView 中的 -drawRect: 方法（其实就是前者的包装方法）<b>，图层就创建了一个绘制上下文，这个上下文需要的大小的内存可从这个算式得出：图层宽*图层高*4字节，宽高的单位均为像素。对于一个在Retina iPad上的全屏图层来说，这个内存量就是 2048*1526*4字节，相当于12MB内存，图层每次重绘的时候都需要重新抹掉内存然后重新分配</b>.</li>
+<li>绘制一般需要使用Core Graphics，而软件绘制的效率远不如硬件对图像处理的速度来的快。最好使用一些专用的layer子类，去实现硬件加速，完成性能优化。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span style="color: rgb(50, 135, 18);">layer的<b>内容相关属性</b></span>：
+<ul>
+<li>contentGravity：content的放置方式。（与UIview的contentMode类似）</li>
+<li>contentScale：寄宿图像素与点的比例关系。（即[UIScreen mainScreen].scale），因为CGImage没有scale的概念，因此如果layer的这个值设置不正确的话，图像可能会模糊展示。因此，最好手动设置为当前屏幕的scale。</li>
+<li>maskToBounds:截断边界展示。</li>
+<li>contentRect：一个相对的Rect值，表示展示content中的哪个区域的内容</li>
+<li>contentCenter：一个相对的Rect值。九宫格划分，表示content拉伸时，哪个区域是不可拉伸的。可以在xib上直接设置（stretching栏）</li>
+</ul>
+</li>
+<li><span style="color: rgb(50, 135, 18);">layer的<b>视觉效果属性</b></span>：
+<ul>
+<li>圆角效果：connerRadius，设置的是圆角半径。一般只影响背景而不影响寄宿图和子图层。需要配合maskToBounds才能对content产生截断效果。</li>
+<li>图形边框：borderWidth 和 borderColor。<b> 边框是绘制在图层边界里面的（确保不会被maskToBounds截断）,而且在所有子内容之前,也在子图层之前（会覆盖在所有子图层上方）</b>。</li>
+<li>阴影效果：
+<ul>
+<li>shadowOpacity：阴影透明度【0.0，1.0】</li>
+<li>shadowColor：阴影颜色，CGColorRef</li>
+<li>shadowOffset：阴影的偏移方向，CGSize值。（+x向右，+y向下）。苹果更倾向于阴影是垂直向下的。</li>
+<li>shadowRadius：阴影的模糊度，即它与边界的分割清晰度。为0时有明确的分割，越大越模糊。</li>
+<li>shadowPath：指定任意阴影的形状，这可以加快阴影的绘制速度，并达到定制化的效果。（建议添加）</li>
+<li>需要注意的是，<span style="color: rgb(148, 33, 146);"><b>阴影是根据content内容的外形来计算阴影的，而不是layer的大小或者是content的大小</b></span>。</li>
+<li>阴影是不计算在边界大小内的，如果它超出边界范围，那么就可能会被 maskToBounds阶段。可以用两个图层解决这个问题：<b>一个只画阴影的空的外图 层,和一个用 masksToBounds 裁剪内容的内图层</b>。</li>
+</ul>
+</li>
+<li>图层蒙版：mask，可以设置一个layer作为蒙版，只展示两个图层实心重叠的部分。
+<ul>
+<li>mask 图层的 Color 属性是无关紧要的,<b>真正重要的是图层的轮廓。 mask 属性就像是一个饼干切割机, mask 图层实心的部分会被保留下来,其他的则会被抛弃</b>。</li>
+<li>CALayer蒙板图层真正厉害的地方在于蒙板图不局限于静态图。<b>任何有图层构成的都可以作为 mask 属性,这意味着你的蒙板可以通过代码甚至是动画实时生成</b>。</li>
+</ul>
+</li>
+<li>拉伸过滤：minificationFilter（缩小过滤器）和 magnificationFilter（放大过滤器）。
+<ul>
+<li>重绘图片大小也没有一个统一的通用算法。这取决于需要拉伸的内容,放大或是缩小的需求等这些因素。 CALayer 为此提供了三种拉伸过滤方法,他们是:
+<ul>
+<li>kCAFilterLinear （默认）</li>
+<li>kCAFilterNearest </li>
+<li>kCAFilterTrilinear（效果与默认相近）</li>
+</ul>
+</li>
+<li>对于比较小的图或者是差异特别明显,极少斜线的大图,最近过滤算法会保留这种差异明显的特质以现更好的结果。但是对于大多数的图尤其是有很多斜线或是曲线轮廓的图片来说,最近过滤算法会导致更差的结果。换句话说,线性过滤保留了形状,最近过滤则保留了像素的差异。</li>
+</ul>
+</li>
+<li>组透明：使用 shouldRasterize来实现整个layer图层统一透明度。</li>
+</ul>
+</li>
+<li><span style="color: rgb(50, 135, 18);">layer的<b>变换属性</b></span>：
+<ul>
+<li>CGAffineTransform：仿射变换，适用于2D坐标变换。
+<ul>
+<li>主要分为三大模块：Rotation（旋转，弧度单位，顺时针为正）、Scale（缩放）、Translation（平移）</li>
+<li>这些效果是可以叠加使用的，只要在同一个CGAffineTransform对象上变换即可。</li>
+<li>CGAffineTransform对象的生成和变换全部有现成的函数可以使用。</li>
+<li><b>混合变换顺序问题</b>：
+<ul>
+<li>产生原因：当使用<span style="color: rgb(45, 79, 201);"><b>同一个CGAffineTransform 对象完成多种变换</b></span>时，变换的顺序会影响最终的结果，也就是说旋转之后的平移和平移之后的旋转结果可能不同。</li>
+<li>具体现象：<b>先添加的变换，将影响之后的变换的值</b>。最明显的例子就是：先平移200，再缩放0.5的话，200的平移量是可以被确保的。但是先缩放0.5，再平移200的话，平移的量就只有100了。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CATransform3D：3D变换，适用于3D坐标变换。
+<ul>
+<li>主要分为三大模块：Rotation（旋转，弧度单位，以某个坐标轴为旋转轴旋转）、Scale（缩放，x,y,z均可缩放）、Translation（平移，x,y,z均可平移）</li>
+<li>这些效果是可以叠加使用的，只要在同一个CATransform3D 对象上变换即可。</li>
+<li><b>3D成像透视效果</b>的关键：
+<ul>
+<li>灭点：当在透视角度绘图的时候，远离相机视角的物体将会变小变远，当远离到一个极限距离，它们可能就缩成了一个点，于是所有的物体最后都汇聚消失在同一个点。在现实中，这个点通常是视图的中心，于是为了在应用中创建拟真效果的透视，<b>这个点应该聚在屏幕中点，或者至少是包含所有3D对象的视图中点</b>。</li>
+<li>实现3D对象统一灭点的方案：在包含所有3D对象的父图层上，设置它的sublayerTransform属性，之后，我们就可以根据postion和frame自由的设置3D对象的位置了。具体代码示例如下：</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>//apply perspective transform to container</div>
+<div>CATransform3D perspective = CATransform3DIdentity;</div>
+<div>perspective.m34 = - 1.0 / 500.0;</div>
+<div>self.containerView.layer.sublayerTransform = perspective;</div>
+</div>
+<ul>
+<li style="display:inline;list-style:none;">
+<ul>
+<li style="display:inline;list-style:none;">
+<ul>
+<li style="display:inline;list-style:none;">
+<ul>
+<li>m34的取值大小：1/( 500 - 1000) 就很不错了，分母的值代表透视的距离。减少距离可以增强透视效果，一个非常大的值将失去透视效果。</li>
+</ul>
+</li>
+<li><b>3D旋转的叠加效应</b>：
+<ul>
+<li>现象：绕Z轴旋转时，实际上就是2D旋转，其效应是可以抵消的（即父图层上的正向变换和子图层上的反向变换，将导致子图层复原）。但是，绕X轴和Y轴旋转，是一种3D旋转，它是不会产生抵消效应的。</li>
+<li>原因：这是由于<b>尽管Core Animation图层存在于3D空间之内，但它们并不都存在同一个3D空间。每个图层的3D场景其实是扁平化的，</b>当你从正面观察一个图层，看到的实际上由子图层创建的想象出来的3D场景，但当你倾斜这个图层，你会发现实际上这个3D场景仅仅是被绘制在图层的表面。</li>
+<li>解决方案：如果希望一些3D对象共享一个3D空间，可以使用CATransformLayer，这是个特殊的CALayer子类，他可以使它的子图层处于同一个3D空间上。</li>
+</ul>
+</li>
+<li><b>zPostion修改展示顺序</b>：修改zPostion可以调整图层在父图层中的展示顺序。<span style="color: rgb(255, 0, 0);"><b>添加到父图层中的顺序决定了图层树中的顺序，而图层树中的顺序决定了事件响应的顺序。当我们通过修改视图的zPostion改变显示的优先级，但这不会改变事件响应的顺序</b></span>。这就可能出现，视图展示在最前面，但是事件被后面的视图劫走了，因此，当我们修改zPostion时应该要小心这一点。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>CALayer Custom Drawing绘制方式</b>：（详解）</div>
+<ul>
+<li><b>我们绘制的内容最终会转化为一个CGImage对象，传给CALayer使用</b>。即其实<b>CALayer只支持显示一种  content ====&gt; CGImage对象</b>。</li>
+<li>有两种方式可以实现对图层的自定义绘制，绘制内容利用原生的Core Graphics方法实现的，具体实现如下：
+<ul>
+<li>当使用系统原生的layer时：
+<ul>
+<li>设置该layer的delegate，并在该delegate对象中实现CALayerDelegate中的 drawLayer:(CALayer*)layer inContext:(CGComtextRef)ctx 函数。（不需要声明实现CALayerDelegate 协议，因为在NSObject中已经默认实现了）</li>
+<li>drawLayer:(CALayer*)layer inContext:(CGComtextRef)ctx 中完成绘制工作。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>-(void)drawInContext:(CGContextRef)ctx{</div>
+<div>    UIImage *image=[UIImage imageNamed:@"luhan.jpg"];</div>
+<div>    CGContextDrawImage(ctx, CGRectMake(0, 0, 200, 200), image.CGImage);</div>
+<div>}</div>
+</div>
+<ul>
+<li style="display:inline;list-style:none;">
+<ul>
+<li>当使用自己实现的CALayer子类时，我们可以实现 -drawInContext: 方法来实现绘制。</li>
+</ul>
+</li>
+<li>在这里顺带可以说一下CALayer的几个关键函数：
+<ul>
+<li>display :　用于更新layer的content内容（绘制内容也是content内容的一种）。首先，判断是否有delegate实现 了 displayLayer: 方法，有的话就直接返回相应的数；否则生成 context，并且在内部调用 drawInContext ，然后更新 layer的content属性。<b>不要直接调用这个函数</b>。</li>
+<li>drawInContext ：当delegate没有实现 了 displayLayer: 方法时，会被调用。调用后，会在内部调用delegate的 drawLayer:(CALayer*)layer inContext:(CGComtextRef)ctx 方法。</li>
+<li>seetNeedDisplay: 表示layer需要更新内容，并在合适的时候更新layer。</li>
+<li>displayeIfNeeded：表示立即更新layer。</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>嵌入CALayer生命周期中的delegate方法</b>：</div>
+<ul>
+<li><u>- (void)displayLayer:(CALayer *)layer</u>：如果定义了这个方法，那么将在layer的 -display 方法中调用。它应该实现全部的display的流程，典型的就是设置layer的content属性。</li>
+<li><u>- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx</u>：如果定义了这个方法，那么将在layer的 -drawInContext: 中调用。</li>
+<li><u>- (void)layoutSublayersOfLayer:(CALayer *)layer</u>：在 -layoutSublayers 中被调用，且在 layer manager 被检查之前。如果delegate的方法正在被调用，那么 manager将被忽略。</li>
+<li><u>- (nullable id&lt;CAAction&gt;)actionForLayer:(CALayer *)layer forKey:(NSString *)event</u>：如果定义了这个方法，那么将在 -actionForKey:  中被调用。这个方法应该返回一个实现了 CAAction 协议的对象。如果delegate没有为某一个event指定行为，那么可以返回nil。返回一个[NSNull null]对象，可以明确的表示不再进行进一步的搜索。</li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>CALayer的子类划分</b>：</div>
+<ul>
+<li><span style="color: rgb(50, 135, 18);"><b>CAShapeLayer</b></span>：形状绘制图层。所有可以用CGPath表示的形状，都可以用CAShapeLayer来绘制。当然，我们也可以用Custom Drawing+Core Graphics来完成绘制和展示。
+<ul>
+<li>CAShapeLayer有以下优点：
+<ul>
+<li>渲染快速，有硬件加速支持。</li>
+<li>高效使用内存，不像CALayer创建同等大小的寄宿图用于绘制，它无论多大，都不会占用很大的内存。</li>
+<li><b>不会被图层边界裁剪掉</b>。</li>
+<li>不会出现像素化。</li>
+</ul>
+</li>
+<li>你可以控制一些属性比如 lineWith （线宽，用点表示单位）， lineCap （线条结尾的样子），和 lineJoin （线条之间的结合点的样子）；但是在图层层面你只有一次机会设置这些属性（需要在绘制前设置）。如果你想用不同颜色或风格来绘制多个形状，就不得不为每个形状准备一个图层了。</li>
+<li>代码示例：</li>
+</ul>
+</li>
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>UIBezierPath *path = [[UIBezierPath alloc] init];</div>
+<div>[path moveToPoint:CGPointMake(175, 100)];</div>
+<div>[path addArcWithCenter:CGPointMake(150, 100) radius:25 startAngle:0 endAngle:[path moveToPoint:CGPointMake(150, 125)];</div>
+<div>[path addLineToPoint:CGPointMake(150, 175)];</div>
+<div>[path addLineToPoint:CGPointMake(125, 225)];</div>
+<div>[path moveToPoint:CGPointMake(150, 175)];</div>
+<div>[path addLineToPoint:CGPointMake(175, 225)];</div>
+<div>[path moveToPoint:CGPointMake(100, 150)];</div>
+<div>[path addLineToPoint:CGPointMake(200, 150)];</div>
+<div>//create shape layer</div>
+<div>CAShapeLayer *shapeLayer = [CAShapeLayer layer];</div>
+<div>shapeLayer.strokeColor = [UIColor redColor].CGColor;</div>
+<div>shapeLayer.fillColor = [UIColor clearColor].CGColor;</div>
+<div>shapeLayer.lineWidth = 5;</div>
+<div>shapeLayer.lineJoin = kCALineJoinRound;</div>
+<div>shapeLayer.lineCap = kCALineCapRound;</div>
+<div>shapeLayer.path = path.CGPath;</div>
+<div>//add it to our view</div>
+<div>[self.containerView.layer addSublayer:shapeLayer];</div>
+</div>
+<ul>
+<li><span style="color: rgb(50, 135, 18);"><b>CATextLayer</b></span>：文件展示图层。使用Core Text引擎渲染，效率高于UILabel。如果希望开发效率高些，可以使用Text Kit。综合来说：
+<ul>
+<li>简单且性能要求高的：CATextLayer</li>
+<li>复杂且性能要求高的：Text Kit</li>
+<li>简单无性能要去的：UILabel</li>
+</ul>
+</li>
+<li><span style="color: rgb(50, 135, 18);"><b>CATransformLayer</b></span>：3D对象空间共享图层，是一个容器图层，可以使加入其中的子图层共享一个3D空间。方便做统一的3D变换。</li>
+<li><span style="color: rgb(50, 135, 18);"><b>CAGradientLayer</b></span>：渐变色图层。使用硬件加速，性能好。
+<ul>
+<li>指定位置渐变代码示例：</li>
+</ul>
+</li>
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>//create gradient layer and add it to our container view</div>
+<div>CAGradientLayer *gradientLayer = [CAGradientLayer layer];</div>
+<div>gradientLayer.frame = self.containerView.bounds;</div>
+<div>[self.containerView.layer addSublayer:gradientLayer];</div>
+<div>//set gradient colors</div>
+<div>gradientLayer.colors = @[(__bridge id)[UIColor redColor].CGColor, (__bridge //set locations</div>
+<div>gradientLayer.locations = @[@0.0, @0.25, @0.5];</div>
+<div>//set gradient start and end points</div>
+<div>gradientLayer.startPoint = CGPointMake(0, 0);</div>
+</div>
+<ul>
+<li style="display:inline;list-style:none;">
+<ul>
+<li style="display:inline;list-style:none;">
+<ul>
+<li>colos：决定了有几种颜色参与渐变</li>
+<li>locations:决定了每种颜色结束的位置。但是即使设为0或者1，那种颜色还是会参与边缘渐变</li>
+<li>startPoint和endPoint：决定了渐变开始和结束的位置，提供了一个向量方向。但是没有在这个范围里的内容，将使用单色填充。</li>
+</ul>
+</li>
+<li>简单渐变代码示例：</li>
+</ul>
+</li>
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>//create gradient layer and add it to our container view</div>
+<div>CAGradientLayer *gradientLayer = [CAGradientLayer layer];</div>
+<div>gradientLayer.frame = self.containerView.bounds;</div>
+<div>[self.containerView.layer addSublayer:gradientLayer];</div>
+<div>//set gradient colors</div>
+<div>gradientLayer.colors = @[(__bridge id)[UIColor redColor].CGColor, (__bridge //set gradient start and end points</div>
+<div>gradientLayer.startPoint = CGPointMake(0, 0);</div>
+</div>
+<ul>
+<li><span style="color: rgb(50, 135, 18);"><b>CAReplicatorLayer</b></span>：迭代变换对象图层。
+<ul>
+<li>这个图层在复制子图层时，连<b>子图层的动画效果等都可以原封不动的copy过去，而且还可以设置copy图层的时间间隔</b>。拷贝时的属性变化时直接作用于当时子图层的实际属性上的。</li>
+<li>代码示例：</li>
+</ul>
+</li>
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>//create a replicator layer and add it to our view</div>
+<div>CAReplicatorLayer *replicator = [CAReplicatorLayer layer];</div>
+<div>replicator.frame = self.containerView.bounds;</div>
+<div>[self.containerView.layer addSublayer:replicator];</div>
+<div>//configure the replicator</div>
+<div>replicator.instanceCount = 10;</div>
+<div>//apply a transform for each instance</div>
+<div>CATransform3D transform = CATransform3DIdentity;</div>
+<div>transform = CATransform3DTranslate(transform, 0, 200, 0);</div>
+<div>transform = CATransform3DRotate(transform, M_PI / 5.0, 0, 0, 1);</div>
+<div>transform = CATransform3DTranslate(transform, 0, -200, 0);</div>
+<div>replicator.instanceTransform = transform;</div>
+<div>//apply a color shift for each instance</div>
+<div>replicator.instanceBlueOffset = -0.1;</div>
+<div>replicator.instanceGreenOffset = -0.1;</div>
+<div>//create a sublayer and place it inside the replicator</div>
+<div>CALayer *layer = [CALayer layer];</div>
+<div>layer.frame = CGRectMake(100.0f, 100.0f, 100.0f, 100.0f);</div>
+<div>layer.backgroundColor = [UIColor whiteColor].CGColor;</div>
+<div>[replicator addSublayer:layer];</div>
+</div>
+<ul>
+<li style="display:inline;list-style:none;">
+<ul>
+<li>效果示例：<img src="iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/B3710679-3A14-4F87-A21D-E23EAB61539B.png" height="716" width="1458"></li>
+<li>适合使用的场景：反射（它可以对加入的多个子layer，做相同的变换）、轨迹变化等</li>
+</ul>
+</li>
+<li><b>CAScrollLayer</b>：滑动图层。UIScrollView 并没有用 CAScrollLayer ，事实上，就是简单的通过直接操作图层边界来实现滑动。</li>
+<li><span style="color: rgb(50, 135, 18);"><b>CATiledLayer</b></span>：大图分步载入图层。CATiledLayer 为载入大图造成的性能问题提供了一个解决方案：将大图分解成小片然后将他们单独按需载入。
+<ul>
+<li>操作步骤：
+<ul>
+<li>将大图分割为小图，分成不同文件保存。</li>
+<li>设置CATiledLayer的大小为图片的大小。</li>
+<li>设置CATiledLayer的delegate，实现分步加载图片。</li>
+</ul>
+</li>
+<li>代码示例如下：</li>
+</ul>
+</li>
+</ul>
+<div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);">
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">- (void)viewDidLoad</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">{</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">[super viewDidLoad];</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">//add the tiled layer</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">CATiledLayer *tileLayer = [CATiledLayer layer];</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">tileLayer.frame = CGRectMake(0, 0, 2048, 2048);</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">tileLayer.delegate = self; [self.scrollView.layer addSublayer:tileLayer];</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">//configure the scroll view</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">self.scrollView.contentSize = tileLayer.frame.size;</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">//draw layer</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">[tileLayer setNeedsDisplay];</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">- (void)drawLayer:(CATiledLayer *)layer inContext:(CGContextRef)ctx</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">{</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">//determine tile coordinate</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">CGRect bounds = CGContextGetClipBoundingBox(ctx);</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">NSInteger x = floor(bounds.origin.x / layer.tileSize.width);</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">NSInteger y = floor(bounds.origin.y / layer.tileSize.height);</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">//load tile image</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">NSString *imageName = [NSString stringWithFormat: @"Snowman_%02i_%02i", NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName];</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">UIImage *tileImage = [UIImage imageWithContentsOfFile:imagePath];</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">//draw tile</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">UIGraphicsPushContext(ctx);</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">[tileImage drawInRect:bounds];</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">UIGraphicsPopContext();</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div>
+</div>
+<ul>
+<li><b>CAEmitterLayer</b>：粒子效果图层。</li>
+<li><b>CAEAGLLayer</b>：OpenGL展示图层。</li>
+<li><b>AVPlayerLayer</b>：视频播放图层。AVPlayerLayer 是用来在iOS上播放视频的。他是高级接口例如 MPMoivePlayer 的底层实现，提供了显示视频的底层控制。 AVPlayerLayer 的使用相当简单：你可以用 +playerLayerWithPlayer: 方法创建一个已经绑定了视频播放器的图层，或者你可以先创建一个图层，然后用 player 属性绑定一个 AVPlayer 实例。
+<ul>
+<li>准备工作：我们需要添加AVFoundation到我们的项目中。</li>
+<li>代码示例：</li>
+</ul>
+</li>
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>//get video URL</div>
+<div>NSURL *URL = [[NSBundle mainBundle] URLForResource:@"Ship" withExtension:@"//create player and player layer</div>
+<div>AVPlayer *player = [AVPlayer playerWithURL:URL];</div>
+<div>AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];</div>
+<div>//set player layer frame and attach it to our view</div>
+<div>playerLayer.frame = self.containerView.bounds;</div>
+<div>[self.containerView.layer addSublayer:playerLayer];</div>
+<div>//play the video</div>
+<div>[player play];</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><span style="color: rgb(28, 51, 135);"><b>可以用于实现动画的方式</b></span>：</div>
+<ol>
+<li>隐式动画，仅能作用于单一属性。</li>
+<li>基本属性动画：CABasicAnimation，仅能作用于单一属性。</li>
+<li>关键帧动画：CAKeyFrameAnimation，仅能作用于单一属性。</li>
+<li>动画组：CAAnimationGroup，可以包含CABasicAnimation 和 CAKeyFrameAnimation</li>
+<li>过渡动画：CATransition，用于图层大范围动画变化。</li>
+<li>UIView提供的动画组接口、关键帧动画接口和过渡动画接口。</li>
+<li>NSTimer/CADispalyLink实现的关键帧动画</li>
+</ol>
+<div><br></div>
+<div><br></div>
+<div><b>CALayer隐式动画</b>：（隐式动画是CABasicAnimation的一种）</div>
+<ul>
+<li>CALayer的基本属性几乎都是支持隐式动画的，直接修改这些属性值，都会引发默认的隐式动画。动画默认时长为0.25s。</li>
+<li>UIView对CALayer做了一次封装，它实现了CALayerDelegate中的 <b>- (nullable id&lt;CAAction&gt;)actionForLayer:(CALayer *)layer forKey:(NSString *)event</b> 的代理方法，针对隐式动画的操作，全部都返回nil。只有UIView的显示动画，才会返回正确的action对象，去执行动画。（注意，属性值的改变不是在这一步做的，这一步只是动画）
+<ul>
+<li>这个代理方法其实是在 layer的 actionForKey 这个函数中被调用。它的具体步骤如下：</li>
+<li>图层首先检测它是否有委托,并且是否实现 CALayerDelegate 协议指定的 - actionForLayer:forKey 方法。如果有,直接调用并返回结果。 如果没有委托,或者委托没有实现 方法,图层接 着检查包含属性名称对应行为映射的   字典。（但在这一步可以返回[NSNull null]对象，提前结束搜索）</li>
+<li>如果 actions字典 没有包含对应的属性,那么图层接着在它的 style 字典接 着搜索属性名。</li>
+<li>最后,如果在 style 里面也找不到对应的行为,那么图层将会直接调用定义 了每个属性的标准行为的 -defaultActionForKey: 方法。</li>
+<li>所以一轮完整的搜索结束之后, 要么返回空(这种情况下将不 会有动画发生),要么是 协议对应的对象,最后 CALayer 拿这个结果 去对先前和当前的值做动画。</li>
+</ul>
+</li>
+<li>在动画执行过程中，图层属性值保存的是动画结束后的值（即最终值），当前图层的属性其实是保存在一个 presentationLayer中的，我们如果想知道当前屏幕上layer的实时信息的话，获取这个 presentationLayer 的属性才是正确的值。</li>
+<li>从上面可以知道，我们的显示层级可以分为：图层树  -&gt;  呈现数  -&gt;  渲染树（后面提及）</li>
+<li>CATransaction的常用方法：
+<ul>
+<li>【CATransaction begin】 + 【CATransaction commit】：用于组成一个事务，动画的执行是以事务为单位执行的。run loop 会自动把一次 run loop周期内的隐式动画打包成一个事务来执行。</li>
+<li>【CATransaction setDuration:】:设置即将执行的下一个事务的持续时间。只作用于下一个事务。不设置的话，默认为0.25s。</li>
+<li>【CATransaction setDisableActions：】：默认为NO，设置为YES后，下一个隐式动画的事务提交时，将不会执行动画，而是立即发生变化。注意，有效期只有一次。</li>
+</ul>
+</li>
+<li>我们可以针对某一个具体的属性值，设置自定义动画，以覆盖默认的隐式动画，达到定制化的效果。
+<ul>
+<li>步骤：只需要生成一个 符合CAAction协议的对象后，将它作为一个键值对添加到 layer.actions 这个字典中去就好了。</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>CALayer</b> <b>显式动画</b>：</div>
+<ul>
+<li>显式动画：可以对一些指定的属性做自定义动画，或者是完成非线性的变化操作。</li>
+<li><b>显式动画不会真正的改变layer的属性值</b>，它带来的只是动画上的变化。如果我们希望在显示动画完成后，同时修改界面的值，那么请在 addAnimation 后，再直接修改属性的值。（建议可以立即执行）
+<ul>
+<li>修改属性值，<b>必须关闭隐式动画</b>，否则将会产生两个动画效果。</li>
+<li>具体操作步骤：创建一个事务【CATransaction begin】，设置【CATransaction setDisableActions：YES】，然后修改属性值，最后提交这个事务【CATransaction commit】。</li>
+</ul>
+</li>
+<li><b>公有属性设置</b>：
+<ul>
+<li>duration：持续时间</li>
+<li><b>由于CAAnimation对象是支持KVC的</b>，所以我们可以使用 【layer_var setValue:xxx forKey:xxx】来完成附加自定义变量。（比如我们可以把对象的layer绑定到animation对象上，[animation setValue:handView forKey:@"handView"]; 这样就可以在回调发生是，非常简单的获取到layer了）</li>
+</ul>
+</li>
+<li><b>添加或者删除操作：</b></li>
+</ul>
+<div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);">
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">添加一个动画到CALayer,anim传入后会进行一次深拷贝，最后回调中出现的对象也是深拷贝后的对象（无法靠比较指针来判断是哪个动画），因此建议传入key值，然后通过 </span></span></span><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">animationForKey： 判断是哪个动画。</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">- (void)addAnimation:(CAAnimation *)anim forKey:(nullable NSString *)key;</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br></span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">移除layer上已经添加的所有animation</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">- (void)removeAllAnimations;</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br></span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">移除layer上指定key的animation</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">- (void)removeAnimationForKey:(NSString *)key;</span></span></span></div>
+<div><br></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">返回一个数组包含所有当前已加入layer的animation的key。需要注意的是，当一个动画执行结束后，它就自动被移除了。</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">- (nullable NSArray&lt;NSString *&gt; *)animationKeys;</span></span></span></div>
+<div><br></div>
+<div>返回一个指定key值的animation对象</div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">- (nullable CAAnimation *)animationForKey:(NSString *)key;</span></span></span></div>
+</div>
+<ul>
+<li><b>显式动画的分类</b>：
+<ul>
+<li>隐式动画：CABasicAnimation，作用于单一属性。属性动画的一种。
+<ul>
+<li>keyPath：决定了需要设置的属性对象key值</li>
+<li>toValue：绝对值赋值</li>
+<li>byValue：相对值赋值</li>
+</ul>
+</li>
+<li>关键帧动画：CAKeyFrameAnimation，作用于单一属性。属性动画的一种。
+<ul>
+<li>keyPath：决定了需要设置的属性对象key值</li>
+<li>由于动画在开始时会突然从原有的属性值变到第一帧的值，然后在结束时会从最后一帧的值突然变回属性值。因此，建议第一帧和最后一帧的动画帧值要与当时的属性值保持一致。</li>
+<li>需要注意的是，整个动画是以一个恒定的速度在变化的，并没有在缓冲区时减速/加速，这会导致看起来比较奇怪。因此，我们将使用在以后的章节对它做出改变。</li>
+<li>values：普通属性的关键桢变化</li>
+<li>path：点属性的变化路线</li>
+<li>rotationMode：表示变化过程中元素的朝向（不变或者是沿着曲线切边）</li>
+</ul>
+</li>
+<li>显示动画组：CAAnimationGroup 可以把属性动画和关键帧动画组合在一起。(CABasicAnimation 和 CAKeyframeAnimation 仅仅作用于单独的属性)
+<ul>
+<li>animations：显示动画数组</li>
+<li>加入到动画组的动画如果不指定duration，那么将使用动画组的duration。当然也可以指定duration，那么将优先使用各个动画自己的duration。</li>
+</ul>
+</li>
+<li>过渡动画： CATransition，用于完成属性动画无法设置的一些变化。比如 layer 的 content 变化，整个图层的remove 和 add 操作等。
+<ul>
+<li>type：决定了动画的显示效果。
+<ul>
+<li>kCATransitionFade 默认的过渡类型 ，当你在改变图层属性之后，就创建了一个平滑的淡入淡出效果。</li>
+<li>kCATransitionPush ，它创建了一个新的图层，从边缘的一侧滑动进来，把旧图层从另一侧推出去的效果。</li>
+<li>kCATransitionMoveIn 实现了一个定向滑动的动画,从顶部滑动进入，但不像推送动画那样把老土层推走。</li>
+<li>kCATransitionReveal 也实现了一个定向滑动的动画，但是有一些细微的不同，kCATransitionReveal 把原始的图层滑动出去来显示新的外观，而不是把新的图层滑动进入。</li>
+</ul>
+</li>
+<li>subtype：决定了动画的进入方向。（后面三种type有subtype这个选项）
+<ul>
+<li>kCATransitionFromRight</li>
+<li>kCATransitionFromLeft</li>
+<li>kCATransitionFromTop</li>
+<li>kCATransitionFromBottom</li>
+</ul>
+</li>
+<li><b>注意</b>：对于指定的图层，一次只能添加一个 CATransition 动画。（而属性动画一次是可以添加多个的）。添加一次，动画效果将在下次图层变化时生效，有效期只有一次。</li>
+<li>CATransision 可以对图层任何变化平滑过渡的事实使得它成为那些不好做动画的属性图层行为的理想候选。苹果当然意识到了这点，并且当设置了 CALayer 的 content 属性的时候， CATransition 的确是默认的行为。但是被视图包裹的图层这一特性也是被禁用的。</li>
+<li><b>使用技巧</b>：要确保 CATransition 添加到的图层在过渡动画发生时不会在树状结构中被移除，否则 CATransition 将会和图层一起被移除。一般来说，<b>你只需要将动画添加到被影响图层的 superlayer</b> 。</li>
+<li>UIView层级的封装：是苹果通过 UIView +transitionFromView:toView:duration:options:completion: 和 +transitionWithView:duration:options:animations: 方法提供了Core Animation的过渡特性。但是这里的可用的过渡选项和 CATransition 的 type 属性提供的常量完全不同。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><b>虚拟属性赋值</b>：CAAnimation在做动画时是支持虚拟属性设置的。
+<ul>
+<li>比如你不可以直接设置 transform.rotation 或者 transform.scale ，他们不能被 直接使用。当你对他们做动画时，Core Animation自动地根据通 过 CAValueFunction 来计算的值来更新 transform 属性。 CAValueFunction 用于把我们赋给虚拟的 transform.rotation 简单浮点值转 换成真正的用于摆放图层的 CATransform3D 矩阵值。你可以通过设 置 CAPropertyAnimation 的 valueFunction 属性来改变，于是你设置的函数将 会覆盖默认的函数。</li>
+<li>因此，我们可以设置值 ：（目前已知的是transform.rotation  和 transform.scale  可用）</li>
+</ul>
+</li>
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>CABasicAnimation *animation = [CABasicAnimation animation];</div>
+<div>animation.keyPath = @"transform.rotation";</div>
+<div>animation.duration = 2.0;</div>
+<div>animation.byValue = @(M_PI * 2);</div>
+<div>[shipLayer addAnimation:animation forKey:nil];</div>
+</div>
+<div><br></div>
+<ul>
+<li style="display:inline;list-style:none;">
+<ul>
+<li>这一种设置值的方式，<b>对于 transform 属性非常有用</b>。</li>
+</ul>
+</li>
+<li><b>回调函数</b>：</li>
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>当动画开始执行签被调用</div>
+<div>- (void)animationDidStart:(CAAnimation *)anim;</div>
+<div><br></div>
+<div>当动画完成或者被绑定的对象移除时，都会被调用。当动画完成后被调用时，flag是true，否则为false。</div>
+<div>- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag;</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><b>动画增删操作</b>：</div>
+<ul>
+<li><b>显示动画一旦被移除（隐式动画无法移除），图层的外观就立刻更新到当前的模型图层（是model层，而不是呈现presentation层）的值</b>。一般说来，动画在结束之后被自动移除，除非设置 removedOnCompletion 为 NO ，如果你设置动画在结束之后不被自动移除，那么当它不需要的时候你要手动移除它；否则它会一直存在于内存中，直到图层被销毁。</li>
+<li><b>所有的动画在执行过程中添加新的动画的话，他们会一起生效的</b>。</li>
+</ul>
+<div><br></div>
+<div><b>动画持久化的方式</b>：</div>
+<ul>
+<li>方式一：在动画add会立即修改 layer的属性。此时 frame 属性已经变化。</li>
+<li>方式二：removedOnCompletion 为 NO，此时frame属性没有变化。</li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>CAMediaTiming协议</b>：（利用时间操纵动画的方式）</div>
+<ul>
+<li>CoreAnimation有一个全局时间的概念，也就是所谓的马赫时间。马赫时间在设备上所有进程都是全局的--但是在不同设备上并不是全局的--不过这已经足够对动画的参考点提供便利了，你可以使用 CACurrentMediaTime 函数来访问马赫时间。<b>注意当设备 休眠的时候马赫时间会暂停，也就是所有的 CAAnimations （基于马赫时间）同样也会暂停</b>。</li>
+<li>每个layer还有自己的一个本地时间概念：<img src="iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/FB7D2ECC-6112-45A9-8416-117444BF8349.png" height="240" width="568"></li>
+<li>动画也存在层级关系：
+<ul>
+<li>一个是通过 CALayer的图层树确定的层级关系（所有作用于一个layer上的动画都是这个layer的子动画）。</li>
+<li>一个是通过CAAnimation的group完成的动画组。</li>
+</ul>
+</li>
+<li>CALayer和CAAnimation都实现了 CAMediaTiming协议，该协议可以使动画对象和图层对象自由的控制他们的动画（包括子动画）的时间属性。</li>
+<li>协议的具体参数：
+<ul>
+<li><b>beginTime</b>:设置动画的延迟执行时间。（<b>可以影响子动画</b>）默认是0。</li>
+<li><b>duration</b>：单次正向动画的预期执行时间。（与实际执行时间还要参考其它因素）</li>
+<li><b>speed</b>：动画的执行速度，默认是1。<span style="color: rgb(186, 0, 255);"><b>它和duration决定了动画 的真正执行时间</b></span>。越大则速度越快，实际执行时间越短，否则反之。（<b>可以影响子动画</b>）。为0 的时候可以暂停动画的执行，负值时，可以反向执行动画。<b>speed 可以影响duration和beginTime,但是无法影响 timeoffset</b>.（例如：当speed=2.0时，一个duration=1.0的动画，将在0.5s内就执行完成）</li>
+<li><b>timeOffset</b>：表示动画执行的起点在整个动画的偏移时间位置和结束位置。默认是0.（<b>可以影响子动画</b>）使用这个属性和speed可以控制动画的播放效果。或者将动画暂停，由其控制图层展示到动画的某一帧的状态。值范围在【0,duration/speed】之间，超出大小将进行取余数操作。<b>当变更起点后，图层会执行动画，最后回到起点状态。（即动画的实际执行时间不变）</b></li>
+<li><b>repeatCount</b>:重复次数。设置为 INFINITY 表示无限循环。</li>
+<li><b>repeatDuration</b>：重复时间。其与repeatCount不能一起设置，否则会产生未定义行为。设置为 INFINITY 表示无限循环。</li>
+<li><b>fillMode</b>：表示动画开始前和动画结束后的图层状态。默认为kCAfILLModeRemoved。
+<ul>
+<li>kCAFillModeForwards ：动画开始前的状态是动画第一帧的效果。</li>
+<li>kCAFillModeBackwards ：动画结束后的状态是动画最后一帧的效果。要求我们把animation.removeOnCompleted=NO（默认为YES，会在完成后移除）。但在之后，我们需要自己手动把动画从layer中移除，否则会引起内存泄露。</li>
+<li>kCAFillModeBoth</li>
+<li>kCAFillModeRemoved</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><b>动画的暂停、倒退和快进操作</b>：
+<ul>
+<li>暂停：使speed=0即可让动画暂停。由于无法改变已经添加到layer上的动画对象的属性，所以，我们可以改变layer的speed属性来达成这一目的。且由于layer的层级继承关系，在将会对其sublayer上的所有动画产生效果。（如果想要让application的所有动画都暂停或者减速，可以修改 window.layer.speed= 0）</li>
+<li>慢放：设置一个[0,1]之间的speed，可以达到慢放的效果。</li>
+<li>倒退：设置一个负值的speed，可以使动画反向执行。（<b>正负影响方向，绝对值影响速度</b>）</li>
+<li>快进：设置一个大于0的speed可以达到快进的效果。</li>
+</ul>
+</li>
+<li><b>手工动画</b>：
+<ul>
+<li>方法：timeOffset 一个很有用的功能在于你可以它可以让你手动控制动画进程，通过设置 speed 为0，可以禁用动画的自动播放，然后来使用 timeOffset 来来回显示动画序列。</li>
+<li>场景：这对于一些复杂的组合图层变化来说，比如说关键帧这样更加复杂的情况，或者有多个图层的动画组，相对于实时计算每个图层的属性而言，这就显得方便的多了。</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>UIView动画接口</b>：</div>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>@interface UIView(UIViewAnimationWithBlocks) </div>
+<div><br></div>
+<div><b>属性动画接口（隐式动画、动画组等）</b><br></div>
+<div>+ (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^ __nullable)(BOOL finished))completion NS_AVAILABLE_IOS(4_0);</div>
+<div><br></div>
+<div>+ (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations completion:(void (^ __nullable)(BOOL finished))completion NS_AVAILABLE_IOS(4_0); // delay = 0.0, options = 0</div>
+<div><br></div>
+<div>+ (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations NS_AVAILABLE_IOS(4_0); // delay = 0.0, options = 0, completion = NULL</div>
+<div><br></div>
+<div>/* Performs `animations` using a timing curve described by the motion of a spring. When `dampingRatio` is 1, the animation will smoothly decelerate to its final model values without oscillating. Damping ratios less than 1 will oscillate more and more before coming to a complete stop. You can use the initial spring velocity to specify how fast the object at the end of the simulated spring was moving before it was attached. It's a unit coordinate system, where 1 is defined as travelling the total animation distance in a second. So if you're changing an object's position by 200pt in this animation, and you want the animation to behave as if the object was moving at 100pt/s before the animation started, you'd pass 0.5. You'll typically want to pass 0 for the velocity. */<br></div>
+<div>+ (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay usingSpringWithDamping:(CGFloat)dampingRatio initialSpringVelocity:(CGFloat)velocity options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^ __nullable)(BOOL finished))completion NS_AVAILABLE_IOS(7_0);</div>
+<div><br></div>
+<div><b>过渡动画接口</b><br></div>
+<div>+ (void)transitionWithView:(UIView *)view duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options animations:(void (^ __nullable)(void))animations completion:(void (^ __nullable)(BOOL finished))completion NS_AVAILABLE_IOS(4_0);</div>
+<div><br></div>
+<div>+ (void)transitionFromView:(UIView *)fromView toView:(UIView *)toView duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options completion:(void (^ __nullable)(BOOL finished))completion NS_AVAILABLE_IOS(4_0); // toView added to fromView.superview, fromView removed from its superview</div>
+<div><br></div>
+<div>/* Performs the requested system-provided animation on one or more views. Specify addtional animations in the parallelAnimations block. These additional animations will run alongside the system animation with the same timing and duration that the system animation defines/inherits. Additional animations should not modify properties of the view on which the system animation is being performed. Not all system animations honor all available options.</div>
+<div> */</div>
+<div>+ (void)performSystemAnimation:(UISystemAnimation)animation onViews:(NSArray&lt;__kindof UIView *&gt; *)views options:(UIViewAnimationOptions)options animations:(void (^ __nullable)(void))parallelAnimations completion:(void (^ __nullable)(BOOL finished))completion NS_AVAILABLE_IOS(7_0);</div>
+<div><br></div>
+<div>@end</div>
+<div><br></div>
+<div>@interface UIView (UIViewKeyframeAnimations)</div>
+<div><br></div>
+<div><b>关键帧动画接口</b></div>
+<div>+ (void)animateKeyframesWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewKeyframeAnimationOptions)options animations:(void (^)(void))animations completion:(void (^ __nullable)(BOOL finished))completion NS_AVAILABLE_IOS(7_0);</div>
+<div>+ (void)addKeyframeWithRelativeStartTime:(double)frameStartTime relativeDuration:(double)frameDuration animations:(void (^)(void))animations NS_AVAILABLE_IOS(7_0); // start time and duration are values between 0.0 and 1.0 specifying time and duration relative to the overall time of the keyframe animation</div>
+<div><br></div>
+<div>@end</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><b>动画缓冲</b>：（即动画的变化速度控制）</div>
+<ul>
+<li>CALayer设置动画变化属性：创建 CAMediaTimingFunction ，最简单的方式是调用 +timingFunctionWithName: 的构造方法，内置类型如下：
+<ul>
+<li>kCAMediaTimingFunctionLinear ：该选项创建了一个线性的计时函数，同样也是 显示动画的 timingFunction <b>属性为空时候的默认函数</b>。线性步调对于那些立即加速并且保持匀速到达终点的场景会有意义。</li>
+<li>kCAMediaTimingFunctionEaseIn：创建了一个慢慢加速然后突然停止的方法。</li>
+<li>kCAMediaTimingFunctionEaseOut：以一个全速开始，然后慢慢减速停止。</li>
+<li>kCAMediaTimingFunctionEaseInEaseOut：创建了一个慢慢加速然后再慢慢减速的过程。这是现实世界大多数物体移动的方式，也是大多数动画来说最好的选择。</li>
+<li>kCAMediaTimingFunctionDefault（效果与EaseInEaseOut几乎没有区别）：<b>是隐式动画的默认方式，但不是显示动画的默认方式</b>。</li>
+</ul>
+</li>
+<li>UIKit的动画也同样支持这些缓冲方法的使用，尽管语法和常量有些不同:
+<ul>
+<li>UIViewAnimationOptionCurveEaseInOut ：默认值。</li>
+<li>UIViewAnimationOptionCurveEaseIn</li>
+<li>UIViewAnimationOptionCurveEaseOut</li>
+<li>UIViewAnimationOptionCurveLinear</li>
+</ul>
+</li>
+<li>对动画设置指定的缓冲方式：
+<ul>
+<li><b>隐式动画</b>：如果想改变隐式动画的计时函数，同样也可以使用 CATransaction 的 +setAnimationTimingFunction: 方法。</li>
+<li><b>显式动画</b>：需要设置 CAAnimation 的 timingFunction 属性，是 CAMediaTimingFunction 类的一个对象。</li>
+<li><b>关键帧动画</b>：CAKeyframeAnimation 有一个 NSArray 类型的 timingFunctions 属性，我们可以用它来对每次动画的步骤指定不同的计时函数。但是指定函数的个数一定要等于 keyframes 数组的元素个数减一，因为它是描述每一帧之间动画速度的函数。</li>
+</ul>
+</li>
+<li>自定义缓冲函数：（简单的缓冲变化可以用此方法实现）
+<ul>
+<li>缓冲函数的数学表示：<b>三次贝塞尔曲线</b>。
+<ul>
+<li>一个三次贝塞尔曲线通过四个点来定义，第一个和最后一个点代表了曲线的起点和终点，剩下中间两个点叫做控制点，因为它们控制了曲线的形状，贝塞尔曲线的控制点其实是位于曲线之外的点，也就是说曲线并不一定要穿过它们。你可以把它们想象成吸引经过它们曲线的磁铁。</li>
+<li><img src="iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/3987957D-AEA3-4879-841A-8224A5300F35.png" height="403" width="467"></li>
+</ul>
+</li>
+<li>使用函数：一个有四个浮点参数的 +functionWithControlPoints:::: 。</li>
+<li>代码示例：</li>
+</ul>
+</li>
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>    CAMediaTimingFunction* function = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];</div>
+<div>    function = [CAMediaTimingFunction functionWithControlPoints:1 :0 :0.75 :1];</div>
+<div>    float cp1[2];</div>
+<div>    float cp2[2];</div>
+<div>    [function getControlPointAtIndex:1 values:cp1];</div>
+<div>    [function getControlPointAtIndex:2 values:cp2];</div>
+<div><br></div>
+<div>    UIBezierPath* bpath = [[UIBezierPath alloc] init];</div>
+<div>    [bpath moveToPoint:CGPointZero];</div>
+<div>    [bpath addCurveToPoint:CGPointMake(1, 1) controlPoint1:CGPointMake(cp1[0], cp1[1]) controlPoint2:CGPointMake(cp2[0], cp2[1])];</div>
+<div>    [bpath applyTransform:CGAffineTransformMakeScale(200, 200)];</div>
+<div><br></div>
+<div>    CAShapeLayer* shl = [CAShapeLayer layer];</div>
+<div>    shl.position = CGPointMake(100, 500);</div>
+<div>    shl.strokeColor = [UIColor redColor].CGColor;</div>
+<div>    shl.fillColor = [UIColor clearColor].CGColor;</div>
+<div>    shl.lineWidth = 4.0f;</div>
+<div>    shl.path = bpath.CGPath;</div>
+<div>    shl.geometryFlipped = YES;</div>
+<div>    [self.view.layer addSublayer:shl];</div>
+</div>
+<ul>
+<li><b>复杂的缓冲变化方式</b>：
+<ul>
+<li>例如：<img src="iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/401868A1-6D72-42FB-B1F6-2DEE7A73D970.png" height="462" width="548"></li>
+<li>实现方式：
+<ul>
+<li>用 CAKeyframeAnimation 创建一个动画，然后分割成几个步骤，每个小步骤使用自己的计时函数，这里大致有两种方式：
+<ul>
+<li>自己划分的关键帧，然后填充每一段关键帧之间的缓冲函数。</li>
+<li>使用<b>自动化流程采集海量关键帧</b>（数量在 60*duration左右），直接使用关键帧完成整个动画。
+<ul>
+<li>要求我们必须有相应动画的缓冲函数，这个可以在网站 复杂的速度变化曲线：<a href="https://github.com/warrenm/AHEasing" target="_blank" rel="external">https://github.com/warrenm/AHEasing</a>（C语言实现），可以用于自动提取关键帧动画。</li>
+<li>有了这个函数后，我们只要封装一个函数，传入formValue 和 toValue ，以及  time，即可返回相应的中间态数据，然后将这个数据添加到关键帧动画的 values 中即可。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用定时器逐帧更新实现动画（见第11章，“基于定时器的动画”）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>使用定时器实现关键帧动画</b>：</div>
+<ul>
+<li><b>CADisplayLink</b> 是CoreAnimation提供的另一个类似于 NSTimer 的类，它总是在屏幕完成一次更新之前启动，它的接口设计的和 NSTimer 很类似，所以它实际上就是一个内置实现的替代，但是和 timeInterval 以秒为单位不同， CADisplayLink 有一个整型的 frameInterval 属性，指定了间隔多少帧之后才执行。默认值是1，意味着每次屏幕更新之前都会执行一次。</li>
+<li>CADisplayLink 会保证帧率足够连续，使得动画看起来更加平滑，但即使 CADisplayLink 也不能保证每一帧都按计划执行，一些失去控制的离散的任务或者事件（例如资源紧张的后台程序）可能会导致动画偶尔地丢帧。<b>当使用 NSTimer 的时候，一旦有机会计时器就会开启（一定会补偿执行），但是 CADisplayLink 却不一样：如果它丢失了帧，就会直接忽略它们，然后在下一次更新的时候接着运行</b>。</li>
+<li>基于第二点特性，我们在刷新时，应该计算的是实际的刷新间隔，而不是使用固定的时间间隔去累加。计算实际时间间隔可以使用CACurrentMediaTime()多次获取时间然后取差值得到。</li>
+<li>使用示例：<img src="iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/9BA13562-0162-4D41-9637-A566DE163D40.png" height="147" width="523"></li>
+<li>CADisplayLink和NSTimer一样，可以被加入多个不同模式的定时器：<img src="iOS%E6%A0%B8%E5%BF%83%E5%8A%A8%E7%94%BB%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%9A%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/F633796A-9701-4DE3-AD74-9C0FA634EDA2.png" height="345" width="541"></li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>软件绘图（Core Graphics）</b>：</div>
+<ul>
+<li>软件绘图不仅效率低，还会消耗可观的内存。
+<ul>
+<li>内存消耗的体现：一旦你实现了 CALayerDelegate 协议中的 -drawLayer:inContext: 方法或者 UIView 中的 -drawRect: 方法（其实就是前者的包装方法），图层就创建了一个绘制上下文，这个上下文需要的大小的内存可从这个算式得出：图层宽*图层高*4字节，宽高的单位均为像素。对于一个在Retina iPad上的全屏图层来说，这个内存量就是 2048*1526*4字节，相当于12MB内存，<b>图层每次重绘的时候都需要重新抹掉内存然后重新分配</b>.</li>
+</ul>
+</li>
+<li>用Core Graphics来绘图的一个通常原因就是只是用图片或是图层效果不能轻易地绘制出矢量图形。矢量图形包括：
+<ul>
+<li>任意多边形（不仅仅是一个矩形）</li>
+<li>斜线或曲线</li>
+<li>文本</li>
+<li>渐变</li>
+</ul>
+</li>
+<li>性能优化基本方案：提高绘制性能（采用异步绘制、专门的layer类），以及减少绘制数量（脏矩形）</li>
+<li><b>Core Animation为这些矢量图形类型的绘制提供了专门的类，并给他们提供硬件支持（如果可以满足要求，建议使用Core Animation代替Core Graphics）</b>，这些总体上都比Core Graphics更快，同时他们也避免了创造一个寄宿图。具体如下：
+<ul>
+<li>CAShapeLayer ：可以绘制多边形，直线和曲线。</li>
+<li>CATextLayer ：可以绘制文本。</li>
+<li>CAGradientLayer： 用来绘制渐变。</li>
+</ul>
+</li>
+<li>脏矩形：在使用Core Graphics绘制图形时，每次变化可能不需要重绘整个layer的区域，那么可以指定只重绘部分的Rect。（以UIView为例）
+<ul>
+<li>[self setNeedsDisplayInRect:[self brushRectForPoint:point]]：设置需要更新的区域。</li>
+<li>在 drawRect 中完成重绘。可以使用 CGRectIntersectsRect(rect, brushRect) 精确判断区域。</li>
+</ul>
+</li>
+<li><b>异步绘制</b>：
+<ul>
+<li><b>CATiledLayer</b>：可以将图层再次分割成独立更新的小块（类似于脏矩形自动更新的概念）， CATiledLayer 还有一个有趣的特性：在多个线程中为每个小块同时调用 -drawLayer:inContext: 方法。这就避免了阻塞用户交互而且能够利用多核心新片来更快地绘制。只有一个小块的 CATiledLayer 是实现异步更新图片视图的简单方法。</li>
+<li><b>CALayer的drawsAsynchronously属性</b>：
+<ul>
+<li>作用：它对传入 -drawLayer:inContext: 的CGContext进行改动，允许CGContext延缓绘制命令的执行以至于不阻塞用户交互。 它与 CATiledLayer 使用的异步绘制并不相同。它自己的 -drawLayer:inContext: 方法只会在主线程调用，但是CGContext并不等待每个绘制命令的结束。相反地，它会将命令加入队列，当方法返回时，在后台线程逐个执行真正的绘制。</li>
+<li>使用场景：这个特性在需要频繁重绘的视图上效果最好（比如我们的绘图应用，或者诸如 UITableViewCell 之类的），对那些只绘制一次或很少重绘的图层内容来说没什么太大的帮助。</li>
+</ul>
+</li>
+<li><b>异步线程执行绘制</b>：由于 <b>CoreGraphic 方法通常都是线程安全的，所以图像的绘制可以很容易的放到后台线程进行</b>。一个简单异步绘制的过程大致如下（实际情况会比这个复杂得多，但原理基本一致）：需要注意的是，由于要异步绘制，所以必须实现的是  displayLayer： 方法.</li>
+</ul>
+</li>
+</ul>
+<div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);">
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">- (void)displayLayer:(CALayer*)layer</span></span></span><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">{</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    dispatch_async(backgroundQueue, ^{</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">        CGContextRef ctx = CGBitmapContextCreate(...);</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">        // draw in context...</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">        CGImageRef img = CGBitmapContextCreateImage(ctx);</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">        CFRelease(ctx);</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">        dispatch_async(mainQueue, ^{</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">            layer.contents = img;</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">        });</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    });</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><b>参考文章</b>：</div>
+<ul>
+<li>CAShapeLayer与贝塞尔曲线参考文章：<span style="color: rgb(61, 167, 66); font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; font-size: 14px; widows: 1; background-color: rgb(255, 255, 255);"><a href="http://www.jianshu.com/p/c5cbb5e05075" target="_blank" rel="external">http://www.jianshu.com/p/c5cbb5e05075</a></span></li>
+<li>Mask动画参考文章：<span style="color: rgb(61, 167, 66); font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; font-size: 14px; widows: 1; background-color: rgb(255, 255, 255);"><a href="http://www.jianshu.com/p/3c925a1609f8" target="_blank" rel="external">http://www.jianshu.com/p/3c925a1609f8</a></span></li>
+<li><a style="color:#69aa35" href="evernote:///view/8887184/s39/e8d4e8ff-7763-4622-9172-080c1b2f71d3/e8d4e8ff-7763-4622-9172-080c1b2f71d3/" target="_blank" rel="external">app性能问题定位与解决</a></li>
+<li>CATransform3D vs. CGAffineTransform ： <a href="http://stackoverflow.com/questions/567829/catransform3d-vs-cgaffinetransform" target="_blank" rel="external">http://stackoverflow.com/questions/567829/catransform3d-vs-cgaffinetransform</a>  ，前者用于2D，后者用于3D。</li>
+</ul>
+<div><br></div>
+<div><br></div>
+</div>
+</div>
+</body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/08/Effective Objective-C 2.0读书笔记：协议与分类/" rel="next" title="Effective Objective-C 2">
+                <i class="fa fa-chevron-left"></i> Effective Objective-C 2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/08/Effective Objective-C 2.0读书笔记：块与GCD/" rel="prev" title="Effective Objective-C 2">
+                Effective Objective-C 2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/08/iOS核心动画高级编程：读书笔记/"
+     data-title="iOS核心动画高级编程：读书笔记"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/08/iOS核心动画高级编程：读书笔记/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/08/iOS核心动画高级编程：读书笔记/"
+           data-title="iOS核心动画高级编程：读书笔记" data-url="https://treasureu.github.io/2017/02/08/iOS核心动画高级编程：读书笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

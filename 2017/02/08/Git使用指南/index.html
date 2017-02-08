@@ -1,0 +1,965 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Python,Unity" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Git使用指南获取git build号的操作：git获取build的方式： git&amp;nbsp;&amp;nbsp;rev-list&amp;nbsp;&amp;nbsp;--count&amp;nbsp;&amp;nbsp;HEAD &amp;nbsp;&amp;nbsp;，可以生成和SVN类似的计数码。我们在填写project的 build号时需要用到git tag的使用方式：当使用git打下标签后，我们可以方便的根据标签回到当时打下标签的状态">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git使用指南">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/08/Git使用指南/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="Git使用指南获取git build号的操作：git获取build的方式： git&amp;nbsp;&amp;nbsp;rev-list&amp;nbsp;&amp;nbsp;--count&amp;nbsp;&amp;nbsp;HEAD &amp;nbsp;&amp;nbsp;，可以生成和SVN类似的计数码。我们在填写project的 build号时需要用到git tag的使用方式：当使用git打下标签后，我们可以方便的根据标签回到当时打下标签的状态">
+<meta property="og:updated_time" content="2017-02-08T06:37:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git使用指南">
+<meta name="twitter:description" content="Git使用指南获取git build号的操作：git获取build的方式： git&amp;nbsp;&amp;nbsp;rev-list&amp;nbsp;&amp;nbsp;--count&amp;nbsp;&amp;nbsp;HEAD &amp;nbsp;&amp;nbsp;，可以生成和SVN类似的计数码。我们在填写project的 build号时需要用到git tag的使用方式：当使用git打下标签后，我们可以方便的根据标签回到当时打下标签的状态">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/08/Git使用指南/"/>
+
+
+
+
+
+  <title> Git使用指南 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Git使用指南/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Git使用指南
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:37:23+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/通用工具/" itemprop="url" rel="index">
+                    <span itemprop="name">通用工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/08/Git使用指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/Git使用指南/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="author" content="程剑锋"><meta name="created" content="2016-05-31 02:56:28 +0000"><meta name="updated" content="2016-10-26 03:07:52 +0000"><title>Git使用指南</title></head><body><div><b>获取git build号的操作</b>：</div><div>git获取build的方式： git&nbsp;&nbsp;rev-list&nbsp;&nbsp;--count&nbsp;&nbsp;HEAD &nbsp;&nbsp;，可以生成和SVN类似的计数码。</div><div>我们在填写project的 build号时需要用到</div><div><br></div><div><b>git tag的使用方式</b>：</div><div>当使用git打下标签后，我们可以方便的根据标签回到当时打下标签的状态，具体操作分为一下两种：</div><ul><li>终端操作方式：先&nbsp;&nbsp;git&nbsp;&nbsp;clone&nbsp;&nbsp;整个仓库，然后&nbsp;&nbsp;git&nbsp;&nbsp;checkout&nbsp;&nbsp;tag_name&nbsp;&nbsp;就可以取得&nbsp;&nbsp;tag&nbsp;&nbsp;对应的代码了。但是这时候&nbsp;&nbsp;git&nbsp;&nbsp;可能会提示你当前处于一个“detached&nbsp;&nbsp;HEAD"&nbsp;&nbsp;状态，因为&nbsp;&nbsp;tag&nbsp;&nbsp;相当于是一个快照，是不能更改它的代码的，如果要在&nbsp;&nbsp;tag&nbsp;&nbsp;代码的基础上做修改，你需要一个分支：git&nbsp;&nbsp;checkout&nbsp;&nbsp;-b&nbsp;&nbsp;branch_name&nbsp;&nbsp;tag_name（建议方式）。这样会从&nbsp;&nbsp;tag&nbsp;&nbsp;创建一个分支，然后就和普通的&nbsp;&nbsp;git&nbsp;&nbsp;操作一样了。</li><li>sourceTree直接操作方式：有一个 “检出”的按钮 ，在其上选择一个提交，弹出警告框直接确认即可。这步操作相当于 上面的建议方式，会新建一个分支出来继续操作。在你切换回去的时候，会默认删除这个分支。</li></ul><div><br></div><div><br></div><div><b>.gitinore的配置问题</b>：（git仓库忽略文件设置）</div><div><div style="margin: 0px 0px 14px; padding: 0px; color: rgb(68, 68, 68); font-family: 'microsoft yahei'; text-align: left; font-size: 14px;"><div>在git中如果想忽略掉某个文件，不让这个文件提交到版本库中，可以使用修改<b>根目录中 .gitignore 文件(该文件位置在该git项目的根目录上，与.git同级)</b>的方法（如无，则需自己手工建立此文件）。这个文件每一行保存了一个匹配的规则例如：</div></div><div style="color: rgb(68, 68, 68); font-family: 'microsoft yahei'; font-size: 14px; text-align: left;"><div style="width: 863px; margin: 1em 0px !important; position: relative !important; overflow: auto !important; font-size: 1em !important; background-color: white !important;"><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: none !important; bottom: auto !important; float: none !important; height: 11px !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px !important; position: absolute !important; right: 1px !important; top: 1px !important; vertical-align: baseline !important; width: 11px !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 10px !important; min-height: inherit !important; z-index: 10 !important; color: white !important; background-color: rgb(108, 226, 108) !important; background-position: initial initial !important; background-repeat: initial initial !important;"><a href="http://www.pfeng.org/archives/840#" style="color: white !important; text-decoration: none !important; cursor: pointer; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 1px 0px 0px !important; position: static !important; right: auto !important; text-align: center !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; display: block !important; background-image: none !important; background-position: initial initial !important; background-repeat: initial initial !important;" target="_blank" rel="external">?</a></div><table border="0" cellpadding="0" cellspacing="0" style="margin: 0px 0px 16px !important; padding: 0px !important; border-collapse: collapse; border-spacing: 0px; empty-cells: show; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 1px; border-right-width: 0px !important; border-bottom-width: 0px !important; border-left-width: 1px; border-top-style: solid; border-left-style: solid; border-top-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221); bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: inherit !important; background-image: none !important; background-position: initial initial !important; background-repeat: initial initial !important;width:863px;"><tr style="margin: 0px !important; padding: 0px !important; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; background-image: none !important; background-position: initial initial !important; background-repeat: initial initial !important;"><td style="margin: 0px !important; padding: 5px 10px; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 0px !important; border-right-style: solid; border-bottom-style: solid; border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; color: rgb(175, 175, 175) !important; background-image: none !important; background-position: initial initial !important; background-repeat: initial initial !important;width:6.1413673232908454%;"><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 3px !important; border-bottom-width: 0px !important; border-left-width: 0px !important; border-right-style: solid !important; border-right-color: rgb(108, 226, 108) !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 0.5em 0px 1em !important; position: static !important; right: auto !important; text-align: right !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;">1</div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 3px !important; border-bottom-width: 0px !important; border-left-width: 0px !important; border-right-style: solid !important; border-right-color: rgb(108, 226, 108) !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 0.5em 0px 1em !important; position: static !important; right: auto !important; text-align: right !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;">2</div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 3px !important; border-bottom-width: 0px !important; border-left-width: 0px !important; border-right-style: solid !important; border-right-color: rgb(108, 226, 108) !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 0.5em 0px 1em !important; position: static !important; right: auto !important; text-align: right !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;">3</div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 3px !important; border-bottom-width: 0px !important; border-left-width: 0px !important; border-right-style: solid !important; border-right-color: rgb(108, 226, 108) !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 0.5em 0px 1em !important; position: static !important; right: auto !important; text-align: right !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;">4</div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 3px !important; border-bottom-width: 0px !important; border-left-width: 0px !important; border-right-style: solid !important; border-right-color: rgb(108, 226, 108) !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 0.5em 0px 1em !important; position: static !important; right: auto !important; text-align: right !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;">5</div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 3px !important; border-bottom-width: 0px !important; border-left-width: 0px !important; border-right-style: solid !important; border-right-color: rgb(108, 226, 108) !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 0.5em 0px 1em !important; position: static !important; right: auto !important; text-align: right !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;">6</div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 3px !important; border-bottom-width: 0px !important; border-left-width: 0px !important; border-right-style: solid !important; border-right-color: rgb(108, 226, 108) !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 0.5em 0px 1em !important; position: static !important; right: auto !important; text-align: right !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;">7</div></td><td style="margin: 0px !important; padding: 5px 10px; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 0px !important; border-right-style: solid; border-bottom-style: solid; border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; background-image: none !important; background-position: initial initial !important; background-repeat: initial initial !important;width:93.74275782155273%;"><div style="margin: 0px !important; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; padding: 0px !important; position: relative !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; background-image: none !important; background-position: initial initial !important; background-repeat: initial initial !important;"><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 1em !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: rgb(0, 130, 0) !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);"># 此为注释 – 将被 Git 忽略</code></div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 1em !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;">&nbsp;&nbsp;</div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 1em !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: black !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);">*.a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code> <code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: rgb(0, 130, 0) !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);"># 忽略所有 .a 结尾的文件</code></div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 1em !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: black !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);">!lib.a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code> <code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: rgb(0, 130, 0) !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);"># 但 lib.a 除外</code></div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 1em !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: black !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);">/TODO</code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: rgb(0, 130, 0) !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);"># 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO</code></div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 1em !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: black !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);">build/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code> <code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: rgb(0, 130, 0) !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);"># 忽略 build/ 目录下的所有文件</code></div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 1em !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: black !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);">doc/*.txt</code> <code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: rgb(0, 130, 0) !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);"># 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt</code></div></div></td></tr></table></div></div><p style="margin: 0px 0px 14px; padding: 0px; color: rgb(68, 68, 68); font-family: 'microsoft yahei'; font-size: 14px; text-align: left;">规则很简单，不做过多解释，但是有时候在项目开发过程中，突然心血来潮想把某些目录或文件加入忽略规则，按照上述方法定义后发现并未生效，原因是<b>.gitignore只能忽略那些原来没有被track的文件（未被track的定义是未加入到仓库中，即使处于工作区，也是未track的）</b>，如果某些文件已经被纳入了版本管理中，则修改.gitignore是无效的。那么解决方法就是先把本地缓存删除（改变成未track状态），然后再提交：</p></div><div style="text-align: left;"><div style="width: 863px; margin: 1em 0px !important; position: relative !important; overflow: auto !important; background-color: white !important;"><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: none !important; bottom: auto !important; float: none !important; height: 11px !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px !important; position: absolute !important; right: 1px !important; top: 1px !important; vertical-align: baseline !important; width: 11px !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 10px !important; min-height: inherit !important; z-index: 10 !important; color: white !important; background-color: rgb(108, 226, 108) !important; background-position: initial initial !important; background-repeat: initial initial !important;"><div><a href="http://www.pfeng.org/archives/840#" style="color: white !important; text-decoration: none !important; cursor: pointer; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 1px 0px 0px !important; position: static !important; right: auto !important; text-align: center !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; display: block !important; background-image: none !important; background-position: initial initial !important; background-repeat: initial initial !important;" target="_blank" rel="external">?</a></div></div></div><div style="width: 863px; margin: 1em 0px !important; position: relative !important; overflow: auto !important; background-color: white !important;"><table border="0" cellpadding="0" cellspacing="0" style="margin: 0px 0px 16px !important; padding: 0px !important; border-collapse: collapse; border-spacing: 0px; empty-cells: show; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 1px; border-right-width: 0px !important; border-bottom-width: 0px !important; border-left-width: 1px; border-top-style: solid; border-left-style: solid; border-top-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221); bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important;width:863px;"><tr style="margin: 0px !important; padding: 0px !important; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important;"><td style="margin: 0px !important; padding: 5px 10px; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 0px !important; border-right-style: solid; border-bottom-style: solid; border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; color: rgb(175, 175, 175) !important; background-image: none !important; background-position: initial initial !important; background-repeat: initial initial !important;width:6.025492468134415%;"><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 3px !important; border-bottom-width: 0px !important; border-left-width: 0px !important; border-right-style: solid !important; border-right-color: rgb(108, 226, 108) !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 0.5em 0px 1em !important; position: static !important; right: auto !important; text-align: right !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><div><span style="font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;">1</span></div></div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 3px !important; border-bottom-width: 0px !important; border-left-width: 0px !important; border-right-style: solid !important; border-right-color: rgb(108, 226, 108) !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 0.5em 0px 1em !important; position: static !important; right: auto !important; text-align: right !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><span style="font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;">2</span></div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 3px !important; border-bottom-width: 0px !important; border-left-width: 0px !important; border-right-style: solid !important; border-right-color: rgb(108, 226, 108) !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 0.5em 0px 1em !important; position: static !important; right: auto !important; text-align: right !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><span style="font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;">3</span></div></td><td style="margin: 0px !important; padding: 5px 10px; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border-top-width: 0px !important; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 0px !important; border-right-style: solid; border-bottom-style: solid; border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important;width:93.85863267670915%;"><div style="margin: 0px !important; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; padding: 0px !important; position: relative !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important;"><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 1em !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: black !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);">git&nbsp;&nbsp;</code><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: rgb(255, 20, 147) !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);">rm</code><span style="color: rgb(68, 68, 68);"><span style="font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;">&nbsp;&nbsp;</span></span><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: black !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);">-r&nbsp;&nbsp;--cached&nbsp;&nbsp;.</code></div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 1em !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; font-size: 1em !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: black !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);">git&nbsp;&nbsp;add&nbsp;&nbsp;.</code></div><div style="border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; margin: 0px !important; outline: 0px !important; overflow: visible !important; padding: 0px 1em !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; white-space: pre !important; background-image: none !important; background-color: white !important;"><div><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: black !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);">git&nbsp;&nbsp;commit&nbsp;&nbsp;-m&nbsp;&nbsp;</code><code style="margin: 0px 4px; padding: 1px 4px; font-size: 1em !important; font-family: 'courier new'; color: blue !important; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border: 0px !important; bottom: auto !important; float: none !important; height: auto !important; left: auto !important; outline: 0px !important; overflow: visible !important; position: static !important; right: auto !important; top: auto !important; vertical-align: baseline !important; width: auto !important; box-sizing: content-box !important; min-height: inherit !important; background-image: none !important; background-color: rgb(238, 238, 238);">'update&nbsp;&nbsp;.gitignore'</code></div></div></div></td></tr></table></div><div style="width: 863px; margin: 1em 0px !important; position: relative !important; overflow: auto !important; background-color: white !important;"><div><b>git分支合并操作处理</b>：</div><ul><li>主要针对projectFile讨论，其他冲突比较简单，直接处理即可：（要对projectFile进行差异化比较，单纯使用sourceTree自带的FileMerge是不够的，最好额外安装一个 Axisa Merge软件，并在偏好设置中将其设为 merge和compare的工具）</li></ul><ol><li style="display:inline;list-style:none;"><ol><li>首先逐个检查冲突项，一般资源文件则全部保留，证书文件只要保留一份即可。</li><li>如果这样做了还是无法打开项目，可能是两个分支分别创建了一个同名的类或者是同名的资源文件，删除它，再引入即可。（这个最好在项目开始的时候，就通过命名规范来规避掉它）</li><li>如果以上办法都不行，那么只能取一个分支为准，然后把另一个分支上的所有修改都移植过去。</li></ol></li></ol><ul><li>合并不同分支的方法：（命令行方式）具体分为 merge 和 rebase 两种方法，具体内容请参考：<a href="http://blog.csdn.net/wh_19910525/article/details/7554489" target="_blank" rel="external">http://blog.csdn.net/wh_19910525/article/details/7554489</a>&nbsp;&nbsp;。推荐使用 <b>rebase 方法，否则时间线会乱掉，很难追溯哪一次提交导致仓库变动。</b></li><li><span style="color: rgb(45, 79, 201);">在合并时，git会现将文件进行比对，内容一致的地方会被直接跳过。<b>只有内容不一致的地方，且处于同一个插入点上时，才会产生冲突处理</b>。因此，如果我们在两个分支上对同一处代码进行相同的修改，是不会导致冲突的，这对配置文件来说尤为重要。如果我们在两个地方进行相同的配置文件修改，那么合并时会自动保留一份，而不是两份。仅当我们在同一个插入点的修改是不一致时，才会引发冲突，且git会尽量减少冲突的范围，先合并相同行，再划分冲突。</span></li></ul><div><br></div><div><span style="color: rgb(68, 68, 68);"><b>SourceTree使用帮助</b>：</span></div><ul><li>当直接从别人电脑上copy库时，默认提交人会是那个人。我们需要在工作副本，提交栏左侧的那个头像处点击，然后选择成我们自己方可正常提交。</li><li>使用sourceTree查看选中项的修改日志时，修改内容可能显示不完整。</li></ul><div><span style="color: rgb(68, 68, 68);"><br></span></div><div><span style="color: rgb(68, 68, 68);"><b>git异常合集</b>：</span></div><ul><li><b>git状态不一致，无法推送的解决方案</b>：</li></ul><ul><li style="display:inline;list-style:none;"><ul><li>当git状态不一致时，存在无法推送的情况，此时需要 执行命了 git gc 。清理本地缓存之后，即可正常的pull 和 push。</li><li>也可以选择删除本地分支后全部重新拉取，但会丢失部分更改且耗时较旧，不推荐使用。</li></ul></li><li><b>git clone error:RPC failed;result=56,HTTP code=200错误解决</b>：
+<ul><li><b>原因</b>：Maximum&nbsp;&nbsp;size&nbsp;&nbsp;in&nbsp;&nbsp;bytes&nbsp;&nbsp;of&nbsp;&nbsp;the&nbsp;&nbsp;buffer&nbsp;&nbsp;used&nbsp;&nbsp;by&nbsp;&nbsp;smart&nbsp;&nbsp;HTTP&nbsp;&nbsp;transports&nbsp;&nbsp;when&nbsp;&nbsp;POSTing&nbsp;&nbsp;data&nbsp;&nbsp;to&nbsp;&nbsp;the&nbsp;&nbsp;remote&nbsp;&nbsp;system.&nbsp;&nbsp;For&nbsp;&nbsp;requests&nbsp;&nbsp;larger&nbsp;&nbsp;than&nbsp;&nbsp;this&nbsp;&nbsp;buffer&nbsp;&nbsp;size,&nbsp;&nbsp;HTTP/1.1&nbsp;&nbsp;and&nbsp;&nbsp;Transfer-Encoding:&nbsp;&nbsp;chunked&nbsp;&nbsp;is&nbsp;&nbsp;used&nbsp;&nbsp;to&nbsp;&nbsp;avoid&nbsp;&nbsp;creating&nbsp;&nbsp;a&nbsp;&nbsp;massive&nbsp;&nbsp;pack&nbsp;&nbsp;file&nbsp;&nbsp;locally.&nbsp;&nbsp;Default&nbsp;&nbsp;is&nbsp;&nbsp;1&nbsp;&nbsp;MiB,&nbsp;&nbsp;which&nbsp;&nbsp;is&nbsp;&nbsp;sufficient&nbsp;&nbsp;for&nbsp;&nbsp;most&nbsp;&nbsp;requests.</li><li><b>解决方案</b>：
+<ul><li>git config --global http.postBuffer xxxxxxxxx(例如52428800，尽量大就好)。而且要让 souceTree的git版本使用系统版本。这样可以维持一致。最后，如果不行，可以使用git 终端下载分支，再使用sourceTree绑定本地分支。</li><li>解决方案：使用brew重新安装git，且brew安装后，git版本会自动切换过去，不需要再去手动设置。<br>
+（该方法目前无法完美解决问题）</li><li>还是不行的话，可能是DNS解析存在问题，可以手动修改host文件，绑定域名与IP地址的关系，可以解决这个问题。（目前京东git是这种情况）</li></ul></li></ul></li></ul><div><br></div><div><br></div><div><b>git本地仓库添加到远端方案</b>：</div><ul><li>在远端建立好仓库，获得地址：address1</li><li>在本地仓库中，点击push，在推送到仓库中选择自定义：address1</li><li>一个分支一个分支的推。
+<ul><li>如果当前仓库中的分支在远端仓库中已经存在同名仓库，那么建议在本地新建一个别名分支，然后再推送到远端。</li><li>然后在远端仓库将别名分支与同名分支合并即可。</li></ul></li></ul></div></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/08/字符编码知识/" rel="next" title="字符编码知识">
+                <i class="fa fa-chevron-left"></i> 字符编码知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/08/XX-Net使用指南/" rel="prev" title="XX-Net使用指南">
+                XX-Net使用指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/08/Git使用指南/"
+     data-title="Git使用指南"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/08/Git使用指南/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/08/Git使用指南/"
+           data-title="Git使用指南" data-url="https://treasureu.github.io/2017/02/08/Git使用指南/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

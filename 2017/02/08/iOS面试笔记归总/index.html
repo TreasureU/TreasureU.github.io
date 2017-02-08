@@ -1,0 +1,979 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Python,Unity" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="iOS面试笔记归总基础概念问答：Q:KVO，NSNotification，delegate及block区别 A:KVO就是cocoa框架实现的观察者模式，一般同KVC搭配使用，通过KVO可以监测一个值的变化，比如View的高度变化。是一对多的关系，一个值的变化会通知所有的观察者。 A:NSNotification是通知，也是一对多的使用场景。在某些情况下，KVO和NSNotification">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS面试笔记归总">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/08/iOS面试笔记归总/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="iOS面试笔记归总基础概念问答：Q:KVO，NSNotification，delegate及block区别 A:KVO就是cocoa框架实现的观察者模式，一般同KVC搭配使用，通过KVO可以监测一个值的变化，比如View的高度变化。是一对多的关系，一个值的变化会通知所有的观察者。 A:NSNotification是通知，也是一对多的使用场景。在某些情况下，KVO和NSNotification">
+<meta property="og:updated_time" content="2017-02-08T06:42:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS面试笔记归总">
+<meta name="twitter:description" content="iOS面试笔记归总基础概念问答：Q:KVO，NSNotification，delegate及block区别 A:KVO就是cocoa框架实现的观察者模式，一般同KVC搭配使用，通过KVO可以监测一个值的变化，比如View的高度变化。是一对多的关系，一个值的变化会通知所有的观察者。 A:NSNotification是通知，也是一对多的使用场景。在某些情况下，KVO和NSNotification">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/08/iOS面试笔记归总/"/>
+
+
+
+
+
+  <title> iOS面试笔记归总 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/iOS面试笔记归总/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS面试笔记归总
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:42:12+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/08/iOS面试笔记归总/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/iOS面试笔记归总/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="汇总贴"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-09 02:31:30 +0000"><meta name="updated" content="2016-12-09 03:13:07 +0000"><title>iOS面试笔记归总</title></head><body><div style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><div><b><span style="color: rgb(4, 51, 255);">基础概念问答</span>：</b></div><div><b>Q:KVO，NSNotification，delegate及block区别 </b></div><div><b>A:</b>KVO就是cocoa框架实现的观察者模式，一般同KVC搭配使用，通过KVO可以监测一个值的变化，比如View的高度变化。是一对多的关系，一个值的变化会通知所有的观察者。 A:NSNotification是通知，也是一对多的使用场景。在某些情况下，KVO和NSNotification是一样的，都是状态变化之后告知对方。NSNotification的特点，就是需要被观察者先主动发出通知，然后观察者注册监听后再来进行响应，比KVO多了发送通知的一步，但是其优点是监听不局限于属性的变化，还可以对多种多样的状态变化进行监听，监听范围广，使用也更灵活。<br>
+delegate是代理，就是我不想做的事情交给别人做。比如狗需要吃饭，就通过delegate通知主人，主人就会给他做饭、盛饭、倒水，这些操作，这些狗都不需要关心，只需要调用delegate（代理人）就可以了，由其他类完成所需要的操作。所以delegate是一对一关系。<br>
+block是delegate的另一种形式，是函数式编程的一种形式。使用场景跟delegate一样，相比delegate更灵活，而且代理的实现更直观。<br>
+KVO一般的使用场景是数据，需求是数据变化，比如股票价格变化，我们一般使用KVO（观察者模式）。delegate一般的使用场景是行为，需求是需要别人帮我做一件事情，比如买卖股票，我们一般使用delegate。 Notification一般是进行全局通知，比如利好消息一出，通知大家去买入。delegate是强关联，就是委托和代理双方互相知道，你委托别人买股票你就需要知道经纪人，经纪人也不要知道自己的顾客。Notification是弱关联，利好消息发出，你不需要知道是谁发的也可以做出相应的反应，同理发消息的人也不需要知道接收的人也可以正常发出消息。<br>
+KVC是键值编码，可以对属性或者是变量进行赋值的方法。<br>
+参考文章：http://www.tuicool.com/articles/2aYfy2<br><br><b>Q:将一个函数跑到主线程中执行有哪几种方法</b><br><b>A:</b>将一个函数在主线程执行的4种方法<br>
+1.GCD方法，通过向主线程队列发送一个block块，使block里的方法可以在主线程中执行。 dispatch_async(dispatch_get_main_queue(), ^{<br>
+//需要执行的方法 });<br>
+2.NSOperation 方法 NSOperationQueue mainQueue = [NSOperationQueue mainQueue]; //主队列 NSBlockOperation operation = [NSBlockOperation blockOperationWithBlock:^{ //需要执行的方法 }]; [mainQueue addOperation:operation]; NSThread 方法 [self performSelector:@selector(method) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES modes:nil];<br>
+3.performSelector方法：[self performSelectorOnMainThread:@selector(method) withObject:nil waitUntilDone:YES];<br>
+[[NSThread mainThread] performSelector:@selector(method) withObject:nil];<br>
+4.RunLoop方法 [[NSRunLoop mainRunLoop] performSelector:@selector(method) withObject:nil];<br><br><b>Q:如何让计时器调用一个类方法</b><br><b>A:</b>计时器只能调用实例方法，但是可以在这个实例方法里面调用静态方法。 使用计时器需要注意，计时器一定要加入RunLoop中，并且选好model才能运行。scheduledTimerWithTimeInterval方法创建一个计时器并加入到RunLoop中所以可以直接使用。 如果计时器的repeats选择YES说明这个计时器会重复执行，一定要在合适的时机调用计时器的invalid。不能在dealloc中调用，因为一旦设置为repeats 为yes，计时器会强持有self，导致dealloc永远不会被调用，这个类就永远无法被释放。比如可以在viewDidDisappear中调用，这样当类需要被回收的时候就可以正常进入dealloc中了。 [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerMethod) userInfo:nil repeats:YES];<br>
+-(void)timerMethod { //调用类方法 [[self class] staticMethod]; }<br>
+-(void)invalid { [timer invalid]; timer = nil; }<br><br><b>Q:如何重写类方法</b><br><b>A:</b>1、在子类中实现一个同基类名字一样的静态方法 2、在调用的时候不要使用类名调用，而是使用[self class]的方式调用。原理，用类名调用是早绑定，在编译期绑定，用[self class]是晚绑定，在运行时决定调用哪个方法。<br><br><b>Q:NSTimer创建后，会在哪个线程运行</b><br><b>A:</b>用scheduledTimerWithTimeInterval创建的，在哪个线程创建就会被加入哪个线程的RunLoop中就运行在哪个线程 自己创建的Timer，加入到哪个线程的RunLoop中就运行在哪个线程。<br><br><b>Q:id和NSObject＊的区别</b></div><div><b>A:</b>id是一个 objc_object 结构体指针，定义是 typedef struct objc_object *id。 id可以理解为指向对象的指针。所有oc的对象id都可以指向，编译器不会做类型检查，<b>id调用任何存在的方法（必须是编译器已知的存在的方法）</b>都不会在编译阶段报错，当然如果这个id指向的对象没有这个方法，该崩溃还是会崩溃的。</div><div>NSObject *指向的必须是NSObject的子类，调用的也只能是NSObjec里面的方法否则就要做强制类型转换。</div><div>不是所有的OC对象都是NSObject的子类，还有一些继承自NSProxy。NSObject *可指向的类型是id的子集。</div><div><br></div><div><span style="color: rgb(4, 51, 255);"><b>著名iOS面试题</b></span>：</div><div><b>上篇</b>：<a href="http://www.cocoachina.com/ios/20160414/15918.html?sukey=fa67fe3435f5c4bec4809ce4c499e05b85d4c26f4443605cebf14791b882ab25b669fb48c4d21ffe302ac6220b5b7b9a" target="_blank" rel="external"><a href="http://www.cocoachina.com/ios/20160414/15918.html?sukey=fa67fe3435f5c4bec4809ce4c499e05b85d4c26f4443605cebf14791b882ab25b669fb48c4d21ffe302ac6220b5b7b9a" target="_blank" rel="external">http://www.cocoachina.com/ios/20160414/15918.html?sukey=fa67fe3435f5c4bec4809ce4c499e05b85d4c26f4443605cebf14791b882ab25b669fb48c4d21ffe302ac6220b5b7b9a</a></a></div><div><b>要点解析</b>：（仅提供大纲级别的讲解，详情请参考文章细节）</div><ul><li><b>iOS crash解析</b>：
+</li><ul><li>crash的分类：
+</li><ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">违反iOS系统规则导致的crash：</span></li><ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">内存报警闪退，请使用Allocations 和 Leaks 工具检测</span></li><li><span style="color: rgb(37, 37, 37);">响应超时，watchdog机制会kill进程并生成一份crash报告。主要由于<b>applicationDelegate中的一些生命周期方法</b>阻塞过久：</span></li><ul><li><span style="color: rgb(37, 37, 37);">application:didFinishLaunchingWithOptions:    完成启动</span></li><li><span style="color: rgb(37, 37, 37);">applicationWillResignActive:  放弃活动状态</span></li><li><span style="color: rgb(37, 37, 37);">applicationDidEnterBackground:   进入后台</span></li><li><span style="color: rgb(37, 37, 37);">applicationWillEnterForeground:    进入前台</span></li><li><span style="color: rgb(37, 37, 37);">applicationDidBecomeActive:   进入活动状态</span></li><li><span style="color: rgb(37, 37, 37);">applicationWillTerminate:    程序正常退出</span></li></ul><li><span style="color: rgb(37, 37, 37);">用户强制结束app：</span></li><ul><li><span style="color: rgb(37, 37, 37);">双击HOME键然后kill掉进程一般不会产生crashLog。因为此时所有进程都处于后台状态，<b>iOS随时可以关闭后台应用，而不会产生crashLog</b>。</span></li><li>主要是长按电源键，等出现关机界面后，再按Home键即可终止当前程序。此时应用仍然处于前台状态。</li></ul></ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">App代码逻辑BUG导致的crash：</span></li><ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">SEGV：（Segmentation Violation，段违例），无效内存地址，比如空指针，未初始化指针，栈溢出等</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">SIGABRT：收到Abort信号，可能自身调用abort()或者收到外部发送过来的信号</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">SIGBUS：总线错误。与SIGSEGV不同的是，SIGSEGV访问的是无效地址（比如虚存映射不到物理内存），而SIGBUS访问的是有效地址，但总线访问异常（比如地址对齐问题</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">SIGILL：尝试执行非法的指令，可能不被识别或者没有权限</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">SIGFPE：Floating Point Error，数学计算相关问题（可能不限于浮点计算），比如除零操作</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">SIGPIPE：管道另一端没有进程接手数据</span></li></ul></ul><li><span style="color: rgb(37, 37, 37);">常见的crash收集框架</span></li><li><span style="color: rgb(37, 37, 37);">crashLog分析方法</span></li></ul><li><span style="background-color: rgb(250, 250, 250);"><span style="color: rgb(37, 37, 37);"><b>Run Loop解析</b>：</span></span></li><ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">定义：Run Loop是一让线程能随时处理事件但不退出的机制。RunLoop 实际上是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行Event Loop 的逻辑。线程执行了这个函数后，就会一直处于这个函数内部 “接受消息-&gt;等待-&gt;处理” 的循环中，直到这个循环结束（比如传入 quit 的消息），函数返回。让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">系统中，提供了两个这样的对象：NSRunLoop 和 CFRunLoopRef。CFRunLoopRef 是在 CoreFoundation 框架内的，它提供了纯 C 函数的 API，所有这些 API 都是线程安全的。NSRunLoop 是基于 CFRunLoopRef 的封装，提供了面向对象的 API，但是这些 API 不是线程安全的。</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">线程刚创建时并没有 RunLoop，如果你不主动获取，那它一直都不会有。</span><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">RunLoop 的创建是发生在第一次获取时，RunLoop 的销毁是发生在线程结束时。你只能在一个线程的内部获取其 RunLoop（主线程除外）。</span></li><li><span style="color: rgb(37, 37, 37);">Runloop Mode分类：</span></li><ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">kCFRunLoopDefaultMode: App的默认 Mode，通常主线程是在这个 Mode 下运行的</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">UITrackingRunLoopMode: 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">UIInitializationRunLoopMode: 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">GSEventReceiveRunLoopMode: 接受系统事件的内部 Mode，通常用不到</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">kCFRunLoopCommonModes: 这是一个占位的 Mode，没有实际作用</span></li></ul><li><span style="color: rgb(37, 37, 37);">RunLoop的作用：</span></li><ul><li><span style="color: rgb(37, 37, 37);">使程序一直接受用户输入</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">决定程序在何时应该处理哪些Event</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">调用解耦</span></li><li><span style="color: rgb(37, 37, 37);">节省CPU时间</span></li></ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">主线程的run loop默认是启动的。</span><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">对其它线程来说，run loop默认是没有启动的，如果你需要更多的线程交互则可以手动配置和启动。</span></li><li><span style="color: rgb(37, 37, 37);">驱动辅助线程的RunLoop:</span><div style="padding: 0px 1em !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; font-weight: normal; font-style: normal; font-size: 14px; min-height: auto !important; white-space: pre !important; color: rgb(37, 37, 37); font-variant: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: none white !important;"><code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: black !important; background: none !important;">BOOL isRunning = NO;</code></div><div style="padding: 0px 1em !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; font-weight: normal; font-style: normal; font-size: 14px; min-height: auto !important; white-space: pre !important; color: rgb(37, 37, 37); font-variant: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: none white !important;"><code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; background: none !important;">    </code><code style="padding: 0px !important; font-style: normal !important; font-weight: bold !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: rgb(0, 102, 153) !important; background: none !important;">do</code> <code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: black !important; background: none !important;">{</code></div><div style="padding: 0px 1em !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; font-weight: normal; font-style: normal; font-size: 14px; min-height: auto !important; white-space: pre !important; color: rgb(37, 37, 37); font-variant: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: none white !important;"><code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; background: none !important;">        </code><code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: black !important; background: none !important;">isRunning = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDatedistantFuture]];</code></div><div style="padding: 0px 1em !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; font-weight: normal; font-style: normal; font-size: 14px; min-height: auto !important; white-space: pre !important; color: rgb(37, 37, 37); font-variant: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: none white !important;"><code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: black !important; background: none !important;">} </code><code style="padding: 0px !important; font-style: normal !important; font-weight: bold !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: rgb(0, 102, 153) !important; background: none !important;">while</code> <code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: black !important; background: none !important;">(isRunning);</code></div></li><li><strong style="font-style: normal; font-weight: bold; color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(250, 250, 250);">Run loop同时也负责autorelease pool的创建和释放:</strong><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">Run loop就为我们做了这样的工作，每当一个运行循环结束的时候，它都会释放一次autorelease pool，同时pool中的所有自动释放类型变量都会被释放掉.</span></li></ul><li><b>线程和进程</b>：
+</li><ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">进程，是并发执行的程序在执行过程中分配和管理资源的基本单位，是一个动态概念，竟争计算机系统资源的基本单位。</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">线程，是进程的一部分，一个没有线程的进程可以被看作是单线程的。线程有时又被称为轻权进程或轻量级进程，也是 CPU 调度的一个基本单位。</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">线程可以有效地提高系统的执行效率，但并不是在所有计算机系统中都是适用的，如某些很少做进程调度和切换的实时系统。使用线程的好处是有多个任务需要处理机处理时，减少处理机的切换时间；而且，线程的创建和结束所需要的系统开销也比进程的创建和结束要小得多。最适用使用线程的系统是多处理机系统和网络系统或分布式系统。</span></li></ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);"><b>iOS多线程编程的技术</b></span></li><ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">共有四种技术：NSThread，<span style="color: rgb(4, 51, 255);">NSOperation</span>，<span style="color: rgb(4, 51, 255);">GCD</span>（全称：Grand Central Dispatch）,pthread。</span></li><li><span style="color: rgb(37, 37, 37);">使用 GCD时，在当前线程上 使用 </span><strong style="font-style: normal; font-weight: bold; color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(250, 250, 250);">dispatch_sync 至当前线程（包括依赖树关系 set_target） 会导致死锁。</strong></li></ul><li><span style="color: rgb(37, 37, 37);"><b>SQL调优</b></span></li><li><span style="color: rgb(37, 37, 37);"><b>常用的动画库：</b></span></li><ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">Facebook 开源动画库 Pop：</span><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">是一个「动画引擎。</span><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">Pop 则是对 Core Animation（以及 UIDynamics）的再实现。</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">Canvas 项目：</span><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">是一个「动画合集」。</span><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">Canvas 的目的是「Animate in Xcode Without Code」。开发者可以通过在 Storyboard 中指定 User Defined Runtime Attributes 来实现一些 Canvas 中预设的动画，也就是他网站上能看到的那些。但是除了更改动画的 delay 和 duration 基本上不能调整其他的参数。</span></li></ul><li><b><span style="background-color: rgb(250, 250, 250);"><span style="color: rgb(37, 37, 37);">服务端Restful架构</span></span></b></li><li><b><span style="background-color: rgb(250, 250, 250);"><span style="color: rgb(37, 37, 37);">SDWebImage的原理</span></span></b></li></ul><div><b><span style="background-color: rgb(250, 250, 250);"><span style="color: rgb(37, 37, 37);"><br></span></span></b></div><div><span style="color: rgb(37, 37, 37);"><b>中篇：</b></span><a href="http://www.cocoachina.com/ios/20160415/15930.html?sukey=fa67fe3435f5c4be1405835f6dad58cf6418c5f3267a51eae77ede79422f04971ce60f36b822c7766841684df32120ff" target="_blank" rel="external"><a href="http://www.cocoachina.com/ios/20160415/15930.html?sukey=fa67fe3435f5c4be1405835f6dad58cf6418c5f3267a51eae77ede79422f04971ce60f36b822c7766841684df32120ff" target="_blank" rel="external">http://www.cocoachina.com/ios/20160415/15930.html?sukey=fa67fe3435f5c4be1405835f6dad58cf6418c5f3267a51eae77ede79422f04971ce60f36b822c7766841684df32120ff</a></a></div><div><b>要点解析</b>：（仅提供大纲级别的讲解，详情请参考文章细节）</div><ul><li><b>翻转二叉树</b>：
+</li><ul><li>递归实现</li><li>深度遍历（基于stack数据结构，可以采用OC数组来模拟）</li><li>广度遍历（基于queue的数据结构，可以采用OC数组来模拟）</li></ul><li><b>单例写法</b>：dispatch_once</li><li><b>iOS应用生命周期</b></li><ul><li>主要涉及对象：UIApplication (由系统创建)、appDelegate</li><li>常见的生命周期函数以及它们的调用时机</li><li>后台任务调用语句：（需要在 applicationDidEnterBackground 中调用）
+<div style="padding: 0px 1em !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; font-weight: normal; font-style: normal; font-size: 14px; min-height: auto !important; white-space: pre !important; color: rgb(37, 37, 37); font-variant: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: none white !important;"><code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: black !important; background: none !important;">[application beginBackgroundTaskWithExpirationHandler:^{ </code></div><div style="padding: 0px 1em !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; font-weight: normal; font-style: normal; font-size: 14px; min-height: auto !important; white-space: pre !important; color: rgb(37, 37, 37); font-variant: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: none white !important;"><code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; background: none !important;">    </code><code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: black !important; background: none !important;">NSLog(@</code><code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: blue !important; background: none !important;">"begin Background Task With Expiration Handler"</code><code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: black !important; background: none !important;">); </code></div><div style="padding: 0px 1em !important; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-weight: normal; font-style: normal; white-space: pre !important; color: rgb(37, 37, 37); font-variant-ligatures: normal; font-variant-position: normal; font-variant-caps: normal; font-variant-numeric: normal; font-variant-alternates: normal; font-variant-east-asian: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-image: none !important; background-color: white !important; background-position: initial initial !important; background-repeat: initial initial !important;"><code style="padding: 0px !important; font-style: normal !important; font-weight: normal !important; border-radius: 0px !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; font-size: 1em !important; min-height: auto !important; color: black !important; background: none !important;">}];</code> </div></li><li><span style="color: rgb(37, 37, 37);">程序进入后台立即终止的条件：</span></li><ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">iOS 4.0以前的系统 或者 app是基于iOS4.0以前系统开发的</span></li><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">在Info.plist文件中，程序包含了 UIApplicationExitsOnSuspend 键</span></li></ul><li><span style="color: rgb(37, 37, 37); font-family: 'Helvetica Neue', Helvetica, STheiti, 微软雅黑, 黑体, Arial, Tahoma, sans-serif, serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(250, 250, 250);">系统常常是为其他app启动时由于内存不足而回收内存最后需要终止应用程序，但有时也会是由于app很长时间才响应而终止。如果app当时运行在后台并且没有暂停，系统会在应用程序终止之前调用app的代理的方法 <span style="color: rgb(4, 51, 255);">- (void)applicationWillTerminate:(UIApplication *)application</span>，这样可以让你可以做一些清理工作。你可以保存一些数据或app的状态。这个方法也有5秒钟的限制。超时后方法会返回程序从内存中清除</span></li></ul><li><b>集成支付宝SDK的方法</b></li><li><b>远程推送</b></li></ul><div><b><br></b></div><div><b>下篇：</b><a href="http://www.jianshu.com/p/5178204a58d6" target="_blank" rel="external"><a href="http://www.jianshu.com/p/5178204a58d6" target="_blank" rel="external">http://www.jianshu.com/p/5178204a58d6</a></a></div><div><b>要点解析</b>：</div><ul><li>Runtime：<a style="color:#69aa35;" href="evernote:///view/2147483647/s39/9a16d5bf-a8aa-49e1-856b-024c0708f003/9a16d5bf-a8aa-49e1-856b-024c0708f003/" target="_blank" rel="external">runtime使用指南</a></li><li><b>关于copy这一块的内容不准确</b></li><li>NSTimer加入到那个线程的RunLoop就在哪个线程执行。</li><li>通知Post所在的是哪个线程， 就在哪个线程同步执行。</li><li>如何让NSTimer、Notification回调到类方法：在回调的成员方法中，再调用特定的类方法即可。</li><li>load 和 initialize 的区别</li></ul><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div></div><div><br></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/08/横竖屏适配经验/" rel="next" title="横竖屏适配经验">
+                <i class="fa fa-chevron-left"></i> 横竖屏适配经验
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/08/使用NSInputStream完成分步数据读入/" rel="prev" title="使用NSInputStream完成分步数据读入">
+                使用NSInputStream完成分步数据读入 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/08/iOS面试笔记归总/"
+     data-title="iOS面试笔记归总"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/08/iOS面试笔记归总/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/08/iOS面试笔记归总/"
+           data-title="iOS面试笔记归总" data-url="https://treasureu.github.io/2017/02/08/iOS面试笔记归总/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

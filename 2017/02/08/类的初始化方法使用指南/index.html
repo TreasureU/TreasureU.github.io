@@ -1,0 +1,957 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,Python,Unity" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="类的初始化方法使用指南类有两个初始化方法，分别为：load 和 initalizeload方法简介:该方法对于加入运行期的每个类及分类来说，如果有实现此方法，必定会调用此方法，而且仅调用一次（如果未实现，并不会调用父类方法，这是它最特殊的地方）。如果分类和主类都实现了此方法，那么先调用主类的，再调用分类的。在runtime加载类时即开始执行此方法，时间非常早，且确定。load方法时，runt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="类的初始化方法使用指南">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/08/类的初始化方法使用指南/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="类的初始化方法使用指南类有两个初始化方法，分别为：load 和 initalizeload方法简介:该方法对于加入运行期的每个类及分类来说，如果有实现此方法，必定会调用此方法，而且仅调用一次（如果未实现，并不会调用父类方法，这是它最特殊的地方）。如果分类和主类都实现了此方法，那么先调用主类的，再调用分类的。在runtime加载类时即开始执行此方法，时间非常早，且确定。load方法时，runt">
+<meta property="og:updated_time" content="2017-02-08T04:26:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="类的初始化方法使用指南">
+<meta name="twitter:description" content="类的初始化方法使用指南类有两个初始化方法，分别为：load 和 initalizeload方法简介:该方法对于加入运行期的每个类及分类来说，如果有实现此方法，必定会调用此方法，而且仅调用一次（如果未实现，并不会调用父类方法，这是它最特殊的地方）。如果分类和主类都实现了此方法，那么先调用主类的，再调用分类的。在runtime加载类时即开始执行此方法，时间非常早，且确定。load方法时，runt">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/08/类的初始化方法使用指南/"/>
+
+
+
+
+
+  <title> 类的初始化方法使用指南 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/类的初始化方法使用指南/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                类的初始化方法使用指南
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T12:26:03+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/08/类的初始化方法使用指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/类的初始化方法使用指南/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="9.616756439208981"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-16 15:35:19 +0000"><meta name="latitude" content="31.19738664631177"><meta name="longitude" content="121.3631901476906"><meta name="source" content="desktop.mac"><meta name="source-url" content="http://www.cnblogs.com/ider/archive/2012/09/29/objective_c_load_vs_initialize.html"><meta name="updated" content="2016-12-21 14:21:29 +0000"><title>类的初始化方法使用指南</title></head><body><ul><li>类有两个初始化方法，分别为：load 和 initalize</li><ul><li>load方法简介:</li><ul><li>该方法对于加入运行期的每个类及分类来说，如果有实现此方法，必定会调用此方法，而且仅调用一次（<b>如果未实现，并不会调用父类方法，这是它最特殊的地方</b>）。如果分类和主类都实现了此方法，那么先调用主类的，再调用分类的。<b>在runtime加载类时即开始执行此方法，时间非常早，且确定</b>。</li><li>load方法时，runtime还处于脆弱期，因为并非所有的类都已经load完成。且load虽然会将超类预先加载，但是同一个库中的兄弟类是无法预知先后顺序的。建议不要使用load方法来实现类的数据初始化，考虑采用 initialize实现。</li><li><b>load方法应仅用于调试程序打印使用</b>。</li><li>该方法如果需要调用父类的load，需要显示调用。</li></ul><li>initialize方法简介：</li><ul><li>该方法是<b>惰性加载的，仅在该类第一次使用时才加载</b>。</li><li>运行期系统可以保证initialize的线程安全性，只有执行initialize的线程可以操作类实例。</li><li>该方法会<b>自动调用父类的initialize，不需要显示调用</b>。即可能会被多次调用，所以慎用。</li><li>如果一个类未实现initialize方法，那么将自动调用父类的。（与普通方法一致）</li><li>由于initialize方法的执行线程是由系统决定的，那么建议不要在内部做耗时操作，否则可能引发UI线程阻塞（碰巧UI线程成为initialize执行线程时）。</li><li><b>类的初始化数据等操作，建议放在initialize中完成</b>。</li><li>initialize方法应仅用于设置内部数据（比如动态对象类型的静态数据），不应该在其中调用其他方法，更不应该涉及与其他类相关的语句。（因为可能出现循环初始化，从而出现类使用时，并没有initialize完的类直接投入使用）</li></ul></ul></ul><div><br></div><div><table cellspacing="0" style="margin: 0px; padding: 0px; border: 1px solid silver; border-collapse: collapse; word-break: break-word; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; text-align: left; background-color: rgb(254, 254, 242);" cellpadding="0" border="1"><tbody style="margin: 0px; padding: 0px;"><tr style="margin: 0px; padding: 0px;"><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;"> </td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">+(void)load</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">+(void)initialize</td></tr><tr style="margin: 0px; padding: 0px;"><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">执行时机</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">在程序运行后立即执行</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">在类的方法第一次被调时执行</td></tr><tr style="margin: 0px; padding: 0px;"><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">若自身未定义，是否沿用父类的方法</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">否</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">是</td></tr><tr style="margin: 0px; padding: 0px;"><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">类别中的定义</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">全都执行，但后于主类中的方法</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">覆盖类中的方法，只执行一个</td></tr></tbody></table><div><br></div><div><b>执行顺序问题</b>：</div><div><ul><li>【一般顺序】load &gt; __attribute__((constructor)) &gt;  main&gt; 【 initalize】</li><li>如果在load里面只使用基础库的功能【分类的都不行】，以及自己类的内容，那么是安全的，除此之外，都是危险的。</li><li>__attribute__((constructor))  是最适合用于初始化的地方。<br></li><li>当在load中调用一个类的成员方法时，那么那个类的initalize也会在此时被调用。即initalize不一定是在前三项全部完成后执行的，可能会在和load同期的时候执行。</li></ul><div><br></div><div><b>注意事项</b>：</div><div><ul><li>虽然说分类在主类后面执行，这是一个确定的顺序。但是，<b><font color="#0433ff">分类并不是紧接着主类执行的</font></b>。<b>load的加载过程以库为单位进行，基础库先进行加载，然后再到我们自己的代码</b>。而在一个库文件内部，load的加载顺序与文件在build phase 中的排列顺序一致【永远不要依赖这一点】<br></li><ul><li>举个例子，我们写了一个NSObject的分类Swizzle，然后在同一个库中的TestObj类的load方法中，使用了分类中的方法。但是这个时候，其实分类Swizzle可能没有被加载，那么就有可能导致程序崩溃发生。</li><li>另外需要注意的是，<b>即使一个类或者一个分类没有完成load,但是它的函数还是可以被调用的【Xcode断点可能无法调试到】。</b></li></ul></ul></div><div><br></div><div><br></div><div><br></div><div><br></div></div></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><b>参考文章</b>：</div><div><ol><li>博客介绍：http://www.cnblogs.com/ider/archive/2012/09/29/objective_c_load_vs_initialize.html </li><li>书籍介绍：《Effective Objective-C 2.0》P200</li></ol></div><div><br></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/08/Mac开发指南/" rel="prev" title="Mac开发指南">
+                Mac开发指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/08/类的初始化方法使用指南/"
+     data-title="类的初始化方法使用指南"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/08/类的初始化方法使用指南/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/08/类的初始化方法使用指南/"
+           data-title="类的初始化方法使用指南" data-url="https://treasureu.github.io/2017/02/08/类的初始化方法使用指南/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
