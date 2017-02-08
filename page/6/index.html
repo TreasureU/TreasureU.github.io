@@ -304,630 +304,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Effective Objective-C 2.0读书笔记：对象、消息、运行期/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Cheng JianFeng">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Cheng JianFeng's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/08/Effective Objective-C 2.0读书笔记：对象、消息、运行期/" itemprop="url">
-                  Effective Objective-C 2
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:28:38+08:00">
-                2017-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/08/Effective Objective-C 2.0读书笔记：对象、消息、运行期/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/Effective Objective-C 2.0读书笔记：对象、消息、运行期/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="读书笔记"><meta name="altitude" content="21.9205379486084"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-08 10:35:09 +0000"><meta name="latitude" content="31.22305424322017"><meta name="longitude" content="121.3561700731711"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-03-10 02:58:03 +0000"><meta name="application-data:corenote-localUUID" content="B4157980-AB5D-4212-B901-0160B17955B8"><meta name="application-data:corenote-hostUUID" content="4D185068-9BCF-48E1-BA86-2004C933D40C"><title>Effective Objective-C 2.0读书笔记：对象、消息、运行期</title></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><ul><li>属性有4大特质：原子特质、读写权限、内存管理特质、方法名定制化</li><li>开发IOS时一般使用 nonatomic ，因为IOS基本都是单线程操作的。在开发MAC OSX时使用 atomic 基本不会遇到瓶颈问题。</li><li>我们可以直接定义变量，或者是使用属性生成变量。对于属性生成的变量来说，是生成在.m文件中，即外部完全不可见（包括子类）。对于直接定义的变量，默认是 @protected，即外部类型不可直接访问，但子类可以。可以使用@public来改变.h中变量的<b>访问权限</b>。</li><li>在初始化方法中(init等)，应该直接使用 实例变量来赋值，因为属性方法可能在子类中被改写，从而与预期不一致。对于类内部的其他时候，合理的访问方式应该是：在写入实例变量时，总是采用属性方法。而访问则采用直接访问实例变量的方式获取。</li><li>关于 [xxx class] 的返回值，这个方法是每个具体类的类方法，其返回的是自身。那么就分为两种情况：</li><li style="list-style: none; display: inline"><ul><li>对于实例对象调用class方法：其返回自己所属的类。</li><li>对于类对象调用class方法：其返回自身。 &nbsp;&nbsp;&nbsp;&nbsp; 因此， <b>循环调用的结果就是，每次返回值都是一致的</b>。</li></ul></li><li>ios中有很多类型其都具有类族的概念，比如 UIButton，我们通过 buttonWithType: 返回的是其基类下某一个具体子类的实例变量。而基类通常 包含了对下面具体子类的接口抽象。这个概念很重要，这意味这我们<b>平时使用的大多数控件都是一个类族形式，而指针均是基类的指针</b>。</li><li>判断对象的类和类族的方法：</li><li style="list-style: none; display: inline"><ul><li>isKindOfClass: 可以比较前者是否属于后者的类族。其比较范围是 ： <b>以后者开始为根类，展开的类族树中，是否包含前者的类型</b>。</li><li>isMemberOfClass: 严格比较前者和后者的类型是否一致。</li><li>&nbsp;&nbsp;== ： 其实和第二种是一样的。</li></ul></li><li>关于对象等同性判断：通过 hash 和 isEqualTo: （在这里面，我们首先需要实现的就是对其类型判断是否一致）这两个函数一致，那么就表示这两个对象是等同的（不一定是同一个对象）。因此，若想判断某个类型的对象是否相等，请提供这两个函数。</li><li>关于 hash 函数，在NSObject 的默认实现中，其是直接返回指针地址。对于其他系统类，系统会根据其内容的不同，返回不同的hash值。（这是很好的可以利用的一点）。关于我们的自定义类，要实现高效且正确的hash函数必须满足以下要求：</li><li style="list-style: none; display: inline"><ul><li>在 isEqualTo： 返回YES时，其hash值必须相等。（这是一种约定，也是NSSet高效插入的一种机制）</li><li>提取出类中的<b>不可变系统类型</b>，获取他们的hash值。（不可变是因为，防止其在插入NSSet后，hash值又发生变化，最终会导致NSSet中出现重复对象）</li><li>组合第二步中的所有hash值，得到一个最终的hash值。（可通过加减运算或者位运算得到）</li></ul></li><li>当我们想要编写系统类型的子类时，我们需要覆写超类文档中指明的需要覆写的方法。这个一般在文档中会写明。</li><li>使用关联对象的方式，可以把两个对象连接起来。详情参见P41。注意，在链接时，其键值是个指针值，我们通过这个键值设入对象，也需要通过这个键值获取对象。因此，这个键值我们通常采用 常量字符串变量 来表示： static NSString* const xxxxx = @"xasdasda"; . &nbsp;&nbsp;我们可以用这个方法来伪造属性，即把 get/set 方法放在 属性的获取和设置函数中。</li><li>关于 &nbsp;&nbsp;<a href="evernote:///view/8887184/s39/df58eaac-06c3-4ad5-9684-bd8247555275/df58eaac-06c3-4ad5-9684-bd8247555275/" style="color:#69aa35" target="_blank" rel="external">IOS方法转发机制</a><b>P46</b>&nbsp;&nbsp;和 &nbsp;&nbsp;<a href="evernote:///view/8887184/s39/b2ccbffb-6930-4ea5-a18e-42b8db02c809/b2ccbffb-6930-4ea5-a18e-42b8db02c809/" style="color:#69aa35" target="_blank" rel="external">IOS方法调配技术</a><b>P53</b>&nbsp;&nbsp;将单独开辟文章来详述。</li><li>isa表示了一种的对象的从属关系（包括类对象），表示新建这个对象的类型是哪一个/这个对象属于哪个类型。而superclass则指明了类的继承关系。</li></ul><div><br></div></body></html>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Effective Objective-C 2.0读书笔记：接口与API设计/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Cheng JianFeng">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Cheng JianFeng's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/08/Effective Objective-C 2.0读书笔记：接口与API设计/" itemprop="url">
-                  Effective Objective-C 2
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:28:38+08:00">
-                2017-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/08/Effective Objective-C 2.0读书笔记：接口与API设计/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/Effective Objective-C 2.0读书笔记：接口与API设计/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="读书笔记"><meta name="altitude" content="10.08357810974121"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-12 14:20:47 +0000"><meta name="latitude" content="31.1974285104281"><meta name="longitude" content="121.3632029963981"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-09-16 03:50:16 +0000"><title>Effective Objective-C 2.0读书笔记：接口与API设计</title></head><body>
-<ul>
-<li>在编写自己的代码时，主要是<b>类、C函数和全局变量（非static）</b>这类全局可见的符号表，一定要注意加上前缀（<b>苹果默认保留两个字的类名前缀</b>，所以我们要从三个字开始使用）避免命名空间冲突。</li>
-<li>在编写自己的第三方framework和静态库时，除了需要遵守第一条守则外，还需要注意，如果在库的内部额外引入了第三方库，那么需要对<b>第三方库的所有类名进行修改</b>，同样的是<b>以添加上自己的类前缀为好</b>。这样就避免了，如果别人同时引入了我们的库和这个第三方库，会造成编译冲突的问题。</li>
-<li>属性的读取特质限制，仅能限制通过属性方法对属性变量的操作，但直接对属性变量的操作，是无法通过读取特质来限制的。比如在类内部直接访问属性的实例变量，以及通过KVC直接对属性变量进行赋值等。</li>
-<li>针对每个类，我们应该至少提供一个全能初始化方法，编写多个全能初始化方法的依据是，这些方法的初始化过程完成不一致则可以这么做。比如 initWithParam  和 initWithCoder 。在这些全能初始化方法中，应该根据super的情况来调用它的函数（可能不一定是和当前初始化函数名字相同的方法，甚至是相差甚远的方法）。</li>
-<li>对于 super的所有初始化方法，理论上我们都应该进行覆盖。对于一些不能使用的，直接 @throw NSException 即可，或者直接返回nil。（建议使用前者，这样程序更加清晰）</li>
-<li>在 <b>NSLog %@</b> 时，会调用相应对象的 <b>description</b> 方法。其默认实现是返回类名 和 指针地址。我们可以覆盖它返回更加详细的数据。（<b>%p 是指针的意思</b>）。在使用 <b>po 对象</b>时，调用的是 <b>debugDescription</b>方法，此时我们根据自己的需要可以返回更加详细的数据。</li>
-<li>我们对外暴露的属性，应该尽量是readonly的，而且只在确有必要时才将属性对外公布。为了在类的内部完全打开读写权限，可以在 类的分类中将该属性重新设置为 readwrite。</li>
-<li>建议对私有方法加上前缀，这样可以在调试和阅读时一目了然。建议使用“p_”作为前缀。同时不要使用“_”作为前缀，因为这是苹果对自己私有方法的前缀。</li>
-<li>理解OC错误模型：<a href="evernote:///view/2147483647/s39/b45d7eb6-c69d-455d-b84d-9907aa6b4724/b45d7eb6-c69d-455d-b84d-9907aa6b4724/" style="color:#69aa35;" target="_blank" rel="external">IOS异常处理机制</a></li>
-</ul>
-</body></html>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Effective Objective-C 2.0读书笔记：熟悉OC/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Cheng JianFeng">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Cheng JianFeng's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/08/Effective Objective-C 2.0读书笔记：熟悉OC/" itemprop="url">
-                  Effective Objective-C 2
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:28:38+08:00">
-                2017-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/08/Effective Objective-C 2.0读书笔记：熟悉OC/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/Effective Objective-C 2.0读书笔记：熟悉OC/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="读书笔记"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-09 03:19:30 +0000"><meta name="updated" content="2016-03-11 05:46:22 +0000"><title>Effective Objective-C 2.0读书笔记：熟悉OC</title></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><ul><li>消息与函数调用的区别：关键区别在于，使用消息结构的语言，使用了其运行时所应执行的代码是由运行环境决定的。而使用了函数调用的语言，则由编译器决定。如果范例代码中调用的函数是多态的。那么在运行时就需要按照“虚函数表”来查出到底应该执行哪个函数实现。而采用消息结构的语言，无论是否多态，总是在运行时才会查找所要执行的方法。</li><li>对象总是分配在堆上，而不是栈上。因此与创建结构体相比，创建对象还需要额外的开销，例如分配和释放堆内存等。</li><li>由于头文件的展开是依次进行的，那么在OC中使用 #import 指令，在 循环引用 发生时，也不会导致死循环，但会其中一个文件将无法被正确的编译。</li><li>使用字面量创建的字符串、数组和字典对象都是不可变的。使用字面量时，如果想要放入nil，那么可以用[NSNull null] 对象代替，切不可直接使用，否则将会引起crash。</li><li>宏指令是在预编译阶段替换的，且替换的有效范围是以编译单元为单位的。即只有引入这个宏的头文件中的内容，才会被替换。由此可以引出编译原理的三大阶段：</li><li style="list-style: none; display: inline"><ul><li>以.m文件为一个编译单元，展开各自编译单元内的头文件。</li><li>对每个编译单元进行预编译处理、编译等操作，输出obj文件。</li><li>对所有的obj文件进行链接，形成程序文件。</li></ul></li></ul><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 宏定义展开正是在第二步中完成的。 </div><div><ul><li>使用常量定义代替宏定义，在使用上会更加安全。定义的格式请参照 ：</li><li style="list-style: none; display: inline"><ul><li>只在当前编译单元内可以见的： static 类型 const 变量名 = .......；</li><li>在外部编译单元可见： （定义） 类型 const 变量名 = .....; &nbsp;&nbsp;&nbsp;&nbsp;（外部引用） extern 类型 const 变量名 &nbsp;&nbsp;= .....； </li><li>注意，我们需要将声明放在.h中，将定义放在.h中。这才是良好的编程习惯。</li><li>如果是 static ，那么放在.h 和 .m 中都无所谓，但建议还是按照规范来。</li></ul></li><li>使用系统宏定义来定义枚举，需要进行位操作组合的枚举使用NS_OPTION宏，只是简单列举的宏，使用NS_ENUM宏。</li></ul></div></body></html>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Effective Objective-C 2.0读书笔记：块与GCD/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Cheng JianFeng">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Cheng JianFeng's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/08/Effective Objective-C 2.0读书笔记：块与GCD/" itemprop="url">
-                  Effective Objective-C 2
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:28:38+08:00">
-                2017-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/08/Effective Objective-C 2.0读书笔记：块与GCD/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/Effective Objective-C 2.0读书笔记：块与GCD/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="读书笔记"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-14 07:51:15 +0000"><meta name="updated" content="2016-06-14 07:41:47 +0000"><title>Effective Objective-C 2.0读书笔记：块与GCD</title></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><ul><li>IOS有监视进程，如果一个app的主线程阻塞太久，那么将会被系统杀死。</li><li>Clang是xcode的编译器</li><li>block相关知识：<a href="evernote:///view/2147483647/s39/b75f09b1-3442-4577-9b08-de5c9d9041f5/b75f09b1-3442-4577-9b08-de5c9d9041f5/" style="color:#69aa35;" target="_blank" rel="external">block使用方法</a></li><li>使用block相较于delegate的形式：可以有效的降低代码分散程度。</li><li>关于使用多个回调还是一个块回调，建议使用一个块来回调：（以网络回调举例）：</li><li style="list-style: none; display: inline"><ul><li>调用的代码可以根据自己的需要来处理问题，而不是简单的划分为两类。</li><li>通用代码可以最大程度上实现复用。</li></ul></li><li>关于代码同步块的写法：</li><li style="list-style: none; display: inline"><ul><li>使用锁对象： NSLock对象（同线程不可重入，否则将死锁）；NSRecursiveLock递归锁，同一线程能多次持有该锁。</li><li>使用 @synchronized（xxx）方法：同步语法。</li><li>使用 ”串行同步队列“：新建一个串行队列，然后想需要互斥操作的代码放入这个串行队列中执行。代码详细参见P167. GCD相对于锁机制而言，由于其是相当底层的C语言代码，因此效率上会有所优化，且可以明确GCD内任务的执行顺序，完成更多复杂的操作等。</li></ul></li><li>对于GCD而言，我们需要明确两个特质：</li><li style="list-style: none; display: inline"><ul><li>同步（sync）还是异步( async )：同步或者是异步，是针对于调用者而言，指其<b>是否需要等待 block执行完成才能继续往下执行代码</b>。</li><li>串行还是并行：这个<b>取决于queue是 串行队列还是并行队列</b>。（即便是并行队列，也要考虑其是否有设置Target，其有可能不是真正的并行队列）</li></ul></li><li><b>关于同步和异步的效率问题</b>：异步派发有一个隐藏的block copy操作（因为要异步执行），而同步派发是没有的。因此，并不是异步派发效率上一定优于同步派发（更何况有时我们是不能使用异步派发的，比如下面的代码依赖于block执行结果时），如果 block内代码不复杂，那么copy操作的额外消耗可能大于异步带来的好处，引发效率降低。</li><li>在并发queue的代码块中，为了达到串行执行某些任务的功能，需要使用 <b>dispatch_barrier_async</b>( dispatch_queue_t queue, dispatch_block_t block ) 和<b>&nbsp;&nbsp;dispatch_barrier_sync</b>( dispatch_queue_t queue, dispatch_block_t block )。</li><li>performSelector的方法缺点：（可以考虑使用GCD代替）</li><li style="list-style: none; display: inline"><ul><li>如果传入的 SEL 是动态变化的，那么ARC无法判定返回值的类型，也不知道是否需要将返回值release。鉴于此，ARC采用较为谨慎的方式，统一不释放返回值，由此可能引发内存泄露问题。</li><li>performSelector的返回值默认是id类型，需要转化为其他类型则需要进过转化步骤。且如果执行函数的返回值为C语言结构体，则不可以使用performSelector方法。</li><li>performSelector的选择子是id类型，如果方法接受基本类型那么将不能使用performSelector。</li><li>performSelector存在参数个数限制，如果超过3个参数以上，就需要另外想办法执行。</li></ul></li><li>OC中有对GCD的高层封装，即NSOperationQueue. GCD是纯C的API，而NSOperationQueue则是OC的对象，其<b>优势</b>如下：（但效率和易用性上不如GCD）</li><li style="list-style: none; display: inline"><ul><li>可以取消某个操作。在任务加入queue后，我们可以对该 operation执行cancel，如果任务还未被调度，那么它不会被调度。而如果任务已经开始，无法自动取消，但是我们可以在任务的main内定期检测cancel标志位，以达到此效果。</li><li>可以指定 operation之间的依赖关系，这对于并发队列特别有效。可以参考：http://www.2cto.com/kf/201504/390735.html 。只需要对&nbsp;&nbsp;[blockOp2 <b>addDependency:</b>blockOp1]; 即可。</li><li>可以指定操作的优先级。比如 [o3 setQueuePriority:NSOperationQueuePriorityHigh]; 可以参考：http://blog.csdn.net/kiki1985/article/details/8734999</li><li>NSOperation对象可以定制化，且易于在代码中重用</li></ul></li><li>GCD并发队列中，执行任务实际所需的并发线程数量，取决于各种因素，而GCD主要是根据系统资源状况来判定这些因素的。（即你无法确定实际有多少个线程）</li><li>单例的最佳实现方案：建议采用 dispatch_once 来执行只需运行一次的线程安全代码。此方式效率最高，几乎是 @synchronized的两倍。</li><li>GCD队列可以设置层级关系 &nbsp;&nbsp;dispatch_set_target_queue( queueB, queueA )，一旦设置了层级关系，那么 queueB 上的block 实际将在 queueA 的线程中执行。但我们无法为 系统的GCD 设置依赖关系，它们只能作为 层级的顶端。</li><li style="list-style: none; display: inline"><ul><li>因为可以设置 target关系，GCD可以呈现一种树状层级结构。</li><li>因为 sync在同一个 串行GCD上执行时将导致死锁，而 可以设置Target使这种问题变得越发复杂。</li><li>要检测Target的设置关系：我们需要为每个queue添加标记，然后在使用时检测标记，来判断Target关系。详情可以参见：P183。</li><li>dispatch_get_current_queue 可以获取当前队列，用于避免一些简单的死锁，但是一旦设置了Target，则无法有效的使用这种机制避免。建议采用上一条的方式来避免死锁。&nbsp;&nbsp;</li></ul></li><li>GCD总结： <a href="evernote:///view/8887184/s39/4abc06ca-4df2-4ec1-80ab-c47e4b45c831/4abc06ca-4df2-4ec1-80ab-c47e4b45c831/" style="color:#69aa35" target="_blank" rel="external">GCD使用方式与效果总结</a></li><li><b>GCD上的死锁出现条件</b>：只有采用sync方式，并最终在 串行队列中执行时，才会引发block。</li></ul></body></html>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Effective Objective-C 2.0读书笔记：协议与分类/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2077,6 +1453,315 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Effective Objective-C 2.0读书笔记：系统框架/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/08/Effective Objective-C 2.0读书笔记：系统框架/" itemprop="url">
+                  Effective Objective-C 2
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:28:38+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/08/Effective Objective-C 2.0读书笔记：系统框架/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/Effective Objective-C 2.0读书笔记：系统框架/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="读书笔记"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-16 08:30:30 +0000"><meta name="updated" content="2016-03-17 10:08:18 +0000"><title>Effective Objective-C 2.0读书笔记：系统框架</title></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><ul><li>关于遍历collection元素的方法（共有四种，效率依次提高）：
+<ul><li>简单的for循环</li><li>使用OC1.0中的NSEnumerator，该类的使用方法：（其优点在于有<b>l两种类型的遍历枚举器</b>）
+<ul><li>[collection objectEnumerator/keyEnumerator]：获取一个NSEnumerator对象。</li><li>有些collection，如数组中有 reverseObjectEnumerator方法。</li><li>[NSEnumerator nextObject]：获取下一个object对象，直至nil。</li><li>[NSEnumerator allObjects]: 获取所有对象的数组</li></ul></li><li>for-in循环，只要是实现了 NSFastEnumeration协议的类即可使用。（非并发模式下最快）</li><li>基于块的遍历方式：基本模式是 -(void)enumrateXXXXXUsingBlock:( xxxx block )；其优点在于：
+<ul><li>由于block的模式基本为 ^( id object … )，我们可以修改块的方法签名，将id类型替换为我们想要的类型。这主要是<b>基于id类型方法参数可以被任何类型覆写</b>。这样做的优点在于，如果我们明确某个collection中元素的类型必须是某种类型，那么覆写后编译器将帮我们完成对于该对象方法调用上的正确与否。</li><li>我们可以使用复杂的带有 NSEnumerationOptions 的方法调用，该参数可以指定 是否并发遍历（NSEnumerationConcurrent，其采用GCD并发队列实现并发），以及是否 反向遍历（NSEnumerationReverse）。采用 位或操作符连接，默认传入0即可。</li></ul></li></ul></li><li>使用无缝桥接技术（<b>仅在ARC下需要使用，MRC不需要</b>），可以在定义于Foundation框架的OC对象与定义在CoreFoundation框架中的C数据结构之间相互转换，具体可以参考<a href="evernote:///view/2147483647/s39/131bf35a-099e-4ce2-82dc-cf051ee94a3f/131bf35a-099e-4ce2-82dc-cf051ee94a3f/" style="color:#69aa35;" target="_blank" rel="external">无缝桥接技术详解</a></li><li>使用NSCache构建缓存：<a href="evernote:///view/2147483647/s39/3123aad0-730b-4fdd-ba17-a2639f523980/3123aad0-730b-4fdd-ba17-a2639f523980/" style="color:#69aa35;" target="_blank" rel="external">NSCache使用指南</a></li><li>NSTimer使用指南：<a href="evernote:///view/2147483647/s39/63710ce2-f860-425c-8186-962580b2191d/63710ce2-f860-425c-8186-962580b2191d/" style="color:#69aa35;" target="_blank" rel="external">NSTimer使用指南</a>&nbsp;&nbsp;&nbsp;&nbsp;</li><li>类的初始化方法（ load + initialize ）使用指南：<a href="evernote:///view/2147483647/s39/3895ffef-fb7f-4a2d-a7c6-c8156a3b47cb/3895ffef-fb7f-4a2d-a7c6-c8156a3b47cb/" style="color:#69aa35;" target="_blank" rel="external">类的初始化方法使用指南</a></li></ul></body></html>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Effective Objective-C 2.0读书笔记：块与GCD/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/08/Effective Objective-C 2.0读书笔记：块与GCD/" itemprop="url">
+                  Effective Objective-C 2
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:28:38+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/08/Effective Objective-C 2.0读书笔记：块与GCD/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/Effective Objective-C 2.0读书笔记：块与GCD/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="读书笔记"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-14 07:51:15 +0000"><meta name="updated" content="2016-06-14 07:41:47 +0000"><title>Effective Objective-C 2.0读书笔记：块与GCD</title></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><ul><li>IOS有监视进程，如果一个app的主线程阻塞太久，那么将会被系统杀死。</li><li>Clang是xcode的编译器</li><li>block相关知识：<a href="evernote:///view/2147483647/s39/b75f09b1-3442-4577-9b08-de5c9d9041f5/b75f09b1-3442-4577-9b08-de5c9d9041f5/" style="color:#69aa35;" target="_blank" rel="external">block使用方法</a></li><li>使用block相较于delegate的形式：可以有效的降低代码分散程度。</li><li>关于使用多个回调还是一个块回调，建议使用一个块来回调：（以网络回调举例）：</li><li style="list-style: none; display: inline"><ul><li>调用的代码可以根据自己的需要来处理问题，而不是简单的划分为两类。</li><li>通用代码可以最大程度上实现复用。</li></ul></li><li>关于代码同步块的写法：</li><li style="list-style: none; display: inline"><ul><li>使用锁对象： NSLock对象（同线程不可重入，否则将死锁）；NSRecursiveLock递归锁，同一线程能多次持有该锁。</li><li>使用 @synchronized（xxx）方法：同步语法。</li><li>使用 ”串行同步队列“：新建一个串行队列，然后想需要互斥操作的代码放入这个串行队列中执行。代码详细参见P167. GCD相对于锁机制而言，由于其是相当底层的C语言代码，因此效率上会有所优化，且可以明确GCD内任务的执行顺序，完成更多复杂的操作等。</li></ul></li><li>对于GCD而言，我们需要明确两个特质：</li><li style="list-style: none; display: inline"><ul><li>同步（sync）还是异步( async )：同步或者是异步，是针对于调用者而言，指其<b>是否需要等待 block执行完成才能继续往下执行代码</b>。</li><li>串行还是并行：这个<b>取决于queue是 串行队列还是并行队列</b>。（即便是并行队列，也要考虑其是否有设置Target，其有可能不是真正的并行队列）</li></ul></li><li><b>关于同步和异步的效率问题</b>：异步派发有一个隐藏的block copy操作（因为要异步执行），而同步派发是没有的。因此，并不是异步派发效率上一定优于同步派发（更何况有时我们是不能使用异步派发的，比如下面的代码依赖于block执行结果时），如果 block内代码不复杂，那么copy操作的额外消耗可能大于异步带来的好处，引发效率降低。</li><li>在并发queue的代码块中，为了达到串行执行某些任务的功能，需要使用 <b>dispatch_barrier_async</b>( dispatch_queue_t queue, dispatch_block_t block ) 和<b>&nbsp;&nbsp;dispatch_barrier_sync</b>( dispatch_queue_t queue, dispatch_block_t block )。</li><li>performSelector的方法缺点：（可以考虑使用GCD代替）</li><li style="list-style: none; display: inline"><ul><li>如果传入的 SEL 是动态变化的，那么ARC无法判定返回值的类型，也不知道是否需要将返回值release。鉴于此，ARC采用较为谨慎的方式，统一不释放返回值，由此可能引发内存泄露问题。</li><li>performSelector的返回值默认是id类型，需要转化为其他类型则需要进过转化步骤。且如果执行函数的返回值为C语言结构体，则不可以使用performSelector方法。</li><li>performSelector的选择子是id类型，如果方法接受基本类型那么将不能使用performSelector。</li><li>performSelector存在参数个数限制，如果超过3个参数以上，就需要另外想办法执行。</li></ul></li><li>OC中有对GCD的高层封装，即NSOperationQueue. GCD是纯C的API，而NSOperationQueue则是OC的对象，其<b>优势</b>如下：（但效率和易用性上不如GCD）</li><li style="list-style: none; display: inline"><ul><li>可以取消某个操作。在任务加入queue后，我们可以对该 operation执行cancel，如果任务还未被调度，那么它不会被调度。而如果任务已经开始，无法自动取消，但是我们可以在任务的main内定期检测cancel标志位，以达到此效果。</li><li>可以指定 operation之间的依赖关系，这对于并发队列特别有效。可以参考：http://www.2cto.com/kf/201504/390735.html 。只需要对&nbsp;&nbsp;[blockOp2 <b>addDependency:</b>blockOp1]; 即可。</li><li>可以指定操作的优先级。比如 [o3 setQueuePriority:NSOperationQueuePriorityHigh]; 可以参考：http://blog.csdn.net/kiki1985/article/details/8734999</li><li>NSOperation对象可以定制化，且易于在代码中重用</li></ul></li><li>GCD并发队列中，执行任务实际所需的并发线程数量，取决于各种因素，而GCD主要是根据系统资源状况来判定这些因素的。（即你无法确定实际有多少个线程）</li><li>单例的最佳实现方案：建议采用 dispatch_once 来执行只需运行一次的线程安全代码。此方式效率最高，几乎是 @synchronized的两倍。</li><li>GCD队列可以设置层级关系 &nbsp;&nbsp;dispatch_set_target_queue( queueB, queueA )，一旦设置了层级关系，那么 queueB 上的block 实际将在 queueA 的线程中执行。但我们无法为 系统的GCD 设置依赖关系，它们只能作为 层级的顶端。</li><li style="list-style: none; display: inline"><ul><li>因为可以设置 target关系，GCD可以呈现一种树状层级结构。</li><li>因为 sync在同一个 串行GCD上执行时将导致死锁，而 可以设置Target使这种问题变得越发复杂。</li><li>要检测Target的设置关系：我们需要为每个queue添加标记，然后在使用时检测标记，来判断Target关系。详情可以参见：P183。</li><li>dispatch_get_current_queue 可以获取当前队列，用于避免一些简单的死锁，但是一旦设置了Target，则无法有效的使用这种机制避免。建议采用上一条的方式来避免死锁。&nbsp;&nbsp;</li></ul></li><li>GCD总结： <a href="evernote:///view/8887184/s39/4abc06ca-4df2-4ec1-80ab-c47e4b45c831/4abc06ca-4df2-4ec1-80ab-c47e4b45c831/" style="color:#69aa35" target="_blank" rel="external">GCD使用方式与效果总结</a></li><li><b>GCD上的死锁出现条件</b>：只有采用sync方式，并最终在 串行队列中执行时，才会引发block。</li></ul></body></html>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Effective Objective-C 2.0读书笔记：内存管理/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2230,7 +1915,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Mac开发指南/">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Effective Objective-C 2.0读书笔记：接口与API设计/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Cheng JianFeng">
@@ -2255,8 +1940,326 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/08/Mac开发指南/" itemprop="url">
-                  Mac开发指南
+                <a class="post-title-link" href="/2017/02/08/Effective Objective-C 2.0读书笔记：接口与API设计/" itemprop="url">
+                  Effective Objective-C 2
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:28:38+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/08/Effective Objective-C 2.0读书笔记：接口与API设计/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/Effective Objective-C 2.0读书笔记：接口与API设计/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="读书笔记"><meta name="altitude" content="10.08357810974121"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-12 14:20:47 +0000"><meta name="latitude" content="31.1974285104281"><meta name="longitude" content="121.3632029963981"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-09-16 03:50:16 +0000"><title>Effective Objective-C 2.0读书笔记：接口与API设计</title></head><body>
+<ul>
+<li>在编写自己的代码时，主要是<b>类、C函数和全局变量（非static）</b>这类全局可见的符号表，一定要注意加上前缀（<b>苹果默认保留两个字的类名前缀</b>，所以我们要从三个字开始使用）避免命名空间冲突。</li>
+<li>在编写自己的第三方framework和静态库时，除了需要遵守第一条守则外，还需要注意，如果在库的内部额外引入了第三方库，那么需要对<b>第三方库的所有类名进行修改</b>，同样的是<b>以添加上自己的类前缀为好</b>。这样就避免了，如果别人同时引入了我们的库和这个第三方库，会造成编译冲突的问题。</li>
+<li>属性的读取特质限制，仅能限制通过属性方法对属性变量的操作，但直接对属性变量的操作，是无法通过读取特质来限制的。比如在类内部直接访问属性的实例变量，以及通过KVC直接对属性变量进行赋值等。</li>
+<li>针对每个类，我们应该至少提供一个全能初始化方法，编写多个全能初始化方法的依据是，这些方法的初始化过程完成不一致则可以这么做。比如 initWithParam  和 initWithCoder 。在这些全能初始化方法中，应该根据super的情况来调用它的函数（可能不一定是和当前初始化函数名字相同的方法，甚至是相差甚远的方法）。</li>
+<li>对于 super的所有初始化方法，理论上我们都应该进行覆盖。对于一些不能使用的，直接 @throw NSException 即可，或者直接返回nil。（建议使用前者，这样程序更加清晰）</li>
+<li>在 <b>NSLog %@</b> 时，会调用相应对象的 <b>description</b> 方法。其默认实现是返回类名 和 指针地址。我们可以覆盖它返回更加详细的数据。（<b>%p 是指针的意思</b>）。在使用 <b>po 对象</b>时，调用的是 <b>debugDescription</b>方法，此时我们根据自己的需要可以返回更加详细的数据。</li>
+<li>我们对外暴露的属性，应该尽量是readonly的，而且只在确有必要时才将属性对外公布。为了在类的内部完全打开读写权限，可以在 类的分类中将该属性重新设置为 readwrite。</li>
+<li>建议对私有方法加上前缀，这样可以在调试和阅读时一目了然。建议使用“p_”作为前缀。同时不要使用“_”作为前缀，因为这是苹果对自己私有方法的前缀。</li>
+<li>理解OC错误模型：<a href="evernote:///view/2147483647/s39/b45d7eb6-c69d-455d-b84d-9907aa6b4724/b45d7eb6-c69d-455d-b84d-9907aa6b4724/" style="color:#69aa35;" target="_blank" rel="external">IOS异常处理机制</a></li>
+</ul>
+</body></html>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Effective Objective-C 2.0读书笔记：对象、消息、运行期/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/08/Effective Objective-C 2.0读书笔记：对象、消息、运行期/" itemprop="url">
+                  Effective Objective-C 2
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T14:28:38+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/08/Effective Objective-C 2.0读书笔记：对象、消息、运行期/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/Effective Objective-C 2.0读书笔记：对象、消息、运行期/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="读书笔记"><meta name="altitude" content="21.9205379486084"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-08 10:35:09 +0000"><meta name="latitude" content="31.22305424322017"><meta name="longitude" content="121.3561700731711"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-03-10 02:58:03 +0000"><meta name="application-data:corenote-localUUID" content="B4157980-AB5D-4212-B901-0160B17955B8"><meta name="application-data:corenote-hostUUID" content="4D185068-9BCF-48E1-BA86-2004C933D40C"><title>Effective Objective-C 2.0读书笔记：对象、消息、运行期</title></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"><ul><li>属性有4大特质：原子特质、读写权限、内存管理特质、方法名定制化</li><li>开发IOS时一般使用 nonatomic ，因为IOS基本都是单线程操作的。在开发MAC OSX时使用 atomic 基本不会遇到瓶颈问题。</li><li>我们可以直接定义变量，或者是使用属性生成变量。对于属性生成的变量来说，是生成在.m文件中，即外部完全不可见（包括子类）。对于直接定义的变量，默认是 @protected，即外部类型不可直接访问，但子类可以。可以使用@public来改变.h中变量的<b>访问权限</b>。</li><li>在初始化方法中(init等)，应该直接使用 实例变量来赋值，因为属性方法可能在子类中被改写，从而与预期不一致。对于类内部的其他时候，合理的访问方式应该是：在写入实例变量时，总是采用属性方法。而访问则采用直接访问实例变量的方式获取。</li><li>关于 [xxx class] 的返回值，这个方法是每个具体类的类方法，其返回的是自身。那么就分为两种情况：</li><li style="list-style: none; display: inline"><ul><li>对于实例对象调用class方法：其返回自己所属的类。</li><li>对于类对象调用class方法：其返回自身。 &nbsp;&nbsp;&nbsp;&nbsp; 因此， <b>循环调用的结果就是，每次返回值都是一致的</b>。</li></ul></li><li>ios中有很多类型其都具有类族的概念，比如 UIButton，我们通过 buttonWithType: 返回的是其基类下某一个具体子类的实例变量。而基类通常 包含了对下面具体子类的接口抽象。这个概念很重要，这意味这我们<b>平时使用的大多数控件都是一个类族形式，而指针均是基类的指针</b>。</li><li>判断对象的类和类族的方法：</li><li style="list-style: none; display: inline"><ul><li>isKindOfClass: 可以比较前者是否属于后者的类族。其比较范围是 ： <b>以后者开始为根类，展开的类族树中，是否包含前者的类型</b>。</li><li>isMemberOfClass: 严格比较前者和后者的类型是否一致。</li><li>&nbsp;&nbsp;== ： 其实和第二种是一样的。</li></ul></li><li>关于对象等同性判断：通过 hash 和 isEqualTo: （在这里面，我们首先需要实现的就是对其类型判断是否一致）这两个函数一致，那么就表示这两个对象是等同的（不一定是同一个对象）。因此，若想判断某个类型的对象是否相等，请提供这两个函数。</li><li>关于 hash 函数，在NSObject 的默认实现中，其是直接返回指针地址。对于其他系统类，系统会根据其内容的不同，返回不同的hash值。（这是很好的可以利用的一点）。关于我们的自定义类，要实现高效且正确的hash函数必须满足以下要求：</li><li style="list-style: none; display: inline"><ul><li>在 isEqualTo： 返回YES时，其hash值必须相等。（这是一种约定，也是NSSet高效插入的一种机制）</li><li>提取出类中的<b>不可变系统类型</b>，获取他们的hash值。（不可变是因为，防止其在插入NSSet后，hash值又发生变化，最终会导致NSSet中出现重复对象）</li><li>组合第二步中的所有hash值，得到一个最终的hash值。（可通过加减运算或者位运算得到）</li></ul></li><li>当我们想要编写系统类型的子类时，我们需要覆写超类文档中指明的需要覆写的方法。这个一般在文档中会写明。</li><li>使用关联对象的方式，可以把两个对象连接起来。详情参见P41。注意，在链接时，其键值是个指针值，我们通过这个键值设入对象，也需要通过这个键值获取对象。因此，这个键值我们通常采用 常量字符串变量 来表示： static NSString* const xxxxx = @"xasdasda"; . &nbsp;&nbsp;我们可以用这个方法来伪造属性，即把 get/set 方法放在 属性的获取和设置函数中。</li><li>关于 &nbsp;&nbsp;<a href="evernote:///view/8887184/s39/df58eaac-06c3-4ad5-9684-bd8247555275/df58eaac-06c3-4ad5-9684-bd8247555275/" style="color:#69aa35" target="_blank" rel="external">IOS方法转发机制</a><b>P46</b>&nbsp;&nbsp;和 &nbsp;&nbsp;<a href="evernote:///view/8887184/s39/b2ccbffb-6930-4ea5-a18e-42b8db02c809/b2ccbffb-6930-4ea5-a18e-42b8db02c809/" style="color:#69aa35" target="_blank" rel="external">IOS方法调配技术</a><b>P53</b>&nbsp;&nbsp;将单独开辟文章来详述。</li><li>isa表示了一种的对象的从属关系（包括类对象），表示新建这个对象的类型是哪一个/这个对象属于哪个类型。而superclass则指明了类的继承关系。</li></ul><div><br></div></body></html>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/类的初始化方法使用指南/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/08/类的初始化方法使用指南/" itemprop="url">
+                  类的初始化方法使用指南
                 </a>
               
             
@@ -2313,8 +2316,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/02/08/Mac开发指南/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/Mac开发指南/" itemprop="commentCount"></span>
+                <a href="/2017/02/08/类的初始化方法使用指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/类的初始化方法使用指南/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -2345,10 +2348,7 @@
             
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="14.89535617828369"><meta name="author" content="程剑锋"><meta name="created" content="2016-08-17 03:07:17 +0000"><meta name="latitude" content="31.22306476839249"><meta name="longitude" content="121.3563332655188"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-12-17 12:35:50 +0000"><title>Mac开发指南</title></head><body><ul>
-<li>MAC使用的是 garbage collection environments （自动垃圾回收机制），不同于iOS的引用计数机制。我们不需要关心内存的回收问题，开开心心的写代码即可。</li>
-<li>Mac遵循的是<b>多窗口开发原则，如果一个窗口发生了崩溃，那么其他窗口并不会受它影响</b>。（这个对发现问题造成很大的困扰）</li><li>Mac的页面跳转是基于窗口的【NSWindow】，窗口的管理是基于窗口管理器【NSWindowController】,Mac应用基本的跳转模式是：</li><ul><li>参考文章：<a href="http://www.jianshu.com/p/0288fc89aea1" target="_blank" rel="external">http://www.jianshu.com/p/0288fc89aea1</a></li><li>要点：【winVC showWindow:nil】 &amp;&amp; 【winVC close】</li><li>其内部的 window 是惰性加载的，所以有时候断点看会是空数据。</li></ul><li>Mac的页面跳转也可以只是用VC present，但是这样的话，页面展示效果非常差，无法切换窗口。</li><li>Mac的appdelegate 常用回调：</li><ul><li>applicationDidFinishLaunching：应用启动</li><li>applicationWillTerminate：应用收到退出消息</li><li>applicationShouldHandleReopen：hasVisibleWindows：应用图标收到鼠标点击事件</li><li>applicationWillBecomeActive：应用展示到前端</li><li>applicationShouldTerminateAfterLastWindowClosed：应用的最后一个窗口被关闭<br></li></ul><li>注意，在mac OS 上，runloop有另外两种不一样的模式，所以不能加入到 default mode 中去。</li><div><div></div><ul><li><span style="font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">APPKIT_EXTERN</span> <span style="font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">NSString</span> <span style="font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">*NSModalPanelRunLoopMode;</span></li><li><span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">APPKIT_EXTERN</span> <span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">NSString</span> <span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">*NSEventTrackingRunLoopMode;</span></li></ul>
-</div></ul><div><br></div><div><b>Mac视图开发指南</b>：</div><div><ul><li>mac视图基于NSView开发</li><ul><li>修改背景色：<a href="http://www.jianshu.com/p/80dcee893b2d" target="_blank" rel="external">http://www.jianshu.com/p/80dcee893b2d</a>，NSView没有backgroundColor属性，我们需要直接修改CALayer属性。</li><li>坐标系问题：<a href="http://blog.csdn.net/benbenxiongyuan/article/details/7755584" target="_blank" rel="external">http://blog.csdn.net/benbenxiongyuan/article/details/7755584</a></li><ul><li>NSView：坐标原点在左下角，Y向上为正，X向右为正。但提供了一个而可覆盖的方法，isFlipped 返回YES时可以使用UIView的坐标系计算方式。</li><li>UIView：坐标系在左上角，Y轴向下为正，X向右为正。</li><li>CALayer：默认使用依附平台的坐标系。</li></ul><li>NSView默认是没有layer的，需要单独调用 view.wantsLayer  = YES, 使其拥有layer，才能为它填充颜色等属性。</li></ul></ul><div><br></div></div><div><br></div><div><b>关于mac app文件拖放的问题</b>：</div><div><ul><li>主要的相关协议：</li><ul><li>NSDraggingSource：以view中的物体为源文件，拖出到桌面的操作。<br></li><li>NSDraggingDestination：将外界物体拖入界面的操作。</li><li>NSPasteboardItemDataProvider：剪切板操作。<br></li></ul><li>NSWindow默认实现了NSDraggingDestination大部分方法，且默认实现是如果 window.delegate 【一般是windowController】能够响应此方法，那么就将转发给delegate执行。</li><ul><li>只要刚开始在windowController中调用window的 - (void)registerForDraggedTypes:(NSArray&lt;NSString *&gt; *)newTypes; ；例如：[self.window registerForDraggedTypes:@[NSColorPboardType, NSFilenamesPboardType]]; 即可实现这些文件的拖拽。</li><li>然后在 windowController 中实现这些 NSDraggingDestination 的主要方法。</li></ul><li>参考作品：【同时实现了拖入和拖出操作】</li></ul></div><div><a href="/Resources/Mac%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.resources/DragDropDemo-master.zip">DragDropDemo-master.zip</a><br></div><div><br></div><div><br></div><div><b>关于Mac打开文件选择器的方法</b>：</div><div><ul><li>NSOpenPanel:注意，如果希望使用文件选择器，必须在 capabalitis 中打开 sandBox 功能。但开了沙盒之后， 就啥都干不了了。</li><li>参考文章：<a href="http://www.cnblogs.com/onecodego/p/3685864.html" target="_blank" rel="external">http://www.cnblogs.com/onecodego/p/3685864.html</a></li></ul><div><br></div></div><div><br></div><div><b>Mac调用Terminal的方法<font face="STHeiti" color="#313131"><span style="font-size: 13px;">：</span></font></b></div><div><ul><li><font face="STHeiti" color="#313131"><span style="font-size: 13px;"><b>示例代码：</b></span></font></li></ul><div><font face="STHeiti" color="#313131"><span style="font-size: 13px;"><b><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>NSString* runSystemCommand(NSString *cmd,NSString* currentDir)</b></font></b></span></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>{</b></font></div><div><br></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    NSTask* task = [[NSTask alloc] init];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    task.launchPath = @"/bin/sh";</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    task.arguments = [NSArray arrayWithObjects:@"-c", cmd, nil];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    if( validateString(currentDir) ){</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>        task.currentDirectoryPath = currentDir;</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    }</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    NSPipe *pipe = [NSPipe pipe];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    [task setStandardOutput:pipe];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    [task setStandardError:pipe];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    [task launch];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    [task waitUntilExit];</b></font></div><div><br></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    int status = [task terminationStatus];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    if (status == 0)</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>        NSLog(@"%@ Task succeeded.",cmd);</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    else</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>        NSLog(@"%@ Task failed.",cmd);</b></font></div><div><br></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    NSFileHandle *file = [pipe fileHandleForReading];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    NSData *data = [file readDataToEndOfFile];</b></font></div><div><br></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    NSString *string;</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    string = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];</b></font></div><div><br></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    return string;</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>}</b></font><font face="STHeiti" color="#313131"><span style="font-size: 13px;"><b><br></b></span></font></div></div><div><div><ul><li><font face="Helvetica Neue" color="#313131"><span style="font-size: 13px;"><b>注意事项</b>：</span></font></li><ul><li><font face="Helvetica Neue" color="#313131"><span style="font-size: 13px;">终端的输出字符串不能太多，否则启动的执行程序的挂掉。【且没有任何征兆】</span></font></li><li><font face="Helvetica Neue" color="#313131"><span style="font-size: 13px;">如果执行python的脚本，发生崩溃，那么崩溃信息也会打印的。</span></font></li></ul></ul></div><div><br></div></div></body></html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="9.616756439208981"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-16 15:35:19 +0000"><meta name="latitude" content="31.19738664631177"><meta name="longitude" content="121.3631901476906"><meta name="source" content="desktop.mac"><meta name="source-url" content="http://www.cnblogs.com/ider/archive/2012/09/29/objective_c_load_vs_initialize.html"><meta name="updated" content="2016-12-21 14:21:29 +0000"><title>类的初始化方法使用指南</title></head><body><ul><li>类有两个初始化方法，分别为：load 和 initalize</li><ul><li>load方法简介:</li><ul><li>该方法对于加入运行期的每个类及分类来说，如果有实现此方法，必定会调用此方法，而且仅调用一次（<b>如果未实现，并不会调用父类方法，这是它最特殊的地方</b>）。如果分类和主类都实现了此方法，那么先调用主类的，再调用分类的。<b>在runtime加载类时即开始执行此方法，时间非常早，且确定</b>。</li><li>load方法时，runtime还处于脆弱期，因为并非所有的类都已经load完成。且load虽然会将超类预先加载，但是同一个库中的兄弟类是无法预知先后顺序的。建议不要使用load方法来实现类的数据初始化，考虑采用 initialize实现。</li><li><b>load方法应仅用于调试程序打印使用</b>。</li><li>该方法如果需要调用父类的load，需要显示调用。</li></ul><li>initialize方法简介：</li><ul><li>该方法是<b>惰性加载的，仅在该类第一次使用时才加载</b>。</li><li>运行期系统可以保证initialize的线程安全性，只有执行initialize的线程可以操作类实例。</li><li>该方法会<b>自动调用父类的initialize，不需要显示调用</b>。即可能会被多次调用，所以慎用。</li><li>如果一个类未实现initialize方法，那么将自动调用父类的。（与普通方法一致）</li><li>由于initialize方法的执行线程是由系统决定的，那么建议不要在内部做耗时操作，否则可能引发UI线程阻塞（碰巧UI线程成为initialize执行线程时）。</li><li><b>类的初始化数据等操作，建议放在initialize中完成</b>。</li><li>initialize方法应仅用于设置内部数据（比如动态对象类型的静态数据），不应该在其中调用其他方法，更不应该涉及与其他类相关的语句。（因为可能出现循环初始化，从而出现类使用时，并没有initialize完的类直接投入使用）</li></ul></ul></ul><div><br></div><div><table cellspacing="0" style="margin: 0px; padding: 0px; border: 1px solid silver; border-collapse: collapse; word-break: break-word; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; text-align: left; background-color: rgb(254, 254, 242);" cellpadding="0" border="1"><tbody style="margin: 0px; padding: 0px;"><tr style="margin: 0px; padding: 0px;"><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;"> </td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">+(void)load</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">+(void)initialize</td></tr><tr style="margin: 0px; padding: 0px;"><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">执行时机</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">在程序运行后立即执行</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">在类的方法第一次被调时执行</td></tr><tr style="margin: 0px; padding: 0px;"><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">若自身未定义，是否沿用父类的方法</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">否</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">是</td></tr><tr style="margin: 0px; padding: 0px;"><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">类别中的定义</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">全都执行，但后于主类中的方法</td><td style="margin: 0px; padding: 3px; border: 1px solid silver; border-collapse: collapse;">覆盖类中的方法，只执行一个</td></tr></tbody></table><div><br></div><div><b>执行顺序问题</b>：</div><div><ul><li>【一般顺序】load &gt; __attribute__((constructor)) &gt;  main&gt; 【 initalize】</li><li>如果在load里面只使用基础库的功能【分类的都不行】，以及自己类的内容，那么是安全的，除此之外，都是危险的。</li><li>__attribute__((constructor))  是最适合用于初始化的地方。<br></li><li>当在load中调用一个类的成员方法时，那么那个类的initalize也会在此时被调用。即initalize不一定是在前三项全部完成后执行的，可能会在和load同期的时候执行。</li></ul><div><br></div><div><b>注意事项</b>：</div><div><ul><li>虽然说分类在主类后面执行，这是一个确定的顺序。但是，<b><font color="#0433ff">分类并不是紧接着主类执行的</font></b>。<b>load的加载过程以库为单位进行，基础库先进行加载，然后再到我们自己的代码</b>。而在一个库文件内部，load的加载顺序与文件在build phase 中的排列顺序一致【永远不要依赖这一点】<br></li><ul><li>举个例子，我们写了一个NSObject的分类Swizzle，然后在同一个库中的TestObj类的load方法中，使用了分类中的方法。但是这个时候，其实分类Swizzle可能没有被加载，那么就有可能导致程序崩溃发生。</li><li>另外需要注意的是，<b>即使一个类或者一个分类没有完成load,但是它的函数还是可以被调用的【Xcode断点可能无法调试到】。</b></li></ul></ul></div><div><br></div><div><br></div><div><br></div><div><br></div></div></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><b>参考文章</b>：</div><div><ol><li>博客介绍：http://www.cnblogs.com/ider/archive/2012/09/29/objective_c_load_vs_initialize.html </li><li>书籍介绍：《Effective Objective-C 2.0》P200</li></ol></div><div><br></div></body></html>
           
         
       
@@ -2564,7 +2564,7 @@ Thread&nbsp;&nbsp;0&nbsp;&nbsp;Crashed:<br>
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/iOS断言机制/">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/08/Mac开发指南/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Cheng JianFeng">
@@ -2589,8 +2589,8 @@ Thread&nbsp;&nbsp;0&nbsp;&nbsp;Crashed:<br>
             
               
                 
-                <a class="post-title-link" href="/2017/02/08/iOS断言机制/" itemprop="url">
-                  iOS断言机制
+                <a class="post-title-link" href="/2017/02/08/Mac开发指南/" itemprop="url">
+                  Mac开发指南
                 </a>
               
             
@@ -2647,8 +2647,8 @@ Thread&nbsp;&nbsp;0&nbsp;&nbsp;Crashed:<br>
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/02/08/iOS断言机制/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/iOS断言机制/" itemprop="commentCount"></span>
+                <a href="/2017/02/08/Mac开发指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/Mac开发指南/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -2679,10 +2679,10 @@ Thread&nbsp;&nbsp;0&nbsp;&nbsp;Crashed:<br>
             
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="14.96459484100342"><meta name="author" content="程剑锋"><meta name="created" content="2016-12-18 05:56:02 +0000"><meta name="latitude" content="31.21637165561905"><meta name="longitude" content="121.3023501081429"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-12-19 07:15:15 +0000"><title>iOS断言机制</title></head><body><div><br></div><div><b>断言推荐使用的场景</b>：</div><div><ul><li>用错误处理代码来处理预期会发生的情况,用<b><font color="#0433FF">断言来处理绝不该发生的状况</font></b>.<br></li><li><b><font color="#0433FF">避免把需要执行的代码放到断言中</font></b>.因为断言在Debug模式下是生效的,但在Release模式在无效,这样就会丢失执行代码.<br></li><li>用断言来注释并验证前条件和后条件.<br></li><li>对于高健壮的代码,应先使用断言,再处理错误.<br></li></ul></div><div><br></div><div><br></div><div><b>Xcode上断言生效的设置</b>：</div><div><ul><li>Debug默认生效，Release模式下默认失效。</li></ul><div><img src="/Resources/iOS%E6%96%AD%E8%A8%80%E6%9C%BA%E5%88%B6.resources/18B32226-0F22-40A7-97A2-294D929E4C82.png" height="188" width="677"><br></div></div><div><br></div><div><br></div><div><b>断言常用宏</b>：</div><div><ul><li><b>NSAssert</b>( condition, description , …__vars__... )：<b>OC断言宏</b>，断言条件不成立时，打印信息并抛出异常【异常无人处理时将退出程序】。<b>只适用于OC函数内部断言</b>。
-</li><ul><li>decription是输出表达式，__vars__是表达式中用到的变量参数。<br></li><li>有多参数版本，其实就是根据有多少个 __vars__ 然后取不同名字的Assert版本，比如NSAssert1，NSAssert2，NSAssert3，NSAssert4和NSAssert5。【但其实直接用原版本即可】</li></ul><li><b>NSCAssert</b>( condition, description , …__vars__... )：<b>C断言宏</b>，使用于<b>C函数和OC函数内部只能使用此断言</b>。【在C函数中只能使用<font style="font-weight: bold;">NSCAssert</font>】<br></li><ul><li>它与NSAssert的代码区别在于，取函数名时，NSAssert用的是__cmd,而NSCAssert用的是__PRETTY_FUNCTION__。然后NSAssertionHandler调用的抛出函数也不同。</li><li>也有多参数版本。</li></ul><li><b>NSParameterAssert</b>( condition )：<br></li><ul><li>定义：#define NSParameterAssert(condition) NSAssert((condition), @"Invalid parameter not satisfying: %@", @#condition)</li><li>作用：失败时自动输出条件判断语句，相当于NSAssert的一层格式化封装。</li></ul><li><b>NSCParameterAssert</b>(condition):<br></li><ul><li>定义：#define NSCParameterAssert(condition) NSCAssert((condition), @"Invalid parameter not satisfying: %@", @#condition)</li><li>作用：失败时自动输出条件判断语句，相当于NSCAssert的一层格式化封装。<br></li></ul></ul><div><br></div></div><div><br></div><div><b>AssertHandler断言处理回调</b>：</div><ul><li><b>默认的断言处理回调</b>：当断言不成立时，<b>会向 NSAssertionHandler实例发送一个表示错误的字符串。每个线程都有它自己的NSAssertionHandler实例</b>。【断点无法停留在准确的代码行】
-</li><ul><li>NSAeert调用：[[NSAssertionHandler currentHandler] handleFailureInMethod:_cmd object:self file:__assert_file__  lineNumber:__LINE__ description:(desc), ##__VA_ARGS__];告知断言失败。</li><li>NSCAeert调用：[[NSAssertionHandler currentHandler] handleFailureInFunction:__assert_fn__ object:self file:__assert_file__  lineNumber:__LINE__ description:(desc), ##__VA_ARGS__];告知断言失败。<br></li></ul><li><b>注册自定义的断言处理回调</b>：
-</li><ul><li>继承<font style="font-weight: bold;">NSAssertionHandler</font>实现自己的断言处理类。</li><li>在继承类中重载上面提到的两个方法。</li><li>在需要使用自定义断言处理的线程上注册。</li></ul><li><b>自定义断言处理类示例</b>：</li></ul><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902);"><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">@implementation CJFAssertionHandler</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br></span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">//处理Objective-C的断言</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">- (void)handleFailureInMethod:(SEL)selector object:(id)object file:(NSString *)fileName lineNumber:(NSInteger)line description:(NSString *)format,...</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">{</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    NSLog(@"NSAssert Failure: Method %@ for object %@ in %@ ,line: %li", NSStringFromSelector(selector), object, fileName, (long)line);</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><span>    //建议加上abort(),方便及时发现问题，且调用栈可观察。</span><br></span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><span><span>    abort();</span><br></span></span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">//处理C的断言</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">- (void)handleFailureInFunction:(NSString *)functionName file:(NSString *)fileName lineNumber:(NSInteger)line description:(NSString *)format,...</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">{</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">    NSLog(@"NSCAssert Failure: Function (%@) in %@ ,line: %li", functionName, fileName, (long)line);</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><span>    <span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><span>//建议加上abort(),方便及时发现问题，且调用栈可观察。</span><br></span></span></span></span></span></span></span></div><div><div></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><span><span>    abort();</span></span></span></span></span><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><span><br></span></span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br></span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">@end</span></span></span></div></div><ul><li><b>自定义断言处理类注册</b>：</li></ul><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902);"><div><span style="color: rgb(51, 51, 51); font-family: Monaco, Menlo, Consolas, 'Courier New', monospace; font-size: 12px;">CJFAssertionHandler *myHandler = [[CJFAssertionHandler alloc] init];</span><br></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">//给当前的线程</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">[[[NSThread currentThread] threadDictionary] setValue:myHandler forKey:NSAssertionHandlerKey];</span></span></span></div></div><div><br></div><div><br></div><div><b>参考文章与示例</b>：<a href="http://www.jianshu.com/p/6e444981ab45" target="_blank" rel="external">http://www.jianshu.com/p/6e444981ab45</a></div><div><br></div></div></body></html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="14.89535617828369"><meta name="author" content="程剑锋"><meta name="created" content="2016-08-17 03:07:17 +0000"><meta name="latitude" content="31.22306476839249"><meta name="longitude" content="121.3563332655188"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-12-17 12:35:50 +0000"><title>Mac开发指南</title></head><body><ul>
+<li>MAC使用的是 garbage collection environments （自动垃圾回收机制），不同于iOS的引用计数机制。我们不需要关心内存的回收问题，开开心心的写代码即可。</li>
+<li>Mac遵循的是<b>多窗口开发原则，如果一个窗口发生了崩溃，那么其他窗口并不会受它影响</b>。（这个对发现问题造成很大的困扰）</li><li>Mac的页面跳转是基于窗口的【NSWindow】，窗口的管理是基于窗口管理器【NSWindowController】,Mac应用基本的跳转模式是：</li><ul><li>参考文章：<a href="http://www.jianshu.com/p/0288fc89aea1" target="_blank" rel="external">http://www.jianshu.com/p/0288fc89aea1</a></li><li>要点：【winVC showWindow:nil】 &amp;&amp; 【winVC close】</li><li>其内部的 window 是惰性加载的，所以有时候断点看会是空数据。</li></ul><li>Mac的页面跳转也可以只是用VC present，但是这样的话，页面展示效果非常差，无法切换窗口。</li><li>Mac的appdelegate 常用回调：</li><ul><li>applicationDidFinishLaunching：应用启动</li><li>applicationWillTerminate：应用收到退出消息</li><li>applicationShouldHandleReopen：hasVisibleWindows：应用图标收到鼠标点击事件</li><li>applicationWillBecomeActive：应用展示到前端</li><li>applicationShouldTerminateAfterLastWindowClosed：应用的最后一个窗口被关闭<br></li></ul><li>注意，在mac OS 上，runloop有另外两种不一样的模式，所以不能加入到 default mode 中去。</li><div><div></div><ul><li><span style="font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">APPKIT_EXTERN</span> <span style="font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">NSString</span> <span style="font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">*NSModalPanelRunLoopMode;</span></li><li><span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">APPKIT_EXTERN</span> <span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">NSString</span> <span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">*NSEventTrackingRunLoopMode;</span></li></ul>
+</div></ul><div><br></div><div><b>Mac视图开发指南</b>：</div><div><ul><li>mac视图基于NSView开发</li><ul><li>修改背景色：<a href="http://www.jianshu.com/p/80dcee893b2d" target="_blank" rel="external">http://www.jianshu.com/p/80dcee893b2d</a>，NSView没有backgroundColor属性，我们需要直接修改CALayer属性。</li><li>坐标系问题：<a href="http://blog.csdn.net/benbenxiongyuan/article/details/7755584" target="_blank" rel="external">http://blog.csdn.net/benbenxiongyuan/article/details/7755584</a></li><ul><li>NSView：坐标原点在左下角，Y向上为正，X向右为正。但提供了一个而可覆盖的方法，isFlipped 返回YES时可以使用UIView的坐标系计算方式。</li><li>UIView：坐标系在左上角，Y轴向下为正，X向右为正。</li><li>CALayer：默认使用依附平台的坐标系。</li></ul><li>NSView默认是没有layer的，需要单独调用 view.wantsLayer  = YES, 使其拥有layer，才能为它填充颜色等属性。</li></ul></ul><div><br></div></div><div><br></div><div><b>关于mac app文件拖放的问题</b>：</div><div><ul><li>主要的相关协议：</li><ul><li>NSDraggingSource：以view中的物体为源文件，拖出到桌面的操作。<br></li><li>NSDraggingDestination：将外界物体拖入界面的操作。</li><li>NSPasteboardItemDataProvider：剪切板操作。<br></li></ul><li>NSWindow默认实现了NSDraggingDestination大部分方法，且默认实现是如果 window.delegate 【一般是windowController】能够响应此方法，那么就将转发给delegate执行。</li><ul><li>只要刚开始在windowController中调用window的 - (void)registerForDraggedTypes:(NSArray&lt;NSString *&gt; *)newTypes; ；例如：[self.window registerForDraggedTypes:@[NSColorPboardType, NSFilenamesPboardType]]; 即可实现这些文件的拖拽。</li><li>然后在 windowController 中实现这些 NSDraggingDestination 的主要方法。</li></ul><li>参考作品：【同时实现了拖入和拖出操作】</li></ul></div><div><a href="/Resources/Mac%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.resources/DragDropDemo-master.zip">DragDropDemo-master.zip</a><br></div><div><br></div><div><br></div><div><b>关于Mac打开文件选择器的方法</b>：</div><div><ul><li>NSOpenPanel:注意，如果希望使用文件选择器，必须在 capabalitis 中打开 sandBox 功能。但开了沙盒之后， 就啥都干不了了。</li><li>参考文章：<a href="http://www.cnblogs.com/onecodego/p/3685864.html" target="_blank" rel="external">http://www.cnblogs.com/onecodego/p/3685864.html</a></li></ul><div><br></div></div><div><br></div><div><b>Mac调用Terminal的方法<font face="STHeiti" color="#313131"><span style="font-size: 13px;">：</span></font></b></div><div><ul><li><font face="STHeiti" color="#313131"><span style="font-size: 13px;"><b>示例代码：</b></span></font></li></ul><div><font face="STHeiti" color="#313131"><span style="font-size: 13px;"><b><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>NSString* runSystemCommand(NSString *cmd,NSString* currentDir)</b></font></b></span></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>{</b></font></div><div><br></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    NSTask* task = [[NSTask alloc] init];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    task.launchPath = @"/bin/sh";</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    task.arguments = [NSArray arrayWithObjects:@"-c", cmd, nil];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    if( validateString(currentDir) ){</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>        task.currentDirectoryPath = currentDir;</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    }</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    NSPipe *pipe = [NSPipe pipe];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    [task setStandardOutput:pipe];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    [task setStandardError:pipe];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    [task launch];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    [task waitUntilExit];</b></font></div><div><br></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    int status = [task terminationStatus];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    if (status == 0)</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>        NSLog(@"%@ Task succeeded.",cmd);</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    else</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>        NSLog(@"%@ Task failed.",cmd);</b></font></div><div><br></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    NSFileHandle *file = [pipe fileHandleForReading];</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    NSData *data = [file readDataToEndOfFile];</b></font></div><div><br></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    NSString *string;</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    string = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];</b></font></div><div><br></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>    return string;</b></font></div><div><font style="font-size: 13px; color: rgb(49, 49, 49); font-family: STHeiti;"><b>}</b></font><font face="STHeiti" color="#313131"><span style="font-size: 13px;"><b><br></b></span></font></div></div><div><div><ul><li><font face="Helvetica Neue" color="#313131"><span style="font-size: 13px;"><b>注意事项</b>：</span></font></li><ul><li><font face="Helvetica Neue" color="#313131"><span style="font-size: 13px;">终端的输出字符串不能太多，否则启动的执行程序的挂掉。【且没有任何征兆】</span></font></li><li><font face="Helvetica Neue" color="#313131"><span style="font-size: 13px;">如果执行python的脚本，发生崩溃，那么崩溃信息也会打印的。</span></font></li></ul></ul></div><div><br></div></div></body></html>
           
         
       
