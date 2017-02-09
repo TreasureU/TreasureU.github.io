@@ -1,0 +1,984 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,脚本," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Python shell命令执行笔记文章笔记：执行shell命令的不同方式：名词统一：命令的执行返回值：int值，是命令返回的值。即sys.exit(x)的值。命令的输出信息：str值，是命令执行过程中向标准输出打印的信息。os.exec方法族：【不推荐】与UNIX exec使用方法相同，不推荐使用。os.system：【不推荐】示例：os.system(“ls -l”)返回值：阻塞调用，返">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python shell命令执行笔记">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/09/Python shell命令执行笔记/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="Python shell命令执行笔记文章笔记：执行shell命令的不同方式：名词统一：命令的执行返回值：int值，是命令返回的值。即sys.exit(x)的值。命令的输出信息：str值，是命令执行过程中向标准输出打印的信息。os.exec方法族：【不推荐】与UNIX exec使用方法相同，不推荐使用。os.system：【不推荐】示例：os.system(“ls -l”)返回值：阻塞调用，返">
+<meta property="og:updated_time" content="2017-02-09T04:10:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python shell命令执行笔记">
+<meta name="twitter:description" content="Python shell命令执行笔记文章笔记：执行shell命令的不同方式：名词统一：命令的执行返回值：int值，是命令返回的值。即sys.exit(x)的值。命令的输出信息：str值，是命令执行过程中向标准输出打印的信息。os.exec方法族：【不推荐】与UNIX exec使用方法相同，不推荐使用。os.system：【不推荐】示例：os.system(“ls -l”)返回值：阻塞调用，返">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/09/Python shell命令执行笔记/"/>
+
+
+
+
+
+  <title> Python shell命令执行笔记 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/09/Python shell命令执行笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python shell命令执行笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T12:10:03+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Python笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/09/Python shell命令执行笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/09/Python shell命令执行笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="created" content="2017-01-04 02:57:19 +0000"><meta name="source" content="web.clip"><meta name="source-url" content="http://www.jb51.net/article/48086.htm"><meta name="updated" content="2017-01-04 05:47:45 +0000"><title>Python shell命令执行笔记</title></head><body><div style="-evernote-webclip:true"><strong style="color: rgb(51, 51, 51); font-size: 14px; font-family: tahoma, arial, 宋体;"><font style="background-color: rgb(246, 251, 255); font-size: 12px;"></font></strong></div><div style="-evernote-webclip:true"><strong style="color: rgb(51, 51, 51); font-size: 14px;"><font style="background-color: rgb(246, 251, 255); font-size: 12px;"><font face="Helvetica Neue"><b><font style="font-size: 24px;">文章笔记</font></b>：</font><br></font></strong></div><div><div><div><div><br></div><div><b>执行shell命令的不同方式</b>：</div><div><ul><li>名词统一：</li><ul><li>命令的执行返回值：int值，是命令返回的值。即sys.exit(x)的值。</li><li>命令的输出信息：str值，是命令执行过程中向标准输出打印的信息。</li></ul><li>os.exec方法族：【不推荐】</li><ul><li>与UNIX exec使用方法相同，不推荐使用。</li></ul><li>os.system：【不推荐】</li><ul><li>示例：os.system(“ls -l”)</li><li>返回值：阻塞调用，返回命令的执行的返回值【int对象】，无法在程序中获得输出信息。</li><li>命令执行过程中的输出信息：直接输出到标准输出，无法返回给调用程序使用。</li></ul><li>os.popen：【不推荐】</li><ul><li>示例：fileObj = os.popen(“ls -l”)</li><li>返回值：阻塞调用，返回命令的输出信息【file对象】。</li><li>使用 outStr = fileObj.read()可以获取输出信息，需要注意，使用完成后，<b>需要调用fileObj.close()关闭文件句柄</b>。</li></ul><li>commands：【可以使用】</li><ul><li>示例：</li><ul><li>commands.getstatusoutput(cmd)：返回一个元组(status【int】, output【str】)</li><li>commands.getoutput(cmd)：只返回输出结果【str】<br></li></ul><li>阻塞调用，可以直接返回执行结果和输出结果。</li></ul><li>subprocess：【推荐使用】</li><ul><li>关于cmd的参数格式：</li><ul><li>shell命令模式：如果指明 shell = True，则直接按照shell命令的方式输入字符串即可。比如subprocess.call( “ls -l”, shell - True )</li><li>参数列表模式：如果未指明 shell =True或者在windows下，默认使用args模式。比如 subprocess.call([“ls”,”-l”])</li></ul><li>阻塞式调用：</li><ul><li>subprocess.call( cmd, shell = True )：返回执行结果。输出信息直接在执行过程中向标准输出打印。<br></li><li>subprocess.check_call( cmd, shell = True ):返回0，检查执行结果，如果不为0，则直接抛出subprocess.CalledProcessError，该对象包含有returncode属性，可用try…except…来检查。输出信息直接在执行过程中向标准输出打印。<br></li><li>subprocess.check_output( cmd, shell = True ):返回子进程向标准输出的输出结果【执行过程中输出信息不再打印】，检查执行结果，如果returncode不为0，则举出错误subprocess.CalledProcessError，该对象包含有returncode属性和output属性，output属性为标准输出的输出结果，可用try…except…来检查。</li></ul><li>非阻塞式调用：</li><ul><li>上述的阻塞式调用，其实就是对subprocess.Popen的封装。</li><li>subprocess.Popen(cmd, shell = True,stdin = xx, stderr = xx, stdout = xx):<br></li><ul><li>cmd：shell命令字符串</li><li>shell：是否以shell命令的格式输入命令</li><li>stdin：输入来源【可以是另一个Popen的输出】【不设置则为标准输入，直接从控制台读取】</li><li>stderr：错误输出【不设置则为标准错误输出，直接打印到控制台】</li><li>stdout：输出信息【不设置则为标准输出，直接打印到控制台】</li><li>返回值：一个subprocess.Popen对象ret</li></ul><li>流程控制函数：</li><ul><li>ret.wait()：等待子进程执行结束</li><li>ret.poll()：检查子进程是否结束，如果结束将设置并返回执行结果。否则返回None。</li><li>ret.kill() : 终止子进程</li><li>ret.send_signal( sig ) : 向子进程发送信号</li><li>ret.terminate() : 终止子进程<br></li><li>ret.communicate( input = None )：使用input传入一个str，作为标准输入信息，然后等到子进程执行结束，程序会返回一个元组（stdout,stderr）。但要注意，如果我们之前在Popen初始化时没有设置，则输出信息直接到控制台中，且返回值的元组数据为（none,none）</li></ul><li>关键属性：</li><ul><li>ret.stdin：子进程的标准输入</li><li>ret.stdout：子进程的标准输出</li><li>ret.stderr：子进程的错误输出</li><li>注意，上述三个属性，如果是我们自己打开的文件句柄，那么需要我们自己自己管理，记得close。如果不赋值【使用系统标准输入输出】或者使用subprocess.PIPE,则不需要我们管理。</li><li>returnCode：执行结果</li><li>pid：子进程ID</li></ul></ul></ul></ul></div></div><div><br></div><div><br></div><div><br></div></div><div style="-evernote-webclip:true"><b><font style="font-size: 24px;">文章正文</font></b>：</div><div style="-evernote-webclip:true"><strong style="color: rgb(51, 51, 51); font-size: 14px; font-family: tahoma, arial, 宋体;"><font style="background-color: rgb(246, 251, 255); font-size: 12px;">从Python 2.4开始，Python引入subprocess模块来管理子进程，以取代一些旧模块的方法：如 os.system、os.spawn*、os.popen*、popen2.*、commands.*不但可以调用外部的命令作为子进程，而且可以连接到子进程的input/output/error管道，获取相关的返回信息</font></strong><br><div style="font-size: 16px; display: inline-block;"><div style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:tahoma, arial, 宋体;background-color:rgb(255, 255, 255);"><div style="zoom:1;"><div style="margin:0px 10px;padding:20px 5px 0px;width:660px;text-align:left;clear:both;font-size:14px;word-wrap:break-word;word-break:break-all;overflow:hidden;"><p style="margin:0px;padding:5px 0px;font-size:14px;"><strong>一、subprocess以及常用的封装函数</strong><br>运行python的时候，我们都是在创建并运行一个进程。像Linux进程那样，一个进程可以fork一个子进程，并让这个子进程exec另外一个程序。在Python中，我们通过标准库中的subprocess包来fork一个子进程，并运行一个外部的程序。<br>subprocess包中定义有数个创建子进程的函数，这些函数分别以不同的方式创建子进程，所以我们可以根据需要来从中选取一个使用。另外subprocess还提供了一些管理标准流(standard stream)和管道(pipe)的工具，从而在进程间使用文本通信。</p>
+<p style="margin:0px;padding:5px 0px;font-size:14px;"><strong>subprocess.call()</strong><br>父进程等待子进程完成<br>返回退出信息(returncode，相当于Linux exit code)</p>
+<p style="margin:0px;padding:5px 0px;font-size:14px;"><strong>subprocess.check_call()<br></strong>父进程等待子进程完成<br>返回0<br>检查退出信息，如果returncode不为0，则举出错误subprocess.CalledProcessError，该对象包含有returncode属性，可用try…except…来检查</p>
+<p style="margin:0px;padding:5px 0px;font-size:14px;"><strong>subprocess.check_output()</strong><br>父进程等待子进程完成<br>返回子进程向标准输出的输出结果<br>检查退出信息，如果returncode不为0，则举出错误subprocess.CalledProcessError，该对象包含有returncode属性和output属性，output属性为标准输出的输出结果，可用try…except…来检查。</p>
+<p style="margin:0px;padding:5px 0px;font-size:14px;">这三个函数的使用方法相类似，下面来以subprocess.call()举例说明:<br></p><div style="margin:3px auto 0px;padding:0px 3px;background:rgb(242, 246, 251);width:640px;clear:both;border-top:1px solid rgb(0, 153, 204);border-right:1px solid rgb(0, 153, 204);border-left:1px solid rgb(0, 153, 204);font-size:14px;"><span style="font-size:12px;float:right;"><a style="color:rgb(51, 51, 51);text-decoration:none;cursor:pointer;"><u>复制代码</u></a></span> 代码如下:</div><div style="margin:0px auto 3px;padding:0px 3px 0px 5px;font-size:14px;background:rgb(221, 237, 251);border:1px solid rgb(0, 153, 204);width:638px;clear:both;"><br>&gt;&gt;&gt; import subprocess<br>&gt;&gt;&gt; retcode = subprocess.call(["ls", "-l"])<br>#和shell中命令ls -a显示结果一样<br>&gt;&gt;&gt; print retcode<br>0</div><br>将程序名(ls)和所带的参数(-l)一起放在一个表中传递给subprocess.call()<p style="margin:0px;padding:5px 0px;font-size:14px;">
+</p><p style="margin:0px;padding:5px 0px;font-size:14px;">shell默认为False，在Linux下，shell=False时, Popen调用os.execvp()执行args指定的程序；shell=True时，如果args是字符串，Popen直接调用系统的Shell来执行args指定的程序，如果args是一个序列，则args的第一项是定义程序命令字符串，其它项是调用系统Shell时的附加参数。</p>
+<p style="margin:0px;padding:5px 0px;font-size:14px;">上面例子也可以写成如下：<br></p><div style="margin:3px auto 0px;padding:0px 3px;background:rgb(242, 246, 251);width:640px;clear:both;border-top:1px solid rgb(0, 153, 204);border-right:1px solid rgb(0, 153, 204);border-left:1px solid rgb(0, 153, 204);font-size:14px;"><span style="font-size:12px;float:right;"><a style="color:rgb(51, 51, 51);text-decoration:none;cursor:pointer;"><u>复制代码</u></a></span> 代码如下:</div><div style="margin:0px auto 3px;padding:0px 3px 0px 5px;font-size:14px;background:rgb(221, 237, 251);border:1px solid rgb(0, 153, 204);width:638px;clear:both;">&gt;&gt;&gt; retcode = subprocess.call("ls -l",shell=True)</div><br>在Windows下，不论shell的值如何，Popen调用CreateProcess()执行args指定的外部程序。如果args是一个序列，则先用list2cmdline()转化为字符串，但需要注意的是，并不是MS Windows下所有的程序都可以用list2cmdline来转化为命令行字符串。<p style="margin:0px;padding:5px 0px;font-size:14px;">
+</p><p style="margin:0px;padding:5px 0px;font-size:14px;"><strong>subprocess.Popen()<br></strong></p><div style="margin:3px auto 0px;padding:0px 3px;background:rgb(242, 246, 251);width:640px;clear:both;border-top:1px solid rgb(0, 153, 204);border-right:1px solid rgb(0, 153, 204);border-left:1px solid rgb(0, 153, 204);font-size:14px;"><span style="font-size:12px;float:right;"><a style="color:rgb(51, 51, 51);text-decoration:none;cursor:pointer;"><u>复制代码</u></a></span> 代码如下:</div><div style="margin:0px auto 3px;padding:0px 3px 0px 5px;font-size:14px;background:rgb(221, 237, 251);border:1px solid rgb(0, 153, 204);width:638px;clear:both;"><br>class Popen(args, bufsize=0, executable=None, stdin=None, stdout=None, stderr=None, preexec_fn=None, close_fds=False, shell=False, cwd=None, env=None, universal_newlines=False, startupinfo=None, creationflags=0)<br></div><br>实际上，上面的几个函数都是基于Popen()的封装(wrapper)。这些封装的目的在于让我们容易使用子进程。当我们想要更个性化我们的需求的时候，就要转向Popen类，该类生成的对象用来代表子进程。<p style="margin:0px;padding:5px 0px;font-size:14px;">
+</p><p style="margin:0px;padding:5px 0px;font-size:14px;">与上面的封装不同，Popen对象创建后，主程序不会自动等待子进程完成。我们必须调用对象的wait()方法，父进程才会等待 (也就是阻塞block)，举例：<br></p><div style="margin:3px auto 0px;padding:0px 3px;background:rgb(242, 246, 251);width:640px;clear:both;border-top:1px solid rgb(0, 153, 204);border-right:1px solid rgb(0, 153, 204);border-left:1px solid rgb(0, 153, 204);font-size:14px;"><span style="font-size:12px;float:right;"><a style="color:rgb(51, 51, 51);text-decoration:none;cursor:pointer;"><u>复制代码</u></a></span> 代码如下:</div><div style="margin:0px auto 3px;padding:0px 3px 0px 5px;font-size:14px;background:rgb(221, 237, 251);border:1px solid rgb(0, 153, 204);width:638px;clear:both;">&gt;&gt;&gt; import subprocess<br>&gt;&gt;&gt; child = subprocess.Popen(['ping','-c','4','blog.linuxeye.com'])<br>&gt;&gt;&gt; print 'parent process'</div><br>从运行结果中看到，父进程在开启子进程之后并没有等待child的完成，而是直接运行print。<p style="margin:0px;padding:5px 0px;font-size:14px;">
+</p><p style="margin:0px;padding:5px 0px;font-size:14px;">对比等待的情况:<br></p><div style="margin:3px auto 0px;padding:0px 3px;background:rgb(242, 246, 251);width:640px;clear:both;border-top:1px solid rgb(0, 153, 204);border-right:1px solid rgb(0, 153, 204);border-left:1px solid rgb(0, 153, 204);font-size:14px;"><span style="font-size:12px;float:right;"><a style="color:rgb(51, 51, 51);text-decoration:none;cursor:pointer;"><u>复制代码</u></a></span> 代码如下:</div><div style="margin:0px auto 3px;padding:0px 3px 0px 5px;font-size:14px;background:rgb(221, 237, 251);border:1px solid rgb(0, 153, 204);width:638px;clear:both;">&gt;&gt;&gt; import subprocess<br>&gt;&gt;&gt; child = subprocess.Popen('ping -c4 blog.linuxeye.com',shell=True)<br>&gt;&gt;&gt; child.wait()<br>&gt;&gt;&gt; print 'parent process'</div><br>从运行结果中看到，父进程在开启子进程之后并等待child的完成后，再运行print。<br>此外，你还可以在父进程中对子进程进行其它操作，比如我们上面例子中的child对象:<br><div style="margin:3px auto 0px;padding:0px 3px;background:rgb(242, 246, 251);width:640px;clear:both;border-top:1px solid rgb(0, 153, 204);border-right:1px solid rgb(0, 153, 204);border-left:1px solid rgb(0, 153, 204);font-size:14px;"><span style="font-size:12px;float:right;"><a style="color:rgb(51, 51, 51);text-decoration:none;cursor:pointer;"><u>复制代码</u></a></span> 代码如下:</div><div style="margin:0px auto 3px;padding:0px 3px 0px 5px;font-size:14px;background:rgb(221, 237, 251);border:1px solid rgb(0, 153, 204);width:638px;clear:both;"><br>child.poll() # 检查子进程状态<br>child.kill() # 终止子进程<br>child.send_signal() # 向子进程发送信号<br>child.terminate() # 终止子进程<br></div><br>子进程的PID存储在child.pid<br><strong>二、子进程的文本流控制</strong><br>子进程的标准输入、标准输出和标准错误如下属性分别表示:<br><div style="margin:3px auto 0px;padding:0px 3px;background:rgb(242, 246, 251);width:640px;clear:both;border-top:1px solid rgb(0, 153, 204);border-right:1px solid rgb(0, 153, 204);border-left:1px solid rgb(0, 153, 204);font-size:14px;"><span style="font-size:12px;float:right;"><a style="color:rgb(51, 51, 51);text-decoration:none;cursor:pointer;"><u>复制代码</u></a></span> 代码如下:</div><div style="margin:0px auto 3px;padding:0px 3px 0px 5px;font-size:14px;background:rgb(221, 237, 251);border:1px solid rgb(0, 153, 204);width:638px;clear:both;"><br>child.stdin<br>child.stdout<br>child.stderr<br></div><br>可以在Popen()建立子进程的时候改变标准输入、标准输出和标准错误，并可以利用subprocess.PIPE将多个子进程的输入和输出连接在一起，构成管道(pipe)，如下2个例子：<br><div style="margin:3px auto 0px;padding:0px 3px;background:rgb(242, 246, 251);width:640px;clear:both;border-top:1px solid rgb(0, 153, 204);border-right:1px solid rgb(0, 153, 204);border-left:1px solid rgb(0, 153, 204);font-size:14px;"><span style="font-size:12px;float:right;"><a style="color:rgb(51, 51, 51);text-decoration:none;cursor:pointer;"><u>复制代码</u></a></span> 代码如下:</div><div style="margin:0px auto 3px;padding:0px 3px 0px 5px;font-size:14px;background:rgb(221, 237, 251);border:1px solid rgb(0, 153, 204);width:638px;clear:both;">&gt;&gt;&gt; import subprocess<br>&gt;&gt;&gt; child1 = subprocess.Popen(["ls","-l"], stdout=subprocess.PIPE)<br>&gt;&gt;&gt; print child1.stdout.read(),<br>#或者child1.communicate()<br>&gt;&gt;&gt; import subprocess<br>&gt;&gt;&gt; child1 = subprocess.Popen(["cat","/etc/passwd"], stdout=subprocess.PIPE)<br>&gt;&gt;&gt; child2 = subprocess.Popen(["grep","0:0"],stdin=child1.stdout, stdout=subprocess.PIPE)<br>&gt;&gt;&gt; out = child2.communicate()</div><br>subprocess.PIPE实际上为文本流提供一个缓存区。child1的stdout将文本输出到缓存区，随后child2的stdin从该PIPE中将文本读取走。child2的输出文本也被存放在PIPE中，直到communicate()方法从PIPE中读取出PIPE中的文本。<br>注意：communicate()是Popen对象的一个方法，该方法会阻塞父进程，直到子进程完成<p style="margin:0px;padding:5px 0px;font-size:14px;">
+
+</p></div>
+<div style="margin:0px;padding:0px;height:1%;overflow:hidden;border-bottom:1px solid rgb(188, 213, 229);"><div style="margin:0px;padding:5px;"><div style="width:100%;margin:0px auto;clear:both;overflow:visible;border:0px;font-weight:400;text-align:left;padding:0px;height:auto;font-family:宋体;font-size:12px;color:rgb(51, 51, 51);background-color:transparent;"><div style="height:auto;margin:0px auto;border:0px;font-weight:400;text-align:left;width:100%;padding:0px;overflow:visible;font-family:宋体;font-size:12px;color:rgb(51, 51, 51);background-color:transparent;"><div style="font-family:宋体;text-indent:0px;box-sizing:content-box;float:none;background-position:0px 0px;background-image:none;vertical-align:baseline;height:auto;padding:0px;font-size:12px;color:rgb(51, 51, 51);background-color:transparent;overflow:visible;width:100%;text-align:left;font-weight:400;border:0px;margin:0px auto;"><div style="background-image:none;margin:0px;box-sizing:content-box;border:0px;font-size:100%;text-indent:0px;vertical-align:baseline;padding:0px;background-position:0px 0px;width:auto;float:none;overflow:visible;text-align:right;display:block;"><div style="background-image:none;margin:0px;box-sizing:content-box;border:0px;font-size:100%;text-indent:0px;vertical-align:baseline;padding:0px;background-position:0px 0px;width:auto;float:none;overflow:visible;text-align:right;display:block;"></div></div></div></div></div>
+</div>
+      </div></div></div><br></div><div><br></div><div><br></div><div><b><font style="font-size: 24px;">代码实践</font></b>：<br></div><div><pre style="background-color:#2b2b2b;color:#a9b7c6;font-family:'Consolas';font-size:12.0pt;"><span style="color:#cc7832;font-weight:bold;">import </span>commands<br><span style="color:#cc7832;font-weight:bold;">import </span>os<br><span style="color:#cc7832;font-weight:bold;">import </span>subprocess<br><br><br><br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#a5c261;">"=========os.system"<br></span>ret = os.system(<span style="color:#a5c261;">"ls -l"</span>)<br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#8888c6;">type</span>(ret) <span style="color:#808080;">#int<br></span><span style="color:#cc7832;font-weight:bold;">print </span>ret<br><br><br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#a5c261;">"=========os.popen"<br></span>ret = os.popen(<span style="color:#a5c261;">"ls -l"</span>)<br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#8888c6;">type</span>(ret) <span style="color:#808080;">#file<br></span><span style="color:#cc7832;font-weight:bold;">print </span>ret.read()<br>ret.close()<br><br><br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#a5c261;">"=========commands"<br></span>ret  = commands.getstatusoutput(<span style="color:#a5c261;">"ls -l"</span>)<br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#8888c6;">type</span>(ret) <span style="color:#808080;">#tuple<br></span><span style="color:#cc7832;font-weight:bold;">print </span>ret<br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#8888c6;">type</span>(ret[<span style="color:#6897bb;">0</span>]) <span style="color:#808080;">#int<br></span><span style="color:#cc7832;font-weight:bold;">print </span>ret[<span style="color:#6897bb;">0</span>]<br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#8888c6;">type</span>(ret[<span style="color:#6897bb;">1</span>]) <span style="color:#808080;">#str<br></span><span style="color:#cc7832;font-weight:bold;">print </span>ret[<span style="color:#6897bb;">1</span>]<br><br><br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#a5c261;">"=========subprocess.call"<br></span>ret = subprocess.call(<span style="color:#a5c261;">"ls -l"</span><span style="color:#cc7832;">,</span><span style="color:#aa4926;">shell </span>= <span style="color:#8888c6;">True</span>)<br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#8888c6;">type</span>(ret) <span style="color:#808080;">#int<br></span><span style="color:#cc7832;font-weight:bold;">print </span>ret<br><br><br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#a5c261;">"=========subprocess.check_call"<br></span>ret = subprocess.check_call(<span style="color:#a5c261;">"ls -l"</span><span style="color:#cc7832;">,</span><span style="color:#aa4926;">shell </span>= <span style="color:#8888c6;">True</span>)<br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#8888c6;">type</span>(ret) <span style="color:#808080;">#int,0<br></span><span style="color:#cc7832;font-weight:bold;">print </span>ret<br><br><br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#a5c261;">"=========subprocess.check_output"<br></span>ret = subprocess.check_output(<span style="color:#a5c261;">"ls -l"</span><span style="color:#cc7832;">,</span><span style="color:#aa4926;">shell </span>= <span style="color:#8888c6;">True</span>)<br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#8888c6;">type</span>(ret) <span style="color:#808080;">#str<br></span><span style="color:#cc7832;font-weight:bold;">print </span>ret<br><br><br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#a5c261;">"=========subprocess.Popen"  </span><span style="color:#808080;"># 管道用法<br></span>child1 = subprocess.Popen([<span style="color:#a5c261;">"cat"</span><span style="color:#cc7832;">,</span><span style="color:#a5c261;">"/etc/passwd"</span>]<span style="color:#cc7832;">, </span><span style="color:#aa4926;">stdout</span>=subprocess.PIPE)<br>child2 = subprocess.Popen([<span style="color:#a5c261;">"grep"</span><span style="color:#cc7832;">,</span><span style="color:#a5c261;">"0:0"</span>]<span style="color:#cc7832;">,</span><span style="color:#aa4926;">stdin</span>=child1.stdout<span style="color:#cc7832;">, </span><span style="color:#aa4926;">stdout</span>=subprocess.PIPE)<br>child2.wait() <span style="color:#808080;">#child2.communicate()也可以<br></span><span style="color:#cc7832;font-weight:bold;">print </span>child2.stdout.read()<br><br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#a5c261;">"=========subprocess.poll" </span><span style="color:#808080;">#轮询用法<br></span><span style="color:#808080;"># ret = subprocess.Popen("sleep 3| ls -l",shell = True)<br></span><span style="color:#808080;"># aa = ret.poll()<br></span><span style="color:#808080;"># print aa<br></span><span style="color:#808080;"># while aa != 0:<br></span><span style="color:#808080;">#     print aa<br></span><span style="color:#808080;">#     aa = ret.poll()<br></span><span style="color:#808080;"># else:<br></span><span style="color:#808080;">#     print aa<br></span><span style="color:#808080;"># print type(ret) #subprocess.Popen<br></span><span style="color:#808080;"><br></span><span style="color:#808080;"><br></span><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#a5c261;">"=========subprocess.communicate"<br></span>ret = subprocess.Popen(<span style="color:#a5c261;">"ls -l"</span><span style="color:#cc7832;">,</span><span style="color:#aa4926;">shell </span>= <span style="color:#8888c6;">True</span>)<br>test = ret.communicate()<br><span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#8888c6;">type</span>(test)<br><span style="color:#cc7832;font-weight:bold;">print </span>test
+</pre><br></div><div><br></div></div></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/脚本/" rel="tag"># 脚本</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/PyCharm使用指南/" rel="next" title="PyCharm使用指南">
+                <i class="fa fa-chevron-left"></i> PyCharm使用指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/09/Python 异常处理指南/" rel="prev" title="Python 异常处理指南">
+                Python 异常处理指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/09/Python shell命令执行笔记/"
+     data-title="Python shell命令执行笔记"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/09/Python shell命令执行笔记/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/09/Python shell命令执行笔记/"
+           data-title="Python shell命令执行笔记" data-url="https://treasureu.github.io/2017/02/09/Python shell命令执行笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

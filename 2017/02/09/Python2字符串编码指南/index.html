@@ -1,0 +1,1100 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,脚本," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Python2字符串编码指南文章笔记:基础概念：Python2有编码问题，而Python3没有编码问题。Python3不存在编码问题的原因：所有字符串对象本质上都是Unicode，而不再是str【字节数组】和Unicode并存。Unicode都是一种字符集，而UTF-8是一种编码格式。Python编解码：Python的encode：表示将Unicode字符串对象，转化为特定字符编码格式的字节">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python2字符串编码指南">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/09/Python2字符串编码指南/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="Python2字符串编码指南文章笔记:基础概念：Python2有编码问题，而Python3没有编码问题。Python3不存在编码问题的原因：所有字符串对象本质上都是Unicode，而不再是str【字节数组】和Unicode并存。Unicode都是一种字符集，而UTF-8是一种编码格式。Python编解码：Python的encode：表示将Unicode字符串对象，转化为特定字符编码格式的字节">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Python2%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BC%96%E7%A0%81%E6%8C%87%E5%8D%97.resources/8fbdaaa5ea6d3b49c8c1c825aafeb5d9.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Python2%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BC%96%E7%A0%81%E6%8C%87%E5%8D%97.resources/bfdcef89gw1f9cf7iwi24j20h802sjrz.jpg">
+<meta property="og:updated_time" content="2017-02-09T04:10:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python2字符串编码指南">
+<meta name="twitter:description" content="Python2字符串编码指南文章笔记:基础概念：Python2有编码问题，而Python3没有编码问题。Python3不存在编码问题的原因：所有字符串对象本质上都是Unicode，而不再是str【字节数组】和Unicode并存。Unicode都是一种字符集，而UTF-8是一种编码格式。Python编解码：Python的encode：表示将Unicode字符串对象，转化为特定字符编码格式的字节">
+<meta name="twitter:image" content="https://treasureu.github.io/Resources/Python2%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BC%96%E7%A0%81%E6%8C%87%E5%8D%97.resources/8fbdaaa5ea6d3b49c8c1c825aafeb5d9.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/09/Python2字符串编码指南/"/>
+
+
+
+
+
+  <title> Python2字符串编码指南 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/09/Python2字符串编码指南/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python2字符串编码指南
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T12:10:03+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Python笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/09/Python2字符串编码指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/09/Python2字符串编码指南/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="created" content="2016-12-23 03:34:21 +0000"><meta name="source" content="web.clip"><meta name="source-url" content="http://python.jobbole.com/80939/"><meta name="updated" content="2016-12-23 03:45:27 +0000"><title>Python2字符串编码指南</title></head><body><div style="-evernote-webclip:true"><div style="font-size: 16px; display: inline-block;"><div style="font-size:100%;word-break:break-all;"><div style="font-size: 13px; word-break: break-all; background-color: rgb(255, 255, 255); color: rgb(51, 51, 51); font-style: normal; font-variant-ligatures: normal; font-variant-position: normal; font-variant-caps: normal; font-variant-numeric: normal; font-variant-alternates: normal; font-variant-east-asian: normal;"><div style="font-size: 100%; background-color: rgb(255, 255, 255);"><div style="font-size: 100%;"><div style="font-size: 100%;"><div style="border: 0px; margin: 0px; padding: 0px 5px; font-size: 15px; color: rgb(46, 46, 46); word-break: break-all;"><p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;"></p><p style="font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; font-size: 16px; margin: 0px; padding: 0px; clear: both; min-height: 1em; white-space: pre-wrap; max-width: 100%; box-sizing: border-box; word-wrap: break-word;"><font style="font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; font-size: 24px;">文章笔记</font><font style="font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; font-size: 24px;">:</font></p><div><div><font face="Helvetica Neue"><b>基础概念</b></font><font face="Microsoft YaHei, 宋体, Myriad Pro, Lato, Helvetica Neue, Helvetica, Arial, sans-serif">：</font></div><ul style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal;"><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">Python2有编码问题，而Python3没有编码问题。</span></font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">Python3不存在编码问题的原因：所有字符串对象本质上都是Unicode，而不再是str【字节数组】和Unicode并存。</span></font></li></ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><font style="font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;">Unicode都是一种字符集，而UTF-8是一种编码格式。</font></span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">Python编解码：</span></font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">Python的encode：表示将Unicode字符串对象，转化为特定字符编码格式的字节数组【对象类型变为str】。</span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">Python的decode：表示将特定字符编码格式的字节数组【str对象】，转化为Unicode字符串对象。</span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">需要注意的是，str对象就是一个字节数组，它的字符编码格式，完全是由我们控制的，可以为任意值。【系统默认视为ASCII】</span></font></li></ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>重点！！</b>：</span></font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">字符在内存中的表现形式，是由代表字符的对象决定的，与字符编码格式和字符集都没有必然关联。但由于str本身就是个字节数组，所以其内容与字符编码内容一致【巧合而已，由具体实现决定】。也由于unicode中的每个字符都是一个对象，而那个对象保存了这个字符的在Unicode字符集中的对应编码。</span></font></li></ul></ul><div style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal;"><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><br></span></font></div><div style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal;"><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><br></span></font></div><div style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal;"><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>关键点</b>:</span></font></div><div style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal;"><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>程序文件存储编码格式：</b></span></font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>Python 默认脚本文件都是ANSCII编码的</b>，当文件中有非ANSCII编码范围内的字符的时候就要使用"编码指示”来修正。</span><br></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">作用：程序文件最开始的注释，表示这个文件的保存格式【对解析器而言】。那么，之后Python解析器会用这个格式去打开程序，然后获取里面的内容。</span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">在这个阶段，我们一般使用 utf-8 编码。那么，字符串”测试test”在实际硬盘上就会存储为”</span></font><span style="font-family: 'Andale Mono'; white-space: pre-wrap; font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 12px; font-variant-ligatures: no-common-ligatures; background-color: rgba(0, 0, 0, 0.901961);"><font color="#00FDFF">'\xe6\xb5\x8b\xe8\xaf\x95test</font></span><font face="Andale Mono" size="2"><span style="white-space: pre-wrap;">’</span></font><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">”，然后，python解释器载入程序代码时，从文档中读入了<b>这个字符串的字节数组</b>，并放到一个str对象中去。</span></font></li></ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>Python中的字符串类型：</b></span></font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">在python中有两种字符串类型，分别是str和unicode，他们都是basestring的派生类：</span></font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">str类型是一个包含Characters represent (at least) 8-bit bytes的序列。</span></font></li><li><span style="white-space: pre-wrap; font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;">unicode的每个unit是一个unicode obj，所以：len(u'中国')的值是2，len('ab')的值也是2。</span></li></ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">str对象并没有编码格式，它只是简单的字节数组。</span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">unicode是一个对象数组，里面的每一个字符都是一个unicode对象。每个对象都直接使用Unicode字符集中的对应编码表示。【并不是实际编码值】</span></font></li></ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>程序字符串默认编码格式：</b></span></font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">作用：当字符串需要从str-&gt;unicode，或者从 unicode-&gt;str时，如果不显示指定参数，那么就会使用默认的转化方式完成转化。</span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">默认是 ascii</span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">改变方式是 import sys ; reload(sys) ; sys.setdefaultencoding(‘xxx’)</span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">一般需要改变为和<b>程序文件存储编码格式一致。</b></span></font></li></ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>Python的字符编码基本规则：</b></span></font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>外部读取内容</b>：在读取一个文件的内容，或者从网络上读取到内容时，保持的对象为str类型；如果想把一个str转换成特定编码类型，需要把str转为Unicode，然后从unicode转为特定的编码类型。<b><br></b></span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>字符串编码转化规则</b>：所有字符串如果希望转化为另一种格式的编码，那么都需要先转化为Unicode字符串，在转化为其他编码的str字符串。</span></font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">str1.encode(‘utf-8’) =&gt; str1.decode(sys.getdefaultencoding()</span><span style="white-space: pre-wrap;">).encode(‘utf-8’)</span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">unicode1.encode(‘utf-8’) =&gt; <font style="font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;">unicode1.encode(‘utf-8’)</font></span></font></li></ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>字符串隐式转化的场景</b>：</span></font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">当把str与unicode一起操作时，str隐式转化为unicode。 转化规则为 str1.<span style="white-space: pre-wrap;">decode(sys.getdefaultencoding()</span><span style="white-space: pre-wrap;">) ，如果此时系统默认编码与字符串的实际编码不一致，那么就会出现异常。</span></span></font></li></ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">打印相关内容：python中的print直接把字符串传递给操作系统，所以你需要把str解码成与操作系统一致的格式。【建议mac上转化为utf-8，windows转化为gbk】</span></font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">前提是文档格式和解释器默认编码都被正确设置。</span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">Mac上：print str1.encode(‘utf-8’)</span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;">Windows上：print str1.encode(‘gbk')</span></font></li></ul></ul></ul><div><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><br></span></font></div><div><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><br></span></font></div><div><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>解决方案</b>：</span></font></div></div><ul style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal;"><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span style="white-space: pre-wrap;"><b>文档中文可识别【必做】</b>：在程序文件的开头出加上 【 # -*- coding: utf-8 -*- 】 。</span></font></li><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><span><b>解释器默认编码正确设置【必做】</b>：修改程序解释器默认编码，使其与文档的编码格式一致。代码示例如下:</span></font></li></ul><div style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902);"><div style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="font-size: 12px;"><span style="color: rgb(51, 51, 51);"> import sys</span></span></div><div style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="font-size: 12px;"><span style="color: rgb(51, 51, 51);"> reload(sys) # Python2.5 初始化后会删除sys.setdefaultencoding 这个方法，我们需要重新载入</span></span></div><div><font face="Monaco, Menlo, Consolas, Courier New, monospace" color="#333333" size="2"> sys.setdefaultencoding('utf-8’)</font></div></div><div style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal;"><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><b>规范编程的建议【极力推荐，使用此规范可以使程序达到与Python3一样的效果】</b>：</font></li><ul><li><font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif">所有文本字符串都应该是unicode类型，而不是str类型。如果处理的是文本，而变量类型是str，这就是bug了！</font></li><li>若要将字节串解码成字符串，需要使用正确的解码，即var.decode(encoding)（如，var.decode('utf-8')）。将文本字符串编码成字节，使用var.encode(encoding)。</li><li>永远不要对unicode字符串使用str()，也不要在不指定编码的情况下就对字节串使用unicode()。</li><li>当应用从外部读取数据时，应将其视为字节串，即str类型的，接着调用.decode()将其解释成文本。同样，在将文本发送到外部时，总是对文本调用.encode()。</li><li>如果代码中使用字符串字面值来表示文本，总是应该含有’u’前缀。<font face="Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif"><br></font></li></ul></ul></div><div style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal;"><span style="font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;"><br></span></div><div style="font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; font-weight: normal; color: rgb(62, 62, 62); font-size: 16px;"><div><br></div></div></div><p style="font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; font-weight: normal; color: rgb(62, 62, 62); font-size: 16px; margin: 0px; padding: 0px; clear: both; min-height: 1em; white-space: pre-wrap; max-width: 100%; box-sizing: border-box; word-wrap: break-word;"><b><font style="font-size: 24px;">文章正文</font></b>：</p><p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal;"></p><p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">正确处理文本，特别是正确处理Unicode。是个老生常谈的问题，有时甚至会难倒经验丰富的开发者。并不是因为这个问题很难，而是因为对软件中的文本，开发者没有正确理解一些关键概念及其表示方法。在StackOverflow上搜索关于<a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(0, 153, 204);" href="http://stackoverflow.com/search?q=unicodedecodeerror" target="_blank" rel="external">UnicodeDecodeError</a>相关的问题，可以看到很多人都有这样的误解。这些错误的概念可以追溯到Unicode出现之前。那时许多现今的开发者还没入职，也包括我自己。如果这些错误的概念没有散布开来，其实不是个问题。现在很多人都有这些错误概念，部分原因是因为有些非常流行的语言传播，甚至固化了这些错误概念，使得纠正起来反而变得很困难。</p>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">根据对Unicode的支持情况，编程语言可以划分为4类：</p>
+<ul style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%; list-style: disc outside; display: block;">
+<li style="border:0px;margin:0px;padding:0px;font-size:100%;display:list-item;margin-left:30px;margin-bottom:5px;">在Unicode出现或流行之前编写的语言。C和C++就属于这一类。这类语言对unicode的支持参差不齐。或没有内置到语言中，或很难正确的使用。因此开发者常常会用错。</li>
+<li style="border:0px;margin:0px;padding:0px;font-size:100%;display:list-item;margin-left:30px;margin-bottom:5px;">对Unicode支持稍好一点。这些语言在Unicode广泛流行后才出现的，但语言中对unicode的操作方式是严重错误的。虽然这些语言诞生较晚，但依然含有第一类语言中的所有缺点。以我的经验，其中代表语言就是PHP。尽管还有其他语言也同样糟糕。</li>
+<li style="border:0px;margin:0px;padding:0px;font-size:100%;display:list-item;margin-left:30px;margin-bottom:5px;">对Unicode支持基本正确，但有少数致命缺点的语言。这一类语言比较“现代”，且能理解Unicode，但依然无法让开发者正确的处理unicode，导致在这些语言中对unicode会出现一些严重不足。让我很沮丧的是，Python 2.x就属于这一类（下文会详细介绍）。</li>
+<li style="border:0px;margin:0px;padding:0px;font-size:100%;display:list-item;margin-left:30px;margin-bottom:5px;">能正确处理Unicode的语言。这些语言完全支持Unicode，可以用Unicode方便快速的完成任务，且不易出错。Java和.NET平台就属于这一类语言。</li>
+</ul>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">那么，Unicode到底是什么，我们在Unicode上犯了哪些错误？Joel这篇<a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(0, 153, 204);" href="http://www.joelonsoftware.com/articles/Unicode.html" target="_blank" rel="external">The absolute minimum every software developer absolutely, positively must know about unicode</a>绝对是每个软件开发者必须阅读的文章。为了为简洁起见，以及照顾那些天生耐心不够的朋友，我会在本文中对其进行总结。</p>
+<h2 style="font-family: 'Microsoft YaHei', 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; border: 0px; padding: 0px; font-size: 24px; margin: 0px; font-variant-ligatures: normal; font-variant-position: normal; font-variant-caps: normal; font-variant-numeric: normal; font-variant-alternates: normal; font-variant-east-asian: normal;">字符和字节</h2>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">基本事实是，若想正确的处理文本，就必须了解字符的抽象概念。不严谨的定义一下，字符表示的是文本中的单个符号。更重要的是，一个字符不是一个字节。我再强调一遍！一个字符不是一个字节！！！而且，一个字符有许多表示方法，不同的表示方法会使用不同的字节数。就像前面我说的那样，字符就是文本中最小的单元。</p>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">Unicode以大家都认可的方式定义了一系列的字符。可以将Unicode理解成一个字符数据库，每个字符都与唯一的数字关联，称为code point。这样，英文大写字母A的codepoint是<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">U+0041</code>。而欧元符号的codepoint是<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">U+20A0</code>，其他类似。一个文本字符串就是这样一系列的codepoint，表示字符串中每个字符元素。</p>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">当然，你迟早会需要储存和传输这些理论上的Unicode字符串。如果选择一种其他人可以理解的方式以字节方式进行表示，就可以以大家都理解的方式互相发送文本。这里就需要引入字符编码（encoding）。</p>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">字符编码是在理想的字符和实际的字节表示方法之间的映射。这种映射无需面面俱到，即在某种编码中也许无法表示一些特定的字符。同时也无须为每个字符使用相同的内存空间，譬如某些字符使用单字节编码，而其他字符需要多个字节。</p>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">由于同一个字符的字节表现形式不止一种。这意味着当遇到了一串字节，如果不知道使用的是什么编码，即使知道这些字节表示的是文本，也不知道是什么意思。所能做的就是猜使用的编码。简而言之，字节不是文本。即使忘了文中介绍的所有内容，也要记住这句话。为了读写文本，归根结底就是要知道其中使用的编码方式，不管是从约定、标识信息、或是其他方法得知。</p>
+<h2 style="font-family: 'Microsoft YaHei', 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; border: 0px; padding: 0px; font-size: 24px; margin: 0px; font-variant-ligatures: normal; font-variant-position: normal; font-variant-caps: normal; font-variant-numeric: normal; font-variant-alternates: normal; font-variant-east-asian: normal;">Python是如何处理Unicode</h2>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">从这里开始介绍Python的Unicode支持。在Python的类型层次中，有3种不同的字符串类型：“unicode”，表示Unicode字符串（文本字符串）、“str”，表示字节字符串（二进制数据）；“basestring”。表示前两种字符串类型的父类。在我看来，Python在这里犯了一个错误，根据前面的定义，这让Python成为第三类语言，而没有成为第四类。</p>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">我用了很长的篇幅苦口婆心的强调字节和字符在本质上是不同的东西，只有通过字符编码才能互相转换。但不幸的是，Python犯了两个互不相关的错误，轻轻松松的就会让你忘掉这些。</p>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">第一个错误的严重性值得商榷：即将一串字节视为字符串。是否应该这样做还有争议。Java和,NET认为这样做是不对的，而其他一些语言却持有相反的态度。无论如何，你可能希望对文本进行某些操作，如正则匹配、字符串替代等。将这些操作应用到字节序列上都是没有意义的。而Python将字节序列作为另一种类型的字符串对待，允许在这两者上执行同样的操作。</p>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">第二个错误的严重性大一些，Python试图在字节串和字符串之间以不为人所察觉的方式进行转化。在不同的转换中，在条件允许的情况下，Python会试图在字节串和unicode字符串直接进行转换。例如将字节串和unicode字节串连接到一起时。根据前面的介绍，不使用encoding就在不同类型之间进行转换是没有意义的。所以Python依赖一个“默认编码”，该编码由<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">sys.setdefaultencoding()</code>指定。在大多数平台上，默认的是ASCII编码。但对于所有转换，使用这种编码几乎都是错误的。如果不手动指定编码就调用<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">str()</code>或<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">unicode()</code>，或是函数以字符串作为参数，但传递的是其他类型的参数时，都会使用这个默认编码。</p>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">走出这个unicode困境的一个解决办法是，调用<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">sys.setdefaultencoding()</code>将默认的编码设置为真正会用到的编码。但这样仅仅是将问题隐藏起来，虽然这样刚开始能解决一些文本处理问题。但缺乏实际可行性，因为许多应用，特别是网络应用，在不同的地方会使用不同的文本编码。</p>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">正确的解决方法是修改代码，以正确的方式处理文本。下面是一些应该做到的指导性意见：</p>
+<ul style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%; list-style: disc outside; display: block;">
+<li style="border:0px;margin:0px;padding:0px;font-size:100%;display:list-item;margin-left:30px;margin-bottom:5px;">所有文本字符串都应该是unicode类型，而不是str类型。如果处理的是文本，而变量类型是str，这就是bug了！</li>
+<li style="border:0px;margin:0px;padding:0px;font-size:100%;display:list-item;margin-left:30px;margin-bottom:5px;">若要将字节串解码成字符串，需要使用正确的解码，即<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">var.decode(encoding)</code>（如，<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">var.decode('utf-8')</code>）。将文本字符串编码成字节，使用var.encode(encoding)。</li>
+<li style="border:0px;margin:0px;padding:0px;font-size:100%;display:list-item;margin-left:30px;margin-bottom:5px;">永远不要对unicode字符串使用<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">str()</code>，也不要在不指定编码的情况下就对字节串使用<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">unicode()</code>。</li>
+<li style="border:0px;margin:0px;padding:0px;font-size:100%;display:list-item;margin-left:30px;margin-bottom:5px;">当应用从外部读取数据时，应将其视为字节串，即str类型的，接着调用<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">.decode()</code>将其解释成文本。同样，在将文本发送到外部时，总是对文本调用<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">.encode()</code>。</li>
+<li style="border:0px;margin:0px;padding:0px;font-size:100%;display:list-item;margin-left:30px;margin-bottom:5px;">如果代码中使用字符串字面值来表示文本，总是应该含有’u’前缀。但实际上，永远不要在代码中定义原始的字符串字面值。不管怎样，我自己是很讨厌这一条，也许其他人也和我一样吧。</li>
+</ul>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">顺便说一句，Python 3修复了这些问题，可以正确的处理unicode和字符串，这样Python就完全位于第四类中了，更多信息参见官方的<a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(0, 153, 204);" href="https://docs.python.org/release/3.0.1/whatsnew/3.0.html#text-vs-data-instead-of-unicode-vs-8-bit" target="_blank" rel="external">更新说明</a>中关于Unicode的部分。</p>
+<p style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 100%;">希望这些内容能帮到你，如果对unicode到底是什么，如何处理unicode有疑惑的话，现在应该都清楚了。下次遇到<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">UnicodeEncodeError</code>或<code style="border:0px;margin:0px;padding:0px;font-size:100%;font-family:Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;">UnicodeDecodeError</code>错误时，就应该完全知道问题出在哪，也知道如何去修复这些问题！</p>
+
+        
+            <blockquote style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border-width: 0px 0px 0px 5px; padding: 10px 20px 15px; margin: 0px 0px 10px; font-size: 15px; border-left-style: solid; border-left-color: rgb(106, 174, 228); color: rgb(94, 94, 94); background-color: rgb(238, 238, 238);">
+        <p style="border:0px;margin:0px;padding:0px;font-size:17px;margin-bottom:15px;"><strong style="border:0px;margin:0px;padding:0px;font-size:100%;font-weight:bold;">打赏支持我翻译更多好文章，谢谢！</strong></p>
+        <a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(0, 153, 204);" href="http://python.jobbole.com/80939/#rewardbox" target="_blank" rel="external"><span style="border:0px;margin:0px;cursor:pointer;padding:8px 10px;font-size:15px;color:rgb(255, 255, 255);background:rgb(106, 174, 228);border-radius:5px;"><i style="font-family:FontAwesome;padding:0px;margin:0px;border:0px;font-stretch:normal;font-style:normal;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;font-weight:normal;font-variant:normal;display:inline-block;"><span style="font-style:normal;font-variant:normal;font-weight:normal;font-family:FontAwesome;font-size:inherit;"></span></i> 打赏译者</span></a>
+    </blockquote>
+
+    
+
+    
+        
+    <div style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; padding: 0px; font-size: 100%; margin: 30px 0px;">
+        <span style="margin:0px;cursor:pointer;padding:8px 10px;font-size:16px;color:rgb(255, 177, 92);background:none;border:1px solid rgb(205, 205, 205);border-radius:5px;margin-right:5px;"><i style="font-family:FontAwesome;padding:0px;margin:0px;border:0px;font-stretch:normal;font-style:normal;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;font-weight:normal;font-variant:normal;display:inline-block;"><span style="font-style:normal;font-variant:normal;font-weight:normal;font-family:FontAwesome;font-size:inherit;"></span></i> <span>1</span> 赞</span>
+        <span style="margin:0px;cursor:pointer;padding:8px 10px;font-size:16px;color:rgb(255, 177, 92);background:none;border:1px solid rgb(205, 205, 205);border-radius:5px;margin-right:5px;"><i style="font-family:FontAwesome;padding:0px;margin:0px;border:0px;font-stretch:normal;font-style:normal;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;font-weight:normal;font-variant:normal;display:inline-block;"><span style="font-style:normal;font-variant:normal;font-weight:normal;font-family:FontAwesome;font-size:inherit;"></span></i>  收藏</span>
+
+                    <a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(0, 153, 204);" href="http://python.jobbole.com/80939/#article-comment" target="_blank" rel="external"><span style="margin:0px;cursor:pointer;padding:8px 10px;font-size:16px;color:rgb(255, 177, 92);background:none;border:1px solid rgb(205, 205, 205);border-radius:5px;margin-right:5px;"><i style="font-family:FontAwesome;padding:0px;margin:0px;border:0px;font-stretch:normal;font-style:normal;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;font-weight:normal;font-variant:normal;display:inline-block;"><span style="font-style:normal;font-variant:normal;font-weight:normal;font-family:FontAwesome;font-size:inherit;"></span></i>  评论</span></a>
+        
+        
+        
+        
+        <div style="border:0px;margin:0;padding:0px;font-size:100%;display:inline-flex;position:relative;clear:both;float:right;">
+            <a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(0, 153, 204);" title="分享到微博"><span style="cursor:pointer;border:0px;padding:0px;margin:0px;height:24px;text-align:left;background:url(&amp;quot;http://v3.jiathis.com/code/css/../images/jiathis_ico_24x24.png&amp;quot;) left center no-repeat;font-size:22px;text-decoration:none;overflow:hidden;float:left;background-position:0px -144px;padding-left:28px;display:block;"></span></a>
+            <a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(0, 153, 204);" title="分享到微信"><span style="cursor:pointer;border:0px;padding:0px;margin:0px;height:24px;text-align:left;background:url(&amp;quot;http://v3.jiathis.com/code/css/../images/jiathis_ico_24x24.png&amp;quot;) left center no-repeat;font-size:22px;text-decoration:none;overflow:hidden;float:left;background-position:0px -2712px;padding-left:28px;display:block;"></span></a>
+            <a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(0, 153, 204);" title="分享到QQ空间"><span style="cursor:pointer;border:0px;padding:0px;margin:0px;height:24px;text-align:left;background:url(&amp;quot;http://v3.jiathis.com/code/css/../images/jiathis_ico_24x24.png&amp;quot;) left center no-repeat;font-size:22px;text-decoration:none;overflow:hidden;float:left;background-position:0px -96px;padding-left:28px;display:block;"></span></a>
+            <a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(0, 153, 204);" title="分享到Facebook"><span style="cursor:pointer;border:0px;padding:0px;margin:0px;height:24px;text-align:left;background:url(&amp;quot;http://v3.jiathis.com/code/css/../images/jiathis_ico_24x24.png&amp;quot;) left center no-repeat;font-size:22px;text-decoration:none;overflow:hidden;float:left;background-position:0px -1032px;padding-left:28px;display:block;"></span></a>
+            <a style="background:url(&amp;quot;http://v3.jiathis.com/code/css/../images/jiathis_ico_24x24.png&amp;quot;) left center no-repeat;border:0px;padding:0px;color:rgb(0, 153, 204);display:block;text-decoration:none;text-align:left;overflow:hidden;margin:0px 5px;cursor:pointer;font-size:22px;float:left;background-position:0px -2112px;padding-left:28px;height:24px;" target="_blank" href="http://www.jiathis.com/share?uid=1745061">
+        </a></div>
+
+    </div>
+
+
+
+
+        
+
+<div style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border-width: 0px 0px 1px; margin: 0px 0px 20px; padding: 0px; font-size: 100%; clear: both; border-bottom-style: solid; border-bottom-color: rgb(232, 232, 232);">
+	
+	<h3 style="border:0px;font-stretch:normal;font-variant:normal;font-style:normal;margin-bottom:20px;padding:0px;margin:0px;border-bottom:1px solid rgb(232, 232, 232);font-family:&quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;margin-top:0px;padding-bottom:5px;font-size:13px;font-weight:bold;color:rgb(0, 153, 204);">
+	关于作者：<a style="border:0px;margin:0px;padding:0px;font-size:100%;color:rgb(0, 153, 204);text-decoration:none;" target="_blank" href="http://www.jobbole.com/members/daetalus">Daetalus</a>
+	</h3>
+	<div style="border:0px;margin:0px;padding:0px;font-size:100%;text-align:left;float:left;margin-right:20px;margin-bottom:25px;">
+		<a style="margin-top:5px;color:rgb(0, 153, 204);text-decoration:none;font-size:100%;padding:0px;margin:0px;height:60px;overflow:hidden;transition:all 0.2s ease-in-out;border:5px solid rgb(232, 232, 232);background:rgb(255, 255, 255);display:block;width:60px;" target="_blank" href="http://www.jobbole.com/members/daetalus">
+			<img src="/Resources/Python2%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BC%96%E7%A0%81%E6%8C%87%E5%8D%97.resources/8fbdaaa5ea6d3b49c8c1c825aafeb5d9.png" height="132" width="132">
+		</a>
+	</div>
+
+    <div style="border:0px;margin:0px;padding:0px;font-size:100%;">
+
+        <span style="border:0px;padding:0px;font-size:100%;display:block;margin:10px 0px;">
+            Pyston核心开源开发者。熟悉CPython实现，关注Python科学计算。        </span>
+        <span style="border:0px;padding:0px;font-size:100%;display:block;margin:10px 0px;">
+            <a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(95, 95, 95);" target="_blank" href="http://www.jobbole.com/members/daetalus"><i style="font-family:FontAwesome;padding:0px;margin:0px;border:0px;font-stretch:normal;font-style:normal;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;font-weight:normal;font-variant:normal;display:inline-block;"><span style="font-style:normal;font-variant:normal;font-weight:normal;font-family:FontAwesome;font-size:inherit;"></span></i> 个人主页</a> ·
+            <a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(95, 95, 95);" target="_blank" href="http://python.jobbole.com/author/daetalus/"><i style="font-family:FontAwesome;padding:0px;margin:0px;border:0px;font-stretch:normal;font-style:normal;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;font-weight:normal;font-variant:normal;display:inline-block;"><span style="font-style:normal;font-variant:normal;font-weight:normal;font-family:FontAwesome;font-size:inherit;"></span></i> 我的文章</a>
+
+             · <a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(95, 95, 95);" title="声望值" href="http://www.jobbole.com/members/daetalus/reputation/" target="_blank"><i style="font-family:FontAwesome;padding:0px;margin:0px;border:0px;font-stretch:normal;font-style:normal;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;font-weight:normal;font-variant:normal;display:inline-block;"><span style="font-style:normal;font-variant:normal;font-weight:normal;font-family:FontAwesome;font-size:inherit;"></span></i> 28</a> · <a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(95, 95, 95);" title="微博主页" href="http://weibo.com/1957717801/" target="_blank"><i style="font-family:FontAwesome;padding:0px;margin:0px;border:0px;font-stretch:normal;font-style:normal;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;font-weight:normal;font-variant:normal;display:inline-block;"><span style="font-style:normal;font-variant:normal;font-weight:normal;font-family:FontAwesome;font-size:inherit;"></span></i></a> <a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(95, 95, 95);" title="GitHub主页" href="https://github.com/Daetalus" target="_blank"><i style="font-family:FontAwesome;padding:0px;margin:0px;border:0px;font-stretch:normal;font-style:normal;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;font-weight:normal;font-variant:normal;display:inline-block;"><span style="font-style:normal;font-variant:normal;font-weight:normal;font-family:FontAwesome;font-size:inherit;"></span></i></a>         </span>
+    </div>
+	<div style="border:0px;margin:0px;padding:0px;font-size:100%;clear:both;display:block;overflow:hidden;visibility:hidden;width:0px;height:0px;">
+</div>
+
+
+	</div>
+	
+
+
+
+
+
+			<div style="font-family: 'Microsoft YaHei', 宋体, 'Myriad Pro', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; border: 0px; margin: 0px; padding: 0px; font-size: 100%;"><p style="border:0px;margin:0px;padding:0px;font-size:100%;margin-bottom:20px;"><a style="border:0px;margin:0px;padding:0px;font-size:100%;text-decoration:none;color:rgb(0, 153, 204);" target="_blank" href="http://blog.jobbole.com/106093/"><img src="/Resources/Python2%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BC%96%E7%A0%81%E6%8C%87%E5%8D%97.resources/bfdcef89gw1f9cf7iwi24j20h802sjrz.jpg" height="100" width="620"><br></a></p>
+</div>
+		
+</div></div></div></div></div></div><br></div><div><br></div></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/脚本/" rel="tag"># 脚本</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/多版本python管理工具：pyenv的使用/" rel="next" title="多版本python管理工具：pyenv的使用">
+                <i class="fa fa-chevron-left"></i> 多版本python管理工具：pyenv的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/09/Python编程规范指南/" rel="prev" title="Python编程规范指南">
+                Python编程规范指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/09/Python2字符串编码指南/"
+     data-title="Python2字符串编码指南"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/09/Python2字符串编码指南/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/09/Python2字符串编码指南/"
+           data-title="Python2字符串编码指南" data-url="https://treasureu.github.io/2017/02/09/Python2字符串编码指南/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">字符和字节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Python是如何处理Unicode</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.</span> <span class="nav-text">
+	关于作者：Daetalus
+	</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,1090 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="project.pbxproj结构解析
+
+
+基本概念：
+
+注释方式：/* xxx */ 之间的内容作为注释，整篇文档拥有非常完善的注释，有苹果自动生成。
+pbxproj也是一个Property list文件，但是所采用的是NextStep公司开发的早期类XML格式，现在已经被废弃，估计只有苹果一家在用了。
+基础语法：
+
+数组：，使用“（）”大括号包裹，内部使用“,”划分。
+字典：，使用“{}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="project.pbxproj结构解析">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/09/project.pbxproj结构解析/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="project.pbxproj结构解析
+
+
+基本概念：
+
+注释方式：/* xxx */ 之间的内容作为注释，整篇文档拥有非常完善的注释，有苹果自动生成。
+pbxproj也是一个Property list文件，但是所采用的是NextStep公司开发的早期类XML格式，现在已经被废弃，估计只有苹果一家在用了。
+基础语法：
+
+数组：，使用“（）”大括号包裹，内部使用“,”划分。
+字典：，使用“{}">
+<meta property="og:image" content="https://treasureu.github.io/Resources/project.pbxproj%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90.resources/7F6923B8-A95D-4903-8C35-C31EE244E3FB.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/project.pbxproj%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90.resources/5B6BFA84-77E7-40D8-B2A6-2A4A4DBDC54E.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/project.pbxproj%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90.resources/8E7D8F4F-1D18-473C-9281-BF8EFFA7554E.png">
+<meta property="og:updated_time" content="2017-02-09T03:19:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="project.pbxproj结构解析">
+<meta name="twitter:description" content="project.pbxproj结构解析
+
+
+基本概念：
+
+注释方式：/* xxx */ 之间的内容作为注释，整篇文档拥有非常完善的注释，有苹果自动生成。
+pbxproj也是一个Property list文件，但是所采用的是NextStep公司开发的早期类XML格式，现在已经被废弃，估计只有苹果一家在用了。
+基础语法：
+
+数组：，使用“（）”大括号包裹，内部使用“,”划分。
+字典：，使用“{}">
+<meta name="twitter:image" content="https://treasureu.github.io/Resources/project.pbxproj%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90.resources/7F6923B8-A95D-4903-8C35-C31EE244E3FB.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/09/project.pbxproj结构解析/"/>
+
+
+
+
+
+  <title> project.pbxproj结构解析 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/09/project.pbxproj结构解析/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                project.pbxproj结构解析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T11:19:07+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/09/project.pbxproj结构解析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/09/project.pbxproj结构解析/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="16.52395439147949"><meta name="author" content="程剑锋"><meta name="created" content="2016-10-26 12:58:49 +0000"><meta name="latitude" content="31.21656766713748"><meta name="longitude" content="121.3022669058204"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-10-27 09:04:31 +0000"><title>project.pbxproj结构解析</title></head><body>
+<div>
+<div>
+<div><b>基本概念</b>：</div>
+<ul>
+<li>注释方式：/* xxx */ 之间的内容作为注释，整篇文档拥有非常完善的注释，有苹果自动生成。</li>
+<li>pbxproj也是一个Property list文件，但是所采用的是NextStep公司开发的早期类XML格式，现在已经被废弃，估计只有苹果一家在用了。</li>
+<li>基础语法：
+<ul>
+<li>数组：<img src="/Resources/project.pbxproj%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90.resources/7F6923B8-A95D-4903-8C35-C31EE244E3FB.png" height="124" width="736">，使用“（）”大括号包裹，内部使用“,”划分。</li>
+<li>字典：<img src="/Resources/project.pbxproj%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90.resources/5B6BFA84-77E7-40D8-B2A6-2A4A4DBDC54E.png" height="248" width="760">，使用“{}”花括号包裹字典，内部键值对采用 key = value 的形式组织，每一组键值对之间使用 “;”划分。</li>
+<li>其他字段都是单一值字段</li>
+</ul>
+</li>
+<li>文件基本结构：
+<ul>
+<li><img src="/Resources/project.pbxproj%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90.resources/8E7D8F4F-1D18-473C-9281-BF8EFFA7554E.png" height="418" width="994"></li>
+<li>最主要的内容放在 objects 中</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><b>进阶概念</b>：</div>
+</div>
+<ul>
+<li>当生成一个Target时，xcode会自动为这个Target分配一个ID，这个ID在之后只要这个Target存在，就不会再改变。</li>
+<li>objects下主要的section划分：
+<ul>
+<li><b>PBXBuildFile</b>：是文件类，被PBXBuildPhase等作为文件包含或被引用的资源。其中isa跟Objc中的对象的isa指针一样,指向的是它的类,而fileRef则指向的是一个PBXFileReference对象。PBXBuildFile中的对象是编译时候需要使用到的文件和资源的集合（不一定是被编译，可能是复制）。</li>
+<li><b>PBXFileReference</b>：用于跟踪项目引用的每一个外部文件，比如源代码文件、资源文件、库文件、生成目标文件等。</li>
+<li><b>PBXGroup</b>：用于组文件，或者嵌套组。通过唯一标识符组装,每个PBXGroup对象都有一个children属性,里面可以是任何一种类的对象。但是这时候的PBXGroup指的是Xcode里面组织的分组结构,和实际文件系统中的结构并不相同。 指的注意的是,children中的每个文件对象都属于PBXFileReference类,而不是PBXBuildFile类</li>
+<li><span style="color: rgb(4, 51, 255);"><b>PBXNativeTarget</b></span>：就是工程中的target,如果工程中有多个target,都会在这个section中有所体现。我们都知道每个target都有Compile Sources、Copy Bundle Resources、Link Binary With Libiaries这三个需要在编译时确定的内容。 而在PBXNativeTarget中通过buildPhases属性可以找到对应的内容。</li>
+<li><b>PBXSourcesBuildPhase</b>：用于构建阶段中编译源文件。</li>
+<li><b>PBXResourcesBuildPhase：</b>用于构建阶段需要复制的资源文件。</li>
+<li><b>PBXProject</b>：标识着整个工程,由根元素的rootObject引入，该对象记录着targets、mainGroup等重要信息,甚至每个target在创建时候的Xcode版本都会记录在其中。</li>
+<li><b>XCConfigurationList</b>：记录工程配置信息。</li>
+<li><b>XCBuildConfiguration</b>：记录工程编译配置信息。</li>
+</ul>
+</li>
+<li>常用的操作库：
+<ul>
+<li>Ruby:Xcodeproj，这个库是CocoaPods用于操作pbxproj的库。【读写最优】</li>
+<li>Python：mod_pbxproj，强大的 Python 解析库，支持一定的修改操作，可输出 OpenStep 格式，但是顺序和注释内容无法完美还原，有些鸡肋。但是修改后，可能导致注释顺序发生变化。目前CI打包平台用的是这个库来修改配置文件的。</li>
+</ul>
+</li>
+</ul>
+<div><br></div>
+<div><b>watch target误删监控</b>：</div>
+<ul>
+<li>经过试验得知，当新建一个target时，会在<span style="color: rgb(4, 51, 255);"><b>PBXNativeTarget</b></span> 中增加一个target对象，而且会在<b>PBXProject</b> 中增加关于这个Target的信息。</li>
+<li>mod_pbxproj则中有一个接口get_target_by_name（ name ）通过对<span style="color: rgb(4, 51, 255);"><b>PBXNativeTarget</b></span> 中所有对象的遍历可以获取到指定name的target，如果获取不到就会会返回None。</li>
+<li>mod_pbxproj库的地址：<a href="https://github.com/kronenthaler/mod-pbxproj#installation" target="_blank" rel="external">https://github.com/kronenthaler/mod-pbxproj#installation</a>
+<ul>
+<li>安装其实直接使用这个文件即可，pip和setup.py都太慢了。</li>
+<li>使用时，直接导入语句：from mod_pbxproj import XcodeProject 即可。</li>
+<li>如下即实现了一个target查询的操作：</li>
+</ul>
+</li>
+</ul>
+<div>
+<div style="background-color:#2b2b2b;color:#a9b7c6;font-family:'Menlo';font-size:9.0pt;"><span style="color:#cc7832;font-weight:bold;">from </span>mod_pbxproj <span style="color:#cc7832;font-weight:bold;">import </span>XcodeProject<br>
+<br>
+project = XcodeProject.Load(<span style="color:#a5c261;">'/Users/chengjianfeng/Desktop/sample.pbxproj'</span>)<br>
+mainTarget = project.get_target_by_name(<span style="color:#a5c261;">"TestProject1"</span>)<br>
+<span style="color:#cc7832;font-weight:bold;">if </span>mainTarget:<br>
+   <span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#a5c261;">"exist"<br></span><span style="color:#cc7832;font-weight:bold;">else</span>:<br>
+   <span style="color:#cc7832;font-weight:bold;">print </span><span style="color:#a5c261;">"not exist"</span><br></div>
+</div>
+<div><br></div>
+</div>
+<div><br></div>
+<div><b>示例文档</b>：</div>
+<div><a href="/Resources/project.pbxproj%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90.resources/double.pbxproj">double.pbxproj</a><a href="/Resources/project.pbxproj%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90.resources/delete.pbxproj">delete.pbxproj</a><a href="/Resources/project.pbxproj%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90.resources/sample.pbxproj">sample.pbxproj</a></div>
+<ul>
+<li>sample：最开始只有一个target的工程</li>
+<li>double：添加了watch target的工程</li>
+<li>delete：直接删除watch target的工程</li>
+</ul>
+<div><br></div>
+<div>
+<div>
+<div><b>参考文章</b>：</div>
+</div>
+<ul>
+<li>结构分析：<a href="http://www.cnblogs.com/gongyuhonglou/p/5570864.html" target="_blank" rel="external">http://www.cnblogs.com/gongyuhonglou/p/5570864.html</a></li>
+<li>字段详解：<a href="http://www.cocoachina.com/ios/20161008/17689.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">http://www.cocoachina.com/ios/20161008/17689.html?utm_source=tuicool&amp;utm_medium=referral</a></li>
+<li>解析工具推荐：<a href="http://www.aiweibang.com/yuedu/155382255.html" target="_blank" rel="external">http://www.aiweibang.com/yuedu/155382255.html</a></li>
+</ul>
+</div>
+</body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/使用NSInputStream完成分步数据读入/" rel="next" title="使用NSInputStream完成分步数据读入">
+                <i class="fa fa-chevron-left"></i> 使用NSInputStream完成分步数据读入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/09/iOS通知相关内容【远程与本地】/" rel="prev" title="iOS通知相关内容【远程与本地】">
+                iOS通知相关内容【远程与本地】 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/09/project.pbxproj结构解析/"
+     data-title="project.pbxproj结构解析"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/09/project.pbxproj结构解析/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/09/project.pbxproj结构解析/"
+           data-title="project.pbxproj结构解析" data-url="https://treasureu.github.io/2017/02/09/project.pbxproj结构解析/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

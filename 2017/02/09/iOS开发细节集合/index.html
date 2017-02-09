@@ -1,0 +1,979 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="iOS开发细节集合iOS开发WIKI（第三方维护）：http://iphonedevwiki.net/index.php/Main_PageOC语法特性：OC中，函数重复定义的标准是：参数个数相同以及选择器名称（即方法名称）相同。与方法返回类型、参数类型以及参数名称均没有关系。在使用@property后，编译器都会自动生成隐藏的实例变量、相应的get/set方法。如果希望自己实现这些（此时属">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发细节集合">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/09/iOS开发细节集合/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="iOS开发细节集合iOS开发WIKI（第三方维护）：http://iphonedevwiki.net/index.php/Main_PageOC语法特性：OC中，函数重复定义的标准是：参数个数相同以及选择器名称（即方法名称）相同。与方法返回类型、参数类型以及参数名称均没有关系。在使用@property后，编译器都会自动生成隐藏的实例变量、相应的get/set方法。如果希望自己实现这些（此时属">
+<meta property="og:image" content="https://treasureu.github.io/Resources/iOS%E5%BC%80%E5%8F%91%E7%BB%86%E8%8A%82%E9%9B%86%E5%90%88.resources/81AFDE3D-D700-49F0-B5F0-4FCCC54C1D39.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/iOS%E5%BC%80%E5%8F%91%E7%BB%86%E8%8A%82%E9%9B%86%E5%90%88.resources/00E83E3D-BA71-4505-AE62-C0661B18464E.png">
+<meta property="og:updated_time" content="2017-02-09T03:19:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发细节集合">
+<meta name="twitter:description" content="iOS开发细节集合iOS开发WIKI（第三方维护）：http://iphonedevwiki.net/index.php/Main_PageOC语法特性：OC中，函数重复定义的标准是：参数个数相同以及选择器名称（即方法名称）相同。与方法返回类型、参数类型以及参数名称均没有关系。在使用@property后，编译器都会自动生成隐藏的实例变量、相应的get/set方法。如果希望自己实现这些（此时属">
+<meta name="twitter:image" content="https://treasureu.github.io/Resources/iOS%E5%BC%80%E5%8F%91%E7%BB%86%E8%8A%82%E9%9B%86%E5%90%88.resources/81AFDE3D-D700-49F0-B5F0-4FCCC54C1D39.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/09/iOS开发细节集合/"/>
+
+
+
+
+
+  <title> iOS开发细节集合 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/09/iOS开发细节集合/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS开发细节集合
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T11:19:07+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/09/iOS开发细节集合/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/09/iOS开发细节集合/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="汇总贴"><meta name="author" content="程剑锋"><meta name="created" content="2016-07-26 03:20:31 +0000"><meta name="source-url" content="http://www.jianshu.com/p/3e1b4e2d06c6"><meta name="updated" content="2017-02-07 07:46:17 +0000"><title>iOS开发细节集合</title></head><body><div><b>iOS开发WIKI（第三方维护）：</b><a href="http://iphonedevwiki.net/index.php/Main_Page" target="_blank" rel="external">http://iphonedevwiki.net/index.php/Main_Page</a></div><div><b><br></b></div><div><b>OC语法特性：</b></div><ul><li>OC中，<b>函数重复定义的标准</b>是：参数个数相同以及选择器名称（即方法名称）相同。与方法返回类型、参数类型以及参数名称均没有关系。</li><li><a>在使用@property后，编译器都会自动生成隐藏的实例变量、相应的get/set方法。如果希望自己实现这些（此时属性声明的作用只相当告诉外界我拥有这两个方法而已），需要在implementation中声明@dynamic</a>&nbsp;&nbsp;属性名 ，然后自定义变量以及相应的set/get方法。在ios6之后，编译器会默认检查是否存在对应的读写函数，如果都存在，则不会再生成变量。</li><li>如果需要屏蔽父类中的变量，只需要在子类中重新实现该属性的set/get方法即可。如果需要覆盖，则需要子类中也在定义一个相同类型的变量用于存储。</li><li>只要符合函数重复定义的标准，那么在父子类中，子类就将覆盖父类中的对应方法。如果是在同一个类中重复定义，那么将会直接报错。</li><li>在OC中，OC函数调用是消息转发，而C函数调用是直接调用。而无论哪个，<b>其函数返回值是 R-Value（右值），不可以用于赋值</b>。<b>对于属性值的访问，都是函数调用，因此其get函数的返回值不能直接用于修改数据</b>。</li><li>在iOS中，有些类是不允许继承的。比如NSTimer，它本身就是一个抽象类。且苹果没有提供将其具象化的方法。</li></ul><div><b><br></b></div><div><b><br></b></div><div><b>未知对象调用方法</b>：</div><ul><li>在OC中，对于不确定的对象，比如id、任何从数组或字典中取出的对象、Class等，调用未声明的方法，是不会导致编译报错的。但是可能会导致编译时crash。</li><li>如果对于类型明确的对象（比如已经明确指出该对象是什么指针类型的），那么，直接调用未声明方法是会编译报错的。但可以通过 <span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">performSelector</span>&nbsp;&nbsp;间接的调用想要调用的方法。但是这个方式有参数个数的限制，最多支持两个参数。再多就需要使用NSInvacation了。</li><li>因此，在OC中，如果调用未知方法是非常危险的，使用 <span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">performSelector</span>&nbsp;&nbsp;调用前，最好先使用 <span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">respondsToSelector</span>&nbsp;&nbsp;验证方法是否可调用。</li><li>如果类对象 调用 <span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">[classObj&nbsp;&nbsp;</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">respondsToSelector</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">:</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">@selector</span><span style="font-family: Monaco; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal;">(xxxx:)];</span>&nbsp;&nbsp;判定的话，那么只有类方法会返回 true，成员方法会返回false，且类方法是可以被成功调用的。这里我们需要指出的是，OC中，类方法与普通方法都是按照消息模式处理的，也是按照响应链依次判定调用的 。只不过<b>对于类对象来说，它的方法响应链上只包含静态类方法（这与它是一个对象的概念是一致的，类的类方法属于类对象所属的类的实例方法）</b>，其他方法一概不能调用。(不仅包含自身的静态类方法，还包括父类的静态类方法，且遵循响应链调用顺序)</li></ul><div><br></div><div><br></div><div><b>内存管理</b>：</div><ul><li>当有for循环时，且每次循环内部都有大量的临时变量产生。那么在ARC下，我们需要在for循环内部添加上一个 @autorelease ，以便及时的释放这些内存。（特别是图片格式转换这类函数，会有很大的临时内存持有，并残留在autorelease中） &nbsp;&nbsp;</li></ul><div><br></div><div><b>网络返回数据的处理问题：</b></div><ul><li>可能引发crash的原因<b>：</b><ul><li>返回类型为null，那么这个类型将会被转化为 【NSNull class】，之后对这个对象不管调用什么方法，都将引起crash。</li><li>返回类型不符合预期类型，可能会导致crash。比如返回的是一个string，但是以为他是array，之后调用了objectForIndex 等，将直接导致crash。</li><li>返回类型符合预期，但是是非法值。这个错误一般不会立即引起crash，但是可能在程序的地方，引起crash。</li></ul></li><li>保护措施：
+<ul><li>对于网络请求的返回数据，每取一次数据都需要校验一次，不可以一次取多层数据（比如嵌套的调用 objectForKey）。</li><li>对于数据的合法性判断，采用 validateXXXX 来判断合法性，这个在取中间数据和直接使用数据时比较常用。</li><li>如果当前是在对一个model类型进行初始化，那么最好使用 toValidateXXX 直接产生一个合法的初始值给对象，当然，你也可以采用&nbsp;&nbsp;validateXXXX 再根据返回结果取自己赋自定义初值。</li></ul></li></ul><div><br></div><div><b>NSArray 与 NSDictionary 的初始化方法</b>：</div><ul><li><b>语法糖</b>初始化方式：在使用直接初始化方法时 （ NSArray —— &nbsp;&nbsp;@[ &nbsp;&nbsp;, &nbsp;&nbsp;, &nbsp;&nbsp;]不需要nil ； NSDictionary ——@{ … : …，… : …，… : … } 不需要nil ），一旦遇到为nil的元素，就引发插入crash。</li><li><b>方法调用</b>初始化：使用【NSArray arrayWithObjects:obj1,obj2,obj3,nil】 （需要添加nil）时，一旦遇到nil元素就会停止添加，从而导致数组或者字典内的元素数量与预期的不一致。</li><li>这两者前者容易crash，但容易暴露问题数据。后者不容易crash，但是可能引发数据不一致问题，而这个问题更加难定位。因此建议使用前者。</li></ul><div><br></div><div><br></div><div><b>关于非 xib 文件的控件存储属性设置</b>：</div><ul><li>首先，在xib中，由于顶层的view默认持有创建好的所有view,可以将里面的控件声明为 weak，以方便系统进行自动的内存回收。</li><li>如果是<b>在非xib文件中，那么属性均要使用 strong 来承载，因为 系统自动回收的间隔期是不确定的，如果赋值为weak很有可能在赋值过程或者未加入superView的过程中就已经被释放啦</b>，所以为了安全起见，必须将 该控件属性声明为 strong。</li></ul><div><br></div><div><br></div><div><b>多button切换界面，使用同一个显示容器时的注意事项</b>：</div><ul><li>如果使用同一个显示容器，在不同的button之间切换，那么，就要做好网络保护措施。如果，允许用户在第一个网络请求未返回之前重新点击button，并发起网络请求的话，那么这两个请求的时序性是不一定的，因此，一定要做好保护措施，保证时序性的问题。</li></ul><div><br></div><div><br></div><div><b>快速复用view代码的方式</b>：</div><ul><li>当我们遇到之前的一个view，需要把它移植到 cell 中等情况。那么有一个备选的方案就是 直接在cell 中 addSubview ，将这个view添加进去。这样的代价最小。但是逻辑不是非常清晰。</li></ul><div><br></div><div><br></div><div><b>随机字符串生成指南</b>：</div><div><br></div><div style="box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, 'Courier New', monospace; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);"><div>char data[NUMBER_OF_CHARS];</div><div>for (int x=0;x&lt;NUMBER_OF_CHARS;data[x++] = (char)('A' + (arc4random_uniform(26))));</div><div>return [[NSString alloc] initWithBytes:data length:NUMBER_OF_CHARS encoding:NSUTF8StringEncoding];</div></div><div><span style="color: rgb(51, 51, 51);"><span style="font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;">这个函数可以生成随机长度和内容的字符串，只需要修改</span></span> <code style="padding: 0px !important; font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important; color: black !important; border-top-left-radius: 0px !important; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important; border-bottom-left-radius: 0px !important; background-image: none !important; border: 0px !important; bottom: auto !important; float: none !important; left: auto !important; outline: 0px !important; overflow: visible !important; right: auto !important; text-align: left !important; top: auto !important; vertical-align: baseline !important; box-sizing: content-box !important; font-weight: normal !important; font-style: normal !important; min-height: inherit !important;">NUMBER_OF_CHARS 这个宏即可。</code></div><div><span style="font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;"><br></span></div><div><span style="font-family: Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;"><br></span></div><div><b>轻量级数据存储</b>：轻量级数据请使用NSUserDefaults来存取</div><div><br></div><div><br></div><div><b>按钮频繁点击互斥方法</b>：</div><div>对于按钮来说，假设其功能为点击后发起网络请求，那我们一般希望在上一次网络请求返回前，重复点击按钮不要再次发起请求。</div><div>此时我们有两种方法来实现互斥和等待：</div><ul><li>考虑将 button.userInteractionEnable = NO ,然后在请求返回后再将其置为 YES 。即可确保不会重复发起请求。按钮置灰方式更适用于单个按钮发起请求时。</li><li>可以采用传统的标志位方式。标志位方式更适用于<b>一组按钮</b>发起同一个请求时。</li></ul><div><br></div><div><br></div><div><b>调起控制台事件</b>：调起控制台事件会导致app resignActivity ，<b>但是app不会因此停止运行</b>，app依然运行正常，包括<b>后台线程以及主线程</b>都可以正常运行。</div><div><br></div><div><br></div><div><b>iOS覆盖安装问题</b>：必须采用同一个证书打的包，并且采用相同的bundelIdentifer 才会产生覆盖安装。其他情况均会同时安装成两个不同的app。</div><div><br></div><div><br></div><div><b>iPad分屏开发</b>：</div><ol><li>在iPad上，只有两个app都支持分屏操作时，才能完成分屏。</li><li>在iPad上，当有任何一方不支持分屏时，只能从右侧调出一个1/4的小窗操作，且不能同时操作，其类似于控制中心的性质。</li><li>当两个app都支持时，才能完成分屏操作。</li></ol><div><br></div><div><br></div><div><b>ios关于枚举值的定义和使用方式</b>：</div><ul><li>有三种方式：<u>enum \ NS_ENUM \ NS_OPTIONS</u>。注意的是，<b>无名enum里的内容，也是可以使用的</b>！这一点与我之前的认知不同。</li></ul><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);"><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">typedef enum [name] {</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;…… </span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">} [name];</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br></span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">typedef NS_ENUM( type , name ){</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;…… </span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">};</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br></span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">typedef NS_OPTIONS( type , name ){</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;…… </span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">};</span></span></span></div></div><ul><li style="display:inline;list-style:none;"><ul><li>参考博客:<a href="http://blog.csdn.net/annkie/article/details/9877643" target="_blank" rel="external">http://blog.csdn.net/annkie/article/details/9877643</a></li></ul></li><li>关于&nbsp;&nbsp;<u>NS_OPTIONS</u>&nbsp;&nbsp;的复杂用法：下面的值可以是上面的值的 | 组合结果，依次来表示可知的组合情况。例如：</li></ul><div><br></div><div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>typedef NS_OPTIONS(NSUInteger, YYNetworkTrafficType) {</div><div>&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeWWANSent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 1 << 0, </div><div>&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeWWANReceived = 1 << 1, </div><div>&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeWIFISent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 1 << 2, </div><div>&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeWIFIReceived = 1 << 3, </div><div>&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeAWDLSent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 1 << 4, </div><div>&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeAWDLReceived = 1 << 5, </div><div><br></div><div>&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeWWAN = YYNetworkTrafficTypeWWANSent | YYNetworkTrafficTypeWWANReceived, </div><div>&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeWIFI = YYNetworkTrafficTypeWIFISent | YYNetworkTrafficTypeWIFIReceived, </div><div>&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeAWDL = YYNetworkTrafficTypeAWDLSent | YYNetworkTrafficTypeAWDLReceived, </div><div><br></div><div>&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeALL = YYNetworkTrafficTypeWWAN | </div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeWIFI | </div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; YYNetworkTrafficTypeAWDL, </div><div>};</div></div><div><br></div><div><br></div><div><br></div><div><b>视图的透明度设置问题</b>：给一个view.alpha属性赋值可以设置它的透明度，值的范围在[0.0,1.0]之间，0表示完全透明，1表示完全不透明。需要注意的是，这个值<b>不仅影响该view本身的透明度，还会影响其 子view的透明度</b> ！</div><div><br></div><div><br></div><div><b>ScrollView及其子类点击状态栏置顶的特性</b>：</div><div>这是系统特性，默认有效，且会覆盖其他一切事件优先捕获。<b>点击范围仅限于状态栏</b>。</div><div>与此特性相关的有两个回调函数，可以在delegate中覆盖：</div><ul><li><span style="font-family: Monaco;">- (<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; font-family: Monaco;">BOOL</span><span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; font-family: Monaco;">)scrollViewShouldScrollToTop:(</span><span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; font-family: Monaco;">UIScrollView</span> <span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; font-family: Monaco;">*)scrollView ：&nbsp;&nbsp;</span></span><span style="font-style: normal; font-variant: normal; font-weight: normal;"><span style="font-family: Monaco;">会在滚动开始前回调，询问是否启用回顶功能。</span></span></li><li><span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; font-family: Monaco;">-(</span><span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; font-family: Monaco;">void</span><span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; font-family: Monaco;">)scrollViewDidScrollToTop:(</span><span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; font-family: Monaco;">UIScrollView</span> <span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; font-family: Monaco;">*)scrollView ：&nbsp;&nbsp;</span>会在滚动完成后回调。</li></ul><div><br></div><div><br></div><div><b>view设置圆角</b>:</div><ol><li>默认情况下，view都是矩形出现的。但是可以修改 <b>view.layer.cornerRadius</b> ,使边角变成弧形。这个值越大，则弧度越明显。一般来说，设置为5，最为美观。</li><li>在设置了&nbsp;&nbsp;view.layer.cornerRadius 后一定要 设置&nbsp;&nbsp;<b>view.clipToBounds = YES</b>，否则是不会生效的。</li><li><b>注意事项</b>：layer.cornerRadius 只针对单个 view有效，如果发现你设置的view在实际显示时未出现圆角效果，那么最大的可能是由于 其上的 subView 的大小大于该view，导致其显示内容被覆盖。</li><li><b>性能建议</b>：当一个页面中频繁出现此圆角时，建议使用图片来代替。不一定需要设计提供，我们可以自己使用 view -&gt; image 来使用，转化方式可以参考YYCategory。代码如下：</li></ol><div style="box-sizing: border-box; padding: 8px; font-size: 12px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);"><div><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">- (UIImage *)snapshotImage {</span></span></div><div><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0);</span></span></div><div><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [self.layer renderInContext:UIGraphicsGetCurrentContext()];</span></span></div><div><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UIImage *snap = UIGraphicsGetImageFromCurrentImageContext();</span></span></div><div><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UIGraphicsEndImageContext();</span></span></div><div><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return snap;</span></span></div><div><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></div></div><div><span style="font: 14.0px Monaco; font-variant-ligatures: no-common-ligatures; color: #f5f5f2">}</span></div><div><br></div><div><br></div><div><b>iOS中可滚动控件的滚动性与警告信息</b>：</div><div>一般来说，ios中可滚动的控件都是继承于UIScrollView的。</div><div>我们可以对其设置滚动方向，一旦设置了某一个方向上不可滚动，那么就意味着即使contenSize在这个方向上超过frame大小，但是也不可以看到超出的部分。此时，<b>ios会产生一个警告，告诉你无法 content大小超过frame大小</b>。</div><div><br></div><div><br></div><div><b>在自己手动导入第三方库时，如何判断需要依赖的库</b>：</div><ul><li>每个文件都check过去，然后点击类似于#import &lt;xxx/xxx&gt; 表示这可能是一个引用自第三方库的文件</li><li>点击进去后，我们可以看到路径栏，如果是个 framework，那么我们可以在路径里看到。否则，它可以单纯是个系统内路径头文件。</li></ul><div><br></div><div><br></div><div><b>xcode bitcode设置问题</b>：</div><ul><li><b>简介</b>：bitcode是被编译程序的一种中间形式的代码。包含bitcode配置的程序将会在App store上被编译和链接。bitcode允许苹果在后期重新优化程序的二进制文件，而不需要重新提交一个新的版本到App store上.当提交程序到App store上时，Xcode会将程序编译为一个中间表现形式(bitcode)。然后App store会再将这个botcode编译为可执行的64位或32位程序。再看看这两段描述，都是放在App Thinning(App瘦身)一节中，可以看出其与包的优化有关了。</li><li><b>要求</b>：对于iOS，bitcode是可选的；对于watchOS，bitcode是必须的；而Mac OS是不支持bitcode。</li><li><b>普通app &amp;&amp; framework 设置</b>：在build setting - Enable Bitcode 中打开</li><li><b>watch app设置</b>：在build setting - ENABLE_BITCODE 中将其置为YES。（其实默认就是打开的，这个工作只是为了让编译器知道而已）</li><li><b>watch framework 设置</b>：在 build setting 中的&nbsp;&nbsp;<b>Other linker flag 和 Other C flag 中添加 -fembed-bitcode 参数</b>。</li></ul><div><br></div><div><br></div><div><b>NSAutoReleasePool相关知识</b>：</div><ul><li>Apple内存管理分为两套机制：
+<ul><li>reference-counted environment (引用计数模式)：ios、watchOS、TVos都使用这种模式</li><li>garbage-collected environment（垃圾回收环境）：mac os使用这种模式，在这种模式下，我们不需要使用 autoreleasepool.</li></ul></li><li>自动释放池在MRC和ARC下均可使用，且是一种很重要的，可降低内存使用峰值的方法。只是在两种环境下的使用有所差异：
+<ul><li>ARC下：使用@autoreleasepool{ } ,这个关键字效率更高，且在MRC下也可使用。但不可以使用NSAutoReleasePool。</li><li>MRC下：可以使用NSAutoReleasePool，可以提供更高的灵活性。</li></ul></li><li>每个线程都自带一个自动回收池，在线程结束时，会释放这个池子中的所有对象。如果有runloop，还会有额外的操作：
+<ul><li>对于主线程来说，其存在runloop，有额外的自动回收池操作：在event loop entry时，即runloop进入一个新的模式（default或者是滑动模式）时，启动一个新的pool，在exit时，drain这个pool。这样可以确保在一次事件循环中，自动释放对象可以存活，但又不会造成内存的过度使用。</li><li>对于自己启动的线程来说，如果我们也启动了runloop，并希望不要引起太大的内存问题。那么就应该参照主线程对于pool的处理，自己去监听runloop行为并添加操作。</li></ul></li><li>监视对NSAutoReleasePool对象使用drain（其效果等同于release，且在garbage-collected environment下会触发内存阈值检测），而release在garbage-collected environment下则什么也不做。因此，建议使用drain代替release。</li><li>NSAutoReleasePool对象不可以被retain，一旦使用，garbage-collected environment下将什么也不做，但是reference-counted environment下将raise exception。</li><li>具体详情：可以参见NSAutoReleasePool Reference。</li></ul><div><br></div><div><br></div><div><b>关于设置状态栏上网络加载动画的代码</b>：</div><ul><li>这个网络加载动画并不是自动形成的，而是我们代码手动设置的。设置方法在UIApplicatuion中有给出。</li><li>具体方法：只要修改这个 <span style="font-style: normal; font-variant-caps: normal; font-weight: normal; font-size: 14px; font-family: Monaco; font-variant-ligatures: no-common-ligatures;">networkActivityIndicatorVisible</span>属性即可。</li></ul><div><br></div><div><b>关于UIFont的使用建议</b>：</div><ul><li>相比于我们自己指定font type和size，使用<b>[UIFont preferredFontForTextStyle:style]</b>会是个更好的选择。关于style是在&lt;UIKit/UIFontDescriptor.h&gt;的最后有给出分类，主要有：多种标题类型、正文、头部等。</li><li>在&lt;UIKit/UIFontDescriptor.h&gt;还有很多建议值，它帮助我们开发的app可以与系统更新保持一致。比如： style种类、size种类、粗细种类等。</li><li>需要使用系统定义的字体，或者是需要加上加粗和斜体效果的话，需要使用方法：+ (nullable UIFont *)fontWithName:(NSString *)fontName size:(CGFloat)fontSize; 。
+<ul><li>需要使用具体的字体名称，可以通过以下两个函数获取。
+<ul><li>+ (NSArray&lt;NSString *&gt; *)familyNames：获取具体的字体类型名称</li><li>+ (NSArray&lt;NSString *&gt; *)fontNamesForFamilyName:(NSString *)familyName; 来获取到某一个字体类型下不同展示效果的名称。</li><li>具体的获取效果：<img src="/Resources/iOS%E5%BC%80%E5%8F%91%E7%BB%86%E8%8A%82%E9%9B%86%E5%90%88.resources/81AFDE3D-D700-49F0-B5F0-4FCCC54C1D39.png" height="218" width="614"></li></ul></li><li>我们最后填写的fontName是采用的&nbsp;&nbsp;fontNamesForFamilyName 的返回值，根据我们自己的实际需要（bold、light等），采用合适的值写入。</li></ul></li></ul><div><br></div><div><br></div><div><b>关于使用自定义TTF字体的方法</b>：</div><ul><li><b>加载和注册字体库有三大类</b>方式：
+<ul><li>修改info.plist，来完成程序需要引入的TTF文件的注册。（文件名没有强制要求）并把资源放在NSBundle中即可。<img src="/Resources/iOS%E5%BC%80%E5%8F%91%E7%BB%86%E8%8A%82%E9%9B%86%E5%90%88.resources/00E83E3D-BA71-4505-AE62-C0661B18464E.png" height="122" width="812"></li><li>从指定的路径动态加载字体库：</li></ul></li></ul><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);"><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">+ (BOOL)loadFontFromPath:(NSString*)path {</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NSURL*url = [NSURLfileURLWithPath:path];</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CFErrorReferror;</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BOOLsuc =CTFontManagerRegisterFontsForURL((__bridgeCFTypeRef)url,kCTFontManagerScopeNone, &error);</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(!suc) {</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NSLog(@"Failed to load font: %@", error);</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returnsuc;</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);"><br></span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">+ (void)unloadFontFromPath:(NSString*)path {</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NSURL*url = [NSURLfileURLWithPath:path];</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CTFontManagerUnregisterFontsForURL((__bridgeCFTypeRef)url,kCTFontManagerScopeNone,NULL);</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div></div><ul><li style="display:inline;list-style:none;"><ul><li><span style="font-family: Monaco;">从data加载字体库：</span></li></ul></li></ul><div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>+ (UIFont*)loadFontFromData:(NSData*)data {</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CGDataProviderRefprovider =CGDataProviderCreateWithCFData((__bridgeCFDataRef)data);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(!provider)returnnil;</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CGFontReffontRef =CGFontCreateWithDataProvider(provider);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CGDataProviderRelease(provider);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(!fontRef)returnnil;</div><div><br></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CFErrorReferrorRef;</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BOOLsuc =CTFontManagerRegisterGraphicsFont(fontRef, &errorRef);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(!suc) {</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CFRelease(fontRef);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NSLog(@"%@", errorRef);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returnnil;</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }else{</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CFStringReffontName =CGFontCopyPostScriptName(fontRef);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UIFont*font = [UIFontfontWithName:(__bridgeNSString*)(fontName)size:[UIFontsystemFontSize]];</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(fontName)CFRelease(fontName);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CGFontRelease(fontRef);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returnfont;</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</div><div>}</div><div><br></div><div>+ (BOOL)unloadFontFromData:(UIFont*)font {</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CGFontReffontRef =CGFontCreateWithFontName((__bridgeCFStringRef)font.fontName);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(!fontRef)returnNO;</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CFErrorReferrorRef;</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BOOLsuc =CTFontManagerUnregisterGraphicsFont(fontRef, &errorRef);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CFRelease(fontRef);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(!suc)NSLog(@"%@", errorRef);</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returnsuc;</div><div>}</div></div><ul><li><br></li><li>使用&nbsp;&nbsp;+ (NSArray<nsstring *=""> *)familyNames 和&nbsp;&nbsp;+ (NSArray<nsstring *=""> *)fontNamesForFamilyName:(NSString *)familyName 方法，获取我们导入的新字体库的名字。</nsstring></nsstring></li><li>最后直接使用&nbsp;&nbsp;+ (nullable UIFont *)fontWithName:(NSString *)fontName size:(CGFloat)fontSize 即可直接使用新的字体库。</li><li><b>注意事项</b>：当指定的字体加载失败时，会默认使用当前系统字体作为代替。</li></ul><div><br></div><div><br></div><div><b>UIView的坐标系转换</b>：</div><ul><li>坐标系转换最好分为三步走战略：
+<ol><li>src &nbsp;&nbsp; -> &nbsp;&nbsp;src.window</li><li>src.window &nbsp;&nbsp;-> &nbsp;&nbsp;dst.window</li><li>dst.window &nbsp;&nbsp;-> &nbsp;&nbsp;dst</li></ol></li><li>详细代码可以参考：YYCatogary，里面包含了点对点转换，和区域对区域转换。</li></ul><div><br></div><div><br></div><div><b>UIImage的大小影响因素</b>：UIImage使用 PointSize 作为size大小的计算单位，这意味它需要考虑retina/NoRetina的区别，因此，我们需要设置scale。使image的像素大小，可以正确的转化为size大小。</div><div><br></div><div><br></div><div><b>结构体与NSData的相互转化，以及结构体固化的方法</b>：</div><ul><li>结构体与NSData之间可以相互转化，<b>这个方法仅限于结构体定义中全部都是基本变量，不包含指针类型</b>。
+<ul><li>struct -> NSData :通过 &nbsp;&nbsp;[[NSData alloc] initWithBytes:&struct_var length: sizeof(struct_var )] &nbsp;&nbsp;完成。</li><li>NSData -> struct :通过 &nbsp;&nbsp;[data_var getBytes:&struct_var length:sizeof(struct_var)] 完成。</li></ul></li><li>当固化基本类型的结构体时，可以使用 NSCoder -encodeBytes:(const void *)byteaddr length:(NSUInteger)length 来将字节流固化到硬盘上。反之，则使用 decode 即可完成。</li></ul><div><br></div><div><br></div><div><b>本地文件地址使用NSURL表示的方法</b>：</div><ul><li>有NSFileManager直接返回相应的url并使用：</li></ul><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);"><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">NSURL* url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] firstObject];</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">url = [url URLByAppendingPathComponent:CJFWORKKIT_DIRNAME];</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">url = [url URLByAppendingPathComponent:@"LocalCrashData"];</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">url = [url URLByAppendingPathComponent:@"crash.txt"];</span></span></span></div></div><ul><li style="display:inline;list-style:none;"><ul><li><span style="font-family: Monaco;">NSSearchPathDirectory是指文件搜索的目标文件夹，NSDocumentDirectory指的是文档文件夹</span></li><li><span style="font-family: Monaco;">NSSearchPathDomainMask是指搜索的目标范围，NSUserDomainMask指的是用户文件夹下的范围（~）。</span></li></ul></li><li><span style="font-family: Monaco;">由文件的路径直接获得相应的URL并使用：</span></li></ul><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);"><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">NSString* filePath =&nbsp;&nbsp; getFilePath(@"LocalCrashData/crash.txt");</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">url = [[NSURL alloc] initFileURLWithPath:filePath];</span></span></span></div></div><ul><li><span style="font-family: Monaco;">文件路径采用url表示后的值示例：</span></li></ul><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);"><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">2016-08-29 15:41:26.506 CJFWorkKit[48439:5803455] file path = /Users/chengjianfeng/Documents/CJFWorkKit/LocalCrashData/crash.txt</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">2016-08-29 15:41:26.506 CJFWorkKit[48439:5803455] url absolute string = file:///Users/chengjianfeng/Documents/CJFWorkKit/LocalCrashData/crash.txt</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">2016-08-29 15:41:26.506 CJFWorkKit[48439:5803455] url relative string = file:///Users/chengjianfeng/Documents/CJFWorkKit/LocalCrashData/crash.txt</span></span></span></div></div><div><br></div><div><br></div><div><b>NSValue包裹的类型值的判断</b>：</div><div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.148438);"><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">const char *type = [(NSValue *)fromValue objCType];</span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">if (strcmp(type, @encode(CGPoint)) == 0) {</span></span></span></div></div><div><br></div><div><br></div><div><b>Provision File【MobileProvison 】配置文件存放位置</b>：</div><ul><li>位置：~/Library/MobileDevice/Provisioning Profiles&nbsp;&nbsp;</li><li>在必要时候可以清空这个文件夹下所有文件</li></ul><div><br></div><div><br></div><div><b>ios代码包大小以及编译速度优化选项</b>：</div><ul><li>Debug information Format：这个选项用于生成dsYM文件，这个对于release版本来说，可用于crash的查询，但是对于debug版本来说，是没有作用的，因此，可以分开设置。（debug设为 DWARF，release 设为 DWARF with dsYM File）这样可以大大加快编译时间。</li><li>&nbsp;&nbsp;strip Debug Symbol During Copy：（采用默认设置即可）用于帮助debug时定位问题，但会增加文件包的大小。</li><li>optimization level：这个是编译器优化选项。当使用用- O0 时，编译器不对代码做任何优化（包括时间和空间），此时可以针对断点进行调试，对变量进行替换值。而从-O1开始，就会增加代码编译的时间，以换取对程序的执行时间优化和占用空间优化，且不利于调试（因为语句会发生变化，不再是独立的了），而发布时，默认都需要调整到最高级别，-Os 。</li></ul><div><br></div><div><br></div><div><b>低精度无符号数位数扩展</b>：在iOS中，当低精度无符号数向高进度扩展时，采用0填充。（与C++表现一致） 。</div><div><br></div><div><br></div><div><b>Malloc内存分配指南</b>：</div><ul><li>在使用malloc时，注意不要去申请特定内存大小，而是改用sizeof 来获取变量或者结构体的大小。</li><li>Xocode代码从32移植到64关键点：http://www.codeceo.com/article/ios-64-bit.html</li><li>代码字节对齐：http://blog.csdn.net/21aspnet/article/details/6729724#comments</li><li>C可变参数问题：http://blog.csdn.net/weiwangchao_/article/details/4857567</li></ul><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/iOS面试笔记归总/" rel="next" title="iOS面试笔记归总">
+                <i class="fa fa-chevron-left"></i> iOS面试笔记归总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/09/iOS疑难bug记录笔记/" rel="prev" title="iOS疑难bug记录笔记">
+                iOS疑难bug记录笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/09/iOS开发细节集合/"
+     data-title="iOS开发细节集合"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/09/iOS开发细节集合/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/09/iOS开发细节集合/"
+           data-title="iOS开发细节集合" data-url="https://treasureu.github.io/2017/02/09/iOS开发细节集合/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

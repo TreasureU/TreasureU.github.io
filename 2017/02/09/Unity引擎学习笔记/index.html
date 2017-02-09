@@ -1,0 +1,969 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Unity,游戏," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Unity引擎学习笔记参考资料：官方手册：file:///Applications/Unity/Unity.app/Contents/Documentation/en/Manual/UnityManual.html,这还是离线手册。引擎基础知识学习：最常见的资源之间的关系介绍：纹理【Texture】应用于材质【Material】材质【Material】应用于游戏对象【GameObject，带">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity引擎学习笔记">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/09/Unity引擎学习笔记/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="Unity引擎学习笔记参考资料：官方手册：file:///Applications/Unity/Unity.app/Contents/Documentation/en/Manual/UnityManual.html,这还是离线手册。引擎基础知识学习：最常见的资源之间的关系介绍：纹理【Texture】应用于材质【Material】材质【Material】应用于游戏对象【GameObject，带">
+<meta property="og:updated_time" content="2017-02-09T04:11:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unity引擎学习笔记">
+<meta name="twitter:description" content="Unity引擎学习笔记参考资料：官方手册：file:///Applications/Unity/Unity.app/Contents/Documentation/en/Manual/UnityManual.html,这还是离线手册。引擎基础知识学习：最常见的资源之间的关系介绍：纹理【Texture】应用于材质【Material】材质【Material】应用于游戏对象【GameObject，带">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/09/Unity引擎学习笔记/"/>
+
+
+
+
+
+  <title> Unity引擎学习笔记 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/09/Unity引擎学习笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Unity引擎学习笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T12:11:27+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Unity笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Unity笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/09/Unity引擎学习笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/09/Unity引擎学习笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="14.69522285461426"><meta name="author" content="程剑锋"><meta name="created" content="2016-11-10 02:56:05 +0000"><meta name="latitude" content="31.22305874584856"><meta name="longitude" content="121.3562943226172"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-12-05 14:59:40 +0000"><title>Unity引擎学习笔记</title></head><body><div><div><div><b>参考资料：</b></div><ul><li><font style="font-size: 14px;"><b>官方手册：</b>file:///Applications/Unity/Unity.app/Contents/Documentation/en/Manual/UnityManual.html,这还是离线手册。</font></li></ul><div><br></div></div><div><br></div></div><div><b>引擎基础知识学习</b>：</div><div><ul><li>最常见的资源之间的关系介绍：</li><ul><li>纹理【Texture】应用于材质【Material】</li><li>材质【Material】应用于游戏对象【GameObject，带有网格渲染组件】</li><li>动画【Animation】应用于游戏对象【GameObject，带有动画组件】</li><li>音频文件【Audio】应用于游戏对象【GameObject，带有音源组件】</li></ul><li style="">纹理【Texture】：</li><ul><li style="">参考：<a href="http://www.ceeger.com/Components/class-Texture2D.html" target="_blank" rel="external">http://www.ceeger.com/Components/class-Texture2D.html</a></li><li style="">纹理尺寸是2的升幂（如32x32，64x64，128x128，256x256等）。<br></li></ul><li style="">材质【Material】：<br></li><ul><li style="">每个材质都需要选择着色器【Shader】，每种着色器都有自己更加适合的渲染场景。</li><li style="">着色器分类：</li><ul><li style="">主游戏对象着色器：</li><ul><li style="">普通 (Normal)：不透明纹理对象。</li><li>透明 (Transparent)：部分透明的对象。纹理的 alpha 通道定义着透明度。</li><li>镂空透明 (TransparentCutOut)：含完全不透明和完全透明区域的对象，如：栅栏。</li><li>自发光 (Self-Illuminated)：有发光部件的对象。</li><li style="">反光 (Reflective)：反射环境立方体贴图 (Cubemap) 的不透明纹理对象。<br></li></ul><li>FX：光照和水景效果。</li><li>GUI: 图形用户界面显示。</li><li>自然 (Nature)：树木和地貌。</li><li>粒子 (Particles)：粒子系统效果。</li><li>Render FX：天空盒着色器。</li><li style="">卡通 (Toon)：卡通风格的渲染。<br></li><li style="">有些着色器还有移动设备的版本。</li></ul><li style="">参考文章：<a href="http://docs.manew.com/Manual/index.htm" target="_blank" rel="external">http://docs.manew.com/Manual/index.htm</a></li></ul><li style="">游戏对象是一个容器，组件是容器里的各个功能模块，脚本是各个事件的回调对象。【事件可由系统或者其他组件、对象发出】</li><li style="">组件特性介绍：</li><ul><li style="">组件的属性分为赋值属性和引用属性。</li></ul><li style="">组件类型分类：</li><ul style=""><li>变换组件【Transform】：</li><ul><li>默认组件，所有游戏对象都有。</li><li>决定了物体的位置、旋转、大小和Local坐标系等元素。</li></ul><li>刚体组件【R<span style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none;">igidbody</span>】：</li><ul><li>这是为物体赋予物理能力的组件，只有拥有刚体组件的物体会遵循物理规律，比如重力作用，动量守恒/能量守恒等。重力式刚体组件中的一个特性，可以被单独去除。</li></ul><li>脚本组件【<font face="Menlo">MonoBehaviour</font>】：</li><ul><li>当为一个gameobject【预制对象/新建对象/编辑器创建对象】添加脚本组件后，该脚本对象的gameObject成员将和实际的控件关联到一起。</li><li>脚本组件可以在外部被获取，被获取后，使用 scriptObj.enabled = false,可以使脚本组件不再生效。</li></ul><li>碰撞组件【Collider】：</li><ul><li>只有接触双方都开启碰撞组件的情况下，才会发生碰撞关系。碰撞组件默认开启。当发生碰撞时，会调用双方的</li></ul><li>音频组件【Audio】：</li><ul><li>包括音频、视频等</li><li>想要在一个gameObject上顺利的播放Audio组件，必须确保其上有一个Audio Listener组件。</li><li>播放源 (Source) 时，音频侦听器 (Audio Listener) 可"听到"范围内的所有源，将这些源组合起来，声音即可通过扬声器发出。您的场景中只能有一个音频监听器 (Audio Listener)，并且监听器通常附属于主相机 (Main Camera)。<br></li></ul><li>光源组件【light】：</li><ul><li>光源分为 平行光，点光源，聚光灯，渲染消耗资源依次增加。</li><li>渲染方式分为 顶点渲染【粗糙】和像素渲染。</li><li>【节省资源】：如果某个场景中的光照是固定的，那么可以使用光照贴图代替场景光照本身。<br></li></ul><li>摄像机组件【Camera】：【<a href="http://www.ceeger.com/Manual/Cameras.html" target="_blank" rel="external">http://www.ceeger.com/Manual/Cameras.html</a>】</li><ul><li>你可以创建多个相机并且给每一个分配不同的深度。相机是按深度从低到高来绘制的。<br></li><li>你可以调整标准视口矩形（参照前面的属性列表）的属性值来改变其大小和其在屏幕上的位置。这样你就可以创建多个小视窗，如导弹控制器，小地图窗口，后视镜等等。<br></li><li>出于性能原因，你可能需要尽早剔除小物体。例如，小石块和碎片相对于大型建筑会在更短距离内不可见。要做到这一点，将小物体放入一个隔离层（separate layer）并使用Camera.layerCullDistances脚本函数设置每一层的剔除距离<br></li></ul><li>动画组件【Animation】：</li><li>网格过滤器组件【Mesh Filter】：</li><ul><li>Mesh将决定物体的渲染方式和形状。</li><li>网格是一组顶点和三角形数组。</li></ul><li>网格渲染器组件【Mesh Render】：</li></ul></ul></div><div><br></div><div><br></div><div><b>引擎进阶知识</b>：</div><div><ul><li>引擎默认方向：Y轴竖向朝上为正，Z轴指向屏幕内为正，X轴与屏幕平齐向右为正。</li><li>引擎事件处理机制：</li><ul><li>所有的回调函数都编写在script类中，该类继承于MonoBehaviour。</li><li>很多组件都有他们相应的 Message消息，当产生这些消息时，发送相应的消息即可调用到 script中已编写的回调。</li><li>gameObject的sendMessage（）函数有三种类型，具体可以参见：<a href="http://www.cnblogs.com/sevenmoons/p/3990397.html" target="_blank" rel="external">http://www.cnblogs.com/sevenmoons/p/3990397.html</a></li><ul><li>sendMessage方法，目前最多只支持一个参数，且无参和单参数且类型匹配的方法都会被调用到。</li><li>可以调用 private方法</li><li>如果一个gameObject下挂有多个脚本，那么会将所有enable脚本的 指定函数名函数都执行一遍。</li></ul><li>关于sendMessage的详解：<a href="http://www.cnblogs.com/kylinxue/p/4473444.html" target="_blank" rel="external">http://www.cnblogs.com/kylinxue/p/4473444.html</a></li><li>关于sendMessage的效率分析：<a href="http://blog.csdn.net/cartzhang/article/details/50686627" target="_blank" rel="external">http://blog.csdn.net/cartzhang/article/details/50686627</a></li><li>关于C#动态执行字符串对应函数的实现：<a href="https://zhidao.baidu.com/question/570693043.html" target="_blank" rel="external">https://zhidao.baidu.com/question/570693043.html</a></li></ul><li>游戏中有很多的游戏对象，每个对象都会有很多的组件，比如刚体组件，脚本组件等。每一个脚本必定是绑定到某一个具体的gameObject才会生效。此时，脚本类中 this代表的是脚本组件本身，而this.gameObject代表的是游戏对象。</li><li>获取控件的方式：</li><ul><li>代码获取：使用 Gameobjet.Find( string name ) 可以获取当该名字的对象，需要注意的是，这种查找是递归遍历查找的方式，即使是非直接元素，也可以被获取到。【因此，我们在设计面板中控件的名字一定要不同】</li><li>动态绑定【建议】：在脚本中生成一个该类型的成员变量，然后在 属性面板 - Script 中对该变量进行拖放赋值。</li><ul><li>此处最为赞的一点是，如果我们声明的变量是某一个组件，那么当我们把该组件所属的gameObj拖放到该变量上时<b>，该变量的值 = gameObj.组件</b> ，而不会傻乎乎的是那个gameObj。</li></ul></ul><li>获取组件的方式：</li><ul><li>对象：任一GameObject对象。</li><li>方式：使用 gameObj.getComponent&lt;Type&gt;() 即可获取到相应组件，Type的名字一般与我们在属性面板看到的名字相同，即组件类名。但需要注意，该方法可能返回为空。</li><ul><li>获取脚本组件的方式：gameObj.getComponent&lt;脚本类名&gt;()，其实这里的Type指的就是类名。</li></ul></ul><li>gameObejct可以被动态的启用或者停用，调用gameObject.activeSelf = True/False，即可修改激活状态。</li><ul><li>注意，修改父对象的activeSelf会影响所有子对象的激活状态，但是子对象的activeSelf不变化。因此，要判断一个对象是否真的激活，需要读取该对象的activeInHierarchy。</li></ul><li>多重对象编辑：在选择多个对象时，在检视面板上只有那些在所有被选中的对象上出现的组件才会被显示出来。如果组件只存在与某些被选中对象上，那么在检视面板底部出现一个小的提示，指示那些仅仅在部分被选中对象中存在的组件不能被多重编辑<br></li></ul></div><div><br></div><div><br></div><div><b>细分概念</b>：</div><div><div><ul><li style="">skin width：指的是两个碰撞物体发生碰撞时可被渗透的范围。<br></li><li style="">Camera - Viewport Rect:</li><ul style=""><li>作用：每一个camera都可以将自己捕获到的画面渲染到屏幕上，这个可以使视图只在屏幕的部分区域展示，实现多个摄像机画面同时输出。</li><li>坐标系统：左下角【0，0】 - 右上角【1，1】，超出范围不展示</li><li>大小系统：【0，0】 - 【1，1】</li></ul><li style="">Camera - Depth:展示优先级，优先级越大的摄像机，画面越后渲染，可以覆盖之前的画面。其与Viewport Rect 结合可以生成画中画效果。</li></ul></div><div><br></div><div><div><div><br></div></div></div></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Unity/" rel="tag"># Unity</a>
+          
+            <a href="/tags/游戏/" rel="tag"># 游戏</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/Unity工具学习笔记/" rel="next" title="Unity工具学习笔记">
+                <i class="fa fa-chevron-left"></i> Unity工具学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/09/C#学习笔记/" rel="prev" title="C#学习笔记">
+                C#学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/09/Unity引擎学习笔记/"
+     data-title="Unity引擎学习笔记"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/09/Unity引擎学习笔记/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/09/Unity引擎学习笔记/"
+           data-title="Unity引擎学习笔记" data-url="https://treasureu.github.io/2017/02/09/Unity引擎学习笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

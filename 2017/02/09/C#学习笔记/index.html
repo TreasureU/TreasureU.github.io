@@ -1,0 +1,1599 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Unity,游戏," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="C#学习笔记
+
+
+C#基础语法学习：
+
+C#中所有变量都是对象，当然按照类型来分，可以分为值类型、引用类型和指针类型。也就是说，C#没有传统意义上的内置类型，int\float\double等都是结构体对象，属于值类型，而引用类型就是class类型对象，当然也可以是new出来的结构体对象。
+对于非new出来的结构体对象，其成员变量在首次装载值之前是不能使用的。但对于new出来的对象，其内存块">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C#学习笔记">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/09/C#学习笔记/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="C#学习笔记
+
+
+C#基础语法学习：
+
+C#中所有变量都是对象，当然按照类型来分，可以分为值类型、引用类型和指针类型。也就是说，C#没有传统意义上的内置类型，int\float\double等都是结构体对象，属于值类型，而引用类型就是class类型对象，当然也可以是new出来的结构体对象。
+对于非new出来的结构体对象，其成员变量在首次装载值之前是不能使用的。但对于new出来的对象，其内存块">
+<meta property="og:image" content="https://treasureu.github.io/Resources/C%23%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.resources/C73486B9-3EEA-40B1-AED8-A5274DEF403D.png">
+<meta property="og:updated_time" content="2017-02-09T04:11:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C#学习笔记">
+<meta name="twitter:description" content="C#学习笔记
+
+
+C#基础语法学习：
+
+C#中所有变量都是对象，当然按照类型来分，可以分为值类型、引用类型和指针类型。也就是说，C#没有传统意义上的内置类型，int\float\double等都是结构体对象，属于值类型，而引用类型就是class类型对象，当然也可以是new出来的结构体对象。
+对于非new出来的结构体对象，其成员变量在首次装载值之前是不能使用的。但对于new出来的对象，其内存块">
+<meta name="twitter:image" content="https://treasureu.github.io/Resources/C%23%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.resources/C73486B9-3EEA-40B1-AED8-A5274DEF403D.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/09/C#学习笔记/"/>
+
+
+
+
+
+  <title> C#学习笔记 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/09/C#学习笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                C#学习笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T12:11:27+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Unity笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Unity笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/09/C#学习笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/09/C#学习笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="16.14680862426758"><meta name="author" content="程剑锋"><meta name="created" content="2016-11-01 15:38:52 +0000"><meta name="latitude" content="31.21654719017305"><meta name="longitude" content="121.3022713237501"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-11-12 16:30:53 +0000"><title>C#学习笔记</title></head><body><div>
+<div>
+<div>
+<div><b>C#基础语法学习</b>：</div>
+<ul>
+<li>C#中所有变量都是对象，当然按照类型来分，可以分为值类型、引用类型和指针类型。也就是说，C#没有传统意义上的内置类型，int\float\double等都是结构体对象，属于值类型，而引用类型就是class类型对象，当然也可以是new出来的结构体对象。</li>
+<li>对于非new出来的结构体对象，其成员变量在首次装载值之前是不能使用的。但对于new出来的对象，其内存块是clear的，所有引用类型的成员变量会被置为null，而所有的值类型数据会被清零。</li>
+<li>对于引用类型的局部变量，C#要求必须先赋值，再使用。</li>
+<li>对于值类型数据，我们可以通过在&lt;data_type&gt;? var_name = null，的形式，表示其为可空类型，从而为其添加一个nul值。否则正常的值类型数据是不能添加null值的。当然，引用类型是默认可以赋为null。</li>
+<li>如果没有指定，则使用默认的访问标识符。类的默认访问标识符是 internal，成员的默认访问标识符是 private。</li>
+<li><b>C#封装修饰符</b>：
+
+</li><ul>
+<li>Public</li>
+<li>Private</li>
+<li>Protected</li>
+<li>Internal：访问说明符允许一个类将其成员变量和成员函数暴露给当前程序中的其他函数和对象。换句话说，带有 internal 访问修饰符的任何成员可以被定义在该成员所定义的应用程序内的任何类或方法访问。只要是当前项目内的，不同文件也是可以的。</li>
+<li>Protected Internal：访问修饰符允许一个类将其成员变量和成员函数对同一应用程序内的子类以外的其他的类对象和函数进行隐藏。这也被用于实现继承。</li>
+</ul>
+<li>C#没有引入头文件的概念，如果需要使用一个类，直接使用就好，处于同一个项目中的所有文件都是相互可见的【与swift一致】。需要注意的是，如果没有 using &lt;namespace&gt; ，那么需要使用 namespace.xxx 来使用这个类。
+
+</li><ul>
+<li>命名空间可以嵌套，嵌套的命名在使用时也要加上所有嵌套的命名空间名字。</li>
+</ul>
+<li> 密封类与抽象类：
+
+</li><ul>
+<li><b>密封类</b>：通过在类定义前面放置关键字 <b>sealed</b>，可以将类声明为<b>密封类</b>。当一个类被声明为 <b>sealed</b> 时，它不能被继承。抽象类不能被声明为 sealed。</li>
+<li><b>抽象类</b>：使用关键字 <b>abstract</b> 创建抽象类，用于提供接口的部分类的实现。当一个派生类继承自该抽象类时，实现即完成。抽象类包含抽象方法，抽象方法可被派生类实现。派生类具有更专业的功能。【不能初始化一个抽象类的实例】
+
+</li><ul>
+<li>抽象类允许存在实例成员变量 和 实例方法【带有实现代码的】，但是被标记为<b>abstract</b> 的方法不允许存在实现代码。在继承类中必须override abstract方法才能被实例化。</li>
+<li>抽象类中允许不存在任何abstract方法，但它还是一个抽象类,依然无法被实例化。</li>
+</ul>
+</ul>
+<li>函数重载：同一个类中同名方法的重载。重载依据：<b>函数参数个数、函数参数的类型</b>。</li>
+<li>动态多态性的实现基础：抽象类和虚函数。【注意，静态函数不参与多态】
+
+</li><ul>
+<li>抽象类：通过定义抽象类，那么继承类需要实现抽象类中的所有abstract方法。继承的子类中，需要对所有abstract方法进行 override。</li>
+<li>虚函数：在基类中将方法声明为virtual，那么在继承的子类中，需要对所有virtual方法进行 override。</li>
+<li>关于子类中调用父类方法的方式：
+
+</li><ul>
+<li>普通函数：需要在函数中显示的调用 base.xxxx() 才可以调用父类的方法。</li>
+<li>构造函数：如果需要预先执行父类的构造函数，必须在子类构造函数中 : base( .. ) 才可以正常调用。例如：public Rectangle( int a=0, int b=0) :base(a, b)。</li>
+</ul>
+</ul>
+<li>C#支持默认参数的写法。和C++一样，要求从右至左的填写默认参数。</li>
+<li>C#运算符重载：C#要求<b>所有运算符重载都必须是public static的</b>。
+
+</li><ul>
+<li>C#运算符集合：</li>
+</ul>
+</ul>
+<div>
+<table style="border: 0px; padding: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, STHeiti, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+<tbody><tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<th style="border: 1px solid rgb(85, 85, 85); padding: 3px; font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(85, 85, 85); vertical-align: top; text-align: left;">运算符</th>
+<th style="border: 1px solid rgb(85, 85, 85); padding: 3px; font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(85, 85, 85); vertical-align: top; text-align: left;">描述</th>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">+, -, !, ~, ++, --</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">这些一元运算符只有一个操作数，且可以被重载。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">+, -, *, /, %</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">这些二元运算符带有两个操作数，且可以被重载。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">==, !=, &lt;, &gt;, &lt;=, &gt;=</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">这些比较运算符可以被重载。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">&amp;&amp;, ||</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">这些条件逻辑运算符不能被直接重载。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">+=, -=, *=, /=, %=</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">这些赋值运算符不能被重载。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">=, ., ?:, -&gt;, new, is, sizeof, typeof</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">这些运算符不能被重载。</td>
+</tr>
+</tbody></table>
+<ul>
+<li>C#判断某个对象是否是某个类的实例：is ，示例：( str is string  )</li>
+<li>接口使用 interface 关键字声明，它与类的声明类似。接口声明默认是 public 的。</li>
+<li><b>C#预编译指令</b>：</li>
+</ul>
+<table style="border: 0px; padding: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, STHeiti, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+<tbody>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<th style="border: 1px solid rgb(85, 85, 85); padding: 3px; font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(85, 85, 85); vertical-align: top; text-align: left;">预处理器指令</th>
+<th style="border: 1px solid rgb(85, 85, 85); padding: 3px; font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(85, 85, 85); vertical-align: top; text-align: left;">描述</th>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">#define</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">它用于定义一系列成为符号的字符。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">#undef</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">它用于取消定义符号。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">#if</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">它用于测试符号是否为真。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">#else</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">它用于创建复合条件指令，与 #if 一起使用。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">#elif</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">它用于创建复合条件指令。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">#endif</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">指定一个条件指令的结束。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">#line</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">它可以让您修改编译器的行数以及（可选地）输出错误和警告的文件名。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">#error</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">它允许从代码的指定位置生成一个错误。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">#warning</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">它允许从代码的指定位置生成一级警告。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">#region</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">它可以让您在使用 Visual Studio Code Editor 的大纲特性时，指定一个可展开或折叠的代码块。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">#endregion</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">
+<div>它标识着 #region 块的结束。</div>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+
+<ul>
+<li>#line：使您可以修改编译器的行号以及（可选）错误和警告的文件名输出。下面的示例说明如何报告与行号关联的两个警告。#line 200 指令强迫行号为 200（尽管默认值为 #7）。另一行 (#9) 作为默认 #line 指令的结果跟在通常序列后。</li>
+</ul>
+
+</ul>
+<div><img src="/Resources/C%23%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.resources/C73486B9-3EEA-40B1-AED8-A5274DEF403D.png" height="364" width="620"><br></div>
+</div>
+<div>
+<ul>
+
+<ul>
+<li>#region和#endregion：用于代码块的包裹和折叠/展开。只在VS上生效。 </li>
+<li>#if：使用规范【 #if symbol [operator symbol]… 】，operator是以下四种之一：== (equality)、!= (inequality)、&amp;&amp; (and)、|| (or)。可以用括号把符号和运算符进行分组。条件指令用于在调试版本或编译指定配置时编译代码。一个以 #if 指令开始的条件指令，必须显示地以一个 #endif 指令终止。</li>
+</ul>
+
+<li>C#中在debug模式下存在预定义宏（DEBUG）</li>
+<li>C#的异常处理：
+
+</li><ul>
+<li>C# 异常处理时建立在四个关键词之上的：try、catch、finally 和 throw。使用示例如下：</li>
+</ul>
+</ul>
+<div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902);">
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">try</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">{</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">   // 引起异常的语句</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">catch( ExceptionName e1 )</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">{</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">   // 错误处理代码</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">catch( ExceptionName e2 )</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">{</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">   // 错误处理代码</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">catch( ExceptionName eN )</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">{</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">   // 错误处理代码</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">finally</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">{</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">   // 要执行的语句</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div>
+</div>
+</div>
+<div>
+<ul>
+
+<ul>
+<li>C# 中的异常类主要是直接或间接地派生于 System.Exception 类。主要分成以下两大类：
+
+</li><ul>
+<li>System.ApplicationException：支持由应用程序生成的异常。所以程序员定义的异常都应派生自该类。</li>
+<li>System.SystemException：是所有预定义的系统异常的基类。以下是预定义的系统Exception分类：</li>
+</ul>
+</ul>
+
+</ul>
+<table style="border: 0px; padding: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, STHeiti, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
+<tbody><tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<th style="border: 1px solid rgb(85, 85, 85); padding: 3px; font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(85, 85, 85); vertical-align: top; text-align: left;">异常类</th>
+<th style="border: 1px solid rgb(85, 85, 85); padding: 3px; font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(85, 85, 85); vertical-align: top; text-align: left;">描述</th>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">System.IO.IOException</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">处理 I/O 错误。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">System.IndexOutOfRangeException</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">处理当方法指向超出范围的数组索引时生成的错误。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">System.ArrayTypeMismatchException</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">处理当数组类型不匹配时生成的错误。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">System.NullReferenceException</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">处理当依从一个空对象时生成的错误。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">System.DivideByZeroException</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">处理当除以零时生成的错误。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">System.InvalidCastException</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">处理在类型转换期间生成的错误。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(255, 255, 255);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">System.OutOfMemoryException</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">处理空闲内存不足生成的错误。</td>
+</tr>
+<tr style="border: 0px; padding: 0px; background-color: rgb(246, 244, 240);">
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">System.StackOverflowException</td>
+<td style="border: 1px solid rgb(212, 212, 212); padding: 7px 5px; font-size: 1em; word-break: break-all; word-wrap: break-word; vertical-align: top;">
+<div>处理栈溢出生成的错误。</div>
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<ul>
+
+<ul>
+<li>被catch住的Exception,可以再次被抛出。那它会向上层继续抛出。</li>
+</ul>
+
+<li>C#的类成员变量（静态或者非静态），均支持<b>声明初始化方式</b>。但是如果同时声明了构造函数的话，以构造函数为准。</li>
+<li>C#数组：
+
+</li><ul>
+<li>内容较多，详情参考文章：<a href="http://www.runoob.com/csharp/csharp-array.html" target="_blank" rel="external">http://www.runoob.com/csharp/csharp-array.html</a></li>
+<li>声明：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">double</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> balance</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span></div>
+</li>
+<li>简单初始化：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">double</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> balance </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">new</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">double</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[</span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">10</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">];</span></div>
+</li>
+<li>直接初始化-1：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">double</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> balance </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">2340.0</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">4523.69</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">3421.0</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">};</span></div>
+</li>
+<li>直接初始化-2：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> marks </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">new</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[</span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">5</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">99</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span> <span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">98</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">92</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">97</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">95</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">};</span></div>
+</li>
+<li>直接初始化-3：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> marks </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">new</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">99</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span> <span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">98</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">92</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">97</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">95</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">};</span></div>
+</li>
+</ul>
+<li>C#多维数组：
+
+</li><ul>
+<li>标准多维数组：
+
+</li><ul>
+<li>二维数组示例：string[,] a = new string[4,5]</li>
+<li>三维数组示例：string[ , , ] a = new string[4,5,6]</li>
+</ul>
+<li>交叉数组：
+
+</li><ul>
+<li>二维交叉数组示例：string [][] a = new string[5][]</li>
+<li>三维交叉数组示例：string [][][] a = new string[5][][]</li>
+<li>解析：对于交叉数组来说，它其实是指针的数组，因此和传统的一维数组没有区别，只是成员全部都换成了指针。也是因为如此，交叉数组的第一维必须是确定的。</li>
+</ul>
+</ul>
+</ul>
+<div>
+<div><br></div>
+<div><br></div>
+<div><b>C#高级语法学习</b>：</div>
+</div>
+</div><ul>
+<li><b>C#特性</b>：是用于在运行时传递程序中各种元素（比如类、方法、结构、枚举、组件等）的<b>行为信息的声明性标签</b>。特性可以在运行时动态的被程序获取到。
+
+</li><ul>
+<li>基础语法：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">attribute</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">positional_parameters</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> name_parameter </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> value</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">...)]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+element</span></div>
+</li>
+<li>预定义特性：【<b>Conditional、</b><b>Obsolete、</b><b>AttributeUsage</b>】
+
+</li><ul>
+<li><b>Conditional</b>：条件特性。
+
+</li><ul>
+<li>语法：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Conditional</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   conditionalSymbol<br></span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)]</span></div>
+</li>
+<li>示例：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">    [</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Conditional</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"DEBUG"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span> <span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">public</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">static</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">void</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Message</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">string</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> msg</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+       </span> <span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">msg</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span></div>
+</li>
+<li>效果：当被编译时，如果 DEBUG 没有被 #define，那么函数 Message 将被替换为空实现。相比于条件编译语句 #if-#elif-#else-#endif ，其在变量未定义时，可以直接使用，只是被替换为空实现，不需要再每个实现的地方都加上条件编译语句。</li>
+</ul>
+<li><b>Obsolete</b>：标记了不应被使用的程序实体。它可以让您通知编译器丢弃某个特定的目标元素。
+
+</li><ul>
+<li>语法：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Obsolete</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   message<br></span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Obsolete</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   message</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   iserror<br></span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)]</span></div>
+
+</li><ul>
+<li>参数 message，是一个字符串，描述项目为什么过时的原因以及该替代使用什么。</li>
+<li>参数 iserror，是一个布尔值。如果该值为 true，编译器应把该项目的使用当作一个错误。默认值是 false（编译器生成一个警告）。</li>
+</ul>
+<li>示例：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Obsolete</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Don't use OldMethod, use NewMethod instead"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">true</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">static</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">void</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">OldMethod</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">()</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> <br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"It is the old method"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span></div>
+</li>
+<li>用法：参与编译器报错/告警，可以对废弃方法产生警告或者报错。</li>
+</ul>
+<li><b>AttributeUsage</b>：最常用的特性，用于生成自定义特性。
+
+</li><ul>
+<li>语法：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">AttributeUsage</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   validon</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">AllowMultiple</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">allowmultiple</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Inherited</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">inherited<br></span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)]</span></div>
+
+</li><ul>
+<li> 参数 validon 规定特性可被放置的语言元素。它是枚举器 AttributeTargets 的值的组合。默认值是 AttributeTargets.All。</li>
+<li>参数 allowmultiple（可选的）为该特性的 AllowMultiple 属性（property）提供一个布尔值。如果为 true，则该特性是多用的。默认值是 false（单用的）。</li>
+<li>参数 inherited（可选的）为该特性的 Inherited 属性（property）提供一个布尔值。如果为 true，则该特性可被派生类继承。默认值是 false（不被继承）。</li>
+</ul>
+<li>作用：用于声明和创建自动自定义特性。具体用法参见自定义特性使用。</li>
+</ul>
+</ul>
+<li>自定义特性：
+
+</li><ul>
+<li>创建并使用自定义特性的步骤：
+
+</li><ul>
+<li>声明自定义特性：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// 一个自定义特性 BugFix 被赋给类及其成员</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">AttributeUsage</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">AttributeTargets</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Class</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">|</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">AttributeTargets</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Constructor</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">|</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">AttributeTargets</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Field</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">|</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">AttributeTargets</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Method</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">|</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">AttributeTargets</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Property</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">AllowMultiple</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">true</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+<br></span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">public</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">class</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">DeBugInfo</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">:</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">System</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Attribute</span></div>
+</li>
+<li>构建自定义特性：对 DebugInfo这个类进行具体实现。</li>
+<li>在目标程序元素上应用自定义特性：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">DeBugInfo</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">49</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Nuha Ali"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"10/10/2012"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+       </span> <span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Message</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Unused variable"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">class</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Rectangle</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{…}</span></div>
+</li>
+<li>通过反射访问特性【参见下面】</li>
+</ul>
+<li>步骤示例：参见<a href="http://www.runoob.com/csharp/csharp-attribute.html" target="_blank" rel="external">http://www.runoob.com/csharp/csharp-attribute.html</a></li>
+<li>注意要点：
+
+</li><ul>
+<li>对于 require 的参数，需要使用构造函数来实现，对于 optional 的参数，我们可以暴露 public 的成员变量 或者是 属性方法来给外界设置。对于上面的例子来说，前三个无key值的参数就是构造函数所需的参数，最后一个Message则是属性方法设置。【其实，使用message = “xx” 也是可以的】</li>
+<li>对于自定义的特性，所有数据赋值必须在 【】内完成，基本使用格式为：【自定义特性名（构造函数参数列表，public_property/var = value）】。</li>
+</ul>
+</ul>
+</ul>
+<li><b>C#反射</b>：
+
+</li><ul>
+<li>定义：反射指程序可以访问、检测和修改它本身状态或行为的一种能力。</li>
+<li>作用：
+
+</li><ul>
+<li>它允许在运行时查看属性（attribute）信息。</li>
+<li>它允许审查集合中的各种类型，以及实例化这些类型。</li>
+<li>它允许延迟绑定的方法和属性（property）。</li>
+<li>它允许在运行时创建新类型，然后使用这些类型执行一些任务。</li>
+</ul>
+<li>运行时查看时属性：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">static</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">void</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Main</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">string</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> args</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Rectangle</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> r </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">new</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Rectangle</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">4.5</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">7.5</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         r</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Display</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">();</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Type</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> type </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">typeof</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Rectangle</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// 遍历 Rectangle 类的属性</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">foreach</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Object</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> attributes </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">in</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> type</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">GetCustomAttributes</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">false</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">))</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+           </span> <span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">DeBugInfo</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> dbi </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">DeBugInfo</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">attributes</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+           </span> <span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">if</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">null</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">!=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> dbi</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+           </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+               </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Bug no: {0}"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> dbi</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">BugNo</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+               </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Developer: {0}"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> dbi</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Developer</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+               </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Last Reviewed: {0}"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+                                        dbi</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">LastReview</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+               </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Remarks: {0}"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> dbi</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Message</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+           </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         <br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// 遍历方法属性</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">foreach</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">MethodInfo</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> m </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">in</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> type</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">GetMethods</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">())</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+           </span> <span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">foreach</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Attribute</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> a </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">in</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> m</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">GetCustomAttributes</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">true</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">))</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+           </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+               </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">DeBugInfo</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> dbi </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">DeBugInfo</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">a</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+               </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">if</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">null</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">!=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> dbi</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+               </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+                 </span> <span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Bug no: {0}, for Method: {1}"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+                                                dbi</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">BugNo</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> m</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Name</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+                 </span> <span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Developer: {0}"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> dbi</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Developer</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+                 </span> <span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Last Reviewed: {0}"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+                                                dbi</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">LastReview</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+                 </span> <span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Remarks: {0}"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> dbi</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Message</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+               </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+           </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">ReadLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">();</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span></div>
+
+</li><ul>
+<li>其中<span style="border: 0px; padding: 0px;"><span style="color: rgb(102, 0, 102);">GetCustomAttributes</span>该方法是返回此成员所有自定义特性数组，inherit参数用于表示是否搜索此成员的继承链以查找这些属性。未包含任何特性时，返回一个空数组。</span></li>
+</ul>
+<li>其他的后续补充</li>
+</ul>
+<li><b>C#属性</b>：
+
+</li><ul>
+<li>定义：属性（Property） 是类（class）、结构（structure）和接口（interface）的命名（named）成员。类或结构中的成员变量或方法称为 域（Field）。属性（Property）是域（Field）的扩展，且可使用相同的语法来访问。它们使用 访问器（accessors） 让私有域的值可被读写或操作。</li>
+<li>特点：属性（Property）<b>不会确定存储位置</b>。相反，它们具有可读写或计算它们值的 访问器（accessors）。</li>
+<li>用法示例：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// 声明类型为 string 的 Code 属性</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">public</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">string</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Code</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">get</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">return</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> code</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">set</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+      code </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> value</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span></div>
+</li>
+<li>抽象类可拥有抽象属性，这些属性应在派生类中被实现：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">public</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">abstract</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">class</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Person</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">public</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">abstract</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">string</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Name</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">get</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">set</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">public</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">abstract</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Age</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">get</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+         </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">set</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span></div>
+</li>
+<li>属性可以只实现 get/set 方法的某一个，成为只读属性/只写属性。如果父类中的属性为只读或者只写，那么Ovveride的属性不能更改其读写特性。</li>
+</ul>
+<li><b>C#索引器</b>：
+
+</li><ul>
+<li>一维索引器的定义：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">element</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">-</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">type </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">this</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[key-type</span> <span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">index</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> <br></span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// get 访问器</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">get</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> <br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// 返回 index 指定的值</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+<br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// set 访问器</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">set</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> <br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+     </span> <span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// 设置 index 指定的值 </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+   </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span></div>
+</li>
+<li>多维索引器定义：
+
+</li><ul>
+<li>示例：public int this[string name, int index1]{ ... }</li>
+</ul>
+<li>重载索引器：索引器（Indexer）可被重载。索引器声明的时候也可带有多个参数，且每个参数可以是不同的类型。没有必要让索引器必须是整型的。C# 允许索引器可以是其他类型，例如，字符串类型。</li>
+</ul>
+<li><b>C#委托</b>：
+
+</li><ul>
+<li>定义:类似于 C 或 C++ 中<b>函数的指针</b>。委托（Delegate） 是存有对某个方法的引用的一种引用类型变量。引用可在运行时被改变。委托（Delegate）特别用于实现事件和回调方法。所有的委托（Delegate）都派生自 System.Delegate 类。</li>
+<li>语法：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">delegate</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&lt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">return</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> type</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&gt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&lt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">delegate</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">-</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">name</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&gt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&lt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">parameter list</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&gt;</span></div>
+</li>
+<li><b>声明一种类型的委托</b>示例：
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">public</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">delegate</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">MyDelegate</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">string</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> s</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span></div>
+</li>
+<li><b>实例化委托变量</b>示例：<b>委托对象必须使用 new 关键字来创建，且与一个特定的方法有关</b>。当创建委托时，传递到 new 语句的参数就像方法调用一样书写，但是不带有参数。
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">public</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">delegate</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">void</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> printString</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">string</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> s</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br></span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">...</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+printString ps1 </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">new</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> printString</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteToScreen</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><br>
+printString ps2 </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">new</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> printString</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteToFile</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span></div>
+</li>
+<li>委托的多播：
+
+</li><ul>
+<li>定义：委托对象可使用 "+" 运算符进行合并。一个合并委托调用它所合并的两个委托。只有相同类型的委托可被合并。"-" 运算符可用于从合并的委托中移除组件委托。</li>
+<li>特点：委托合并后，函数调用的顺序与其添加的顺序一致。采用的是队列的方式。</li>
+<li>作用：使用委托的这个有用的特点，您可以创建一个委托被调用时要调用的方法的调用列表。</li>
+</ul>
+<li>注意事项：委托和函数指针其实是完全一样的，只是 委托要求我们一定要 定义一种类型的委托【类似于typedef】，然后再拿着这个委托去声明变量。</li>
+</ul>
+<li><b>C#事件</b>：
+
+</li><ul>
+<li><b>重要</b>：细心点我们会发现，其实有event关键字有无的效果是一样。因为event主要的作用是给编译器识别的。event关键字，限定了外界对委托变量只能使用+=或-=操作符，对于其他的比如赋值或者调用都会被视为错误。而其他delegate变量只能先赋值，然后再做 += 或者 -= 操作，否则会出错。</li><li>语法&amp;示例：</li>
+<li>
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="color: rgb(0, 0, 136);">public delegate void BoilerLogHandler(string status);</span></div>
+</li>
+<li>
+<div style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); padding: 10px 15px; font-style: normal; font-variant-ligatures: normal; font-variant-position: normal; font-variant-caps: normal; font-variant-numeric: normal; font-variant-alternates: normal; font-variant-east-asian: normal; font-weight: normal; font-size: 12px; background-image: url(file:///images/codecolorer_bg.gif); background-color: rgb(251, 251, 251); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-position: 50% 0%; background-repeat: initial initial;"><span style="font-family: 'courier new';"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">public</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">event</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">BoilerLogHandler</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">BoilerEventLog</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span></span></div>
+</li>
+</ul>
+<li><font face="courier new" size="2"><b>C#泛型</b>：</font></li><ul><li><font face="courier new" size="2">定义：<font style="font-size: 12px; font-family: 'courier new';">泛型允许您编写一个可以与任何数据类型一起工作的类或方法。</font></font></li><li><font face="courier new" size="2"><font style="font-size: 12px; font-family: 'courier new';">定义语法：</font></font></li><ul><li><font face="courier new" size="2"><font style="font-size: 12px; font-family: 'courier new';">类泛型：<pre style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; white-space: pre-wrap; word-break: break-all; word-wrap: break-word; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">    </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">public</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">class</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">MyGenericArray</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&lt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">T</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&gt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+    </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+        </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">private</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> T</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> array</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+        </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">public</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">MyGenericArray</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> size</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+        </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span></span></span></span></pre></font></font></li><li><font face="courier new" size="2"><font style="font-size: 12px; font-family: 'courier new';">方法泛型：<pre style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; white-space: pre-wrap; word-break: break-all; word-wrap: break-word; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">static</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">void</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Swap</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&lt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">T</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&gt;(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">ref</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> T lhs</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">ref</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> T rhs</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+        </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            T temp</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            temp </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> lhs</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            lhs </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> rhs</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            rhs </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> temp</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+        </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span></span></span></span></pre></font></font></li><li><font face="courier new" size="2"><font style="font-size: 12px; font-family: 'courier new';">委托泛型：<pre style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; white-space: pre-wrap; word-break: break-all; word-wrap: break-word; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">delegate</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> T </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">NumberChanger</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&lt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">T</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&gt;(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">T n</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span></pre></font></font></li></ul><li><font face="courier new" size="2">使用语法：</font></li><ul><li><font face="courier new" size="2">类泛型：<pre style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; white-space: pre-wrap; word-break: break-all; word-wrap: break-word; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// 声明一个整型数组</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">MyGenericArray</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">&lt;int&gt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> intArray </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">new</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">MyGenericArray</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">&lt;int&gt;</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">5</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span></span></span></pre></font></li><li><font face="courier new" size="2">方法泛型：<pre style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; white-space: pre-wrap; word-break: break-all; word-wrap: break-word; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// 调用 swap</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Swap</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">&lt;int&gt;</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">ref</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> a</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">ref</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> b</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Swap</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">&lt;char&gt;</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">ref</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> c</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">ref</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> d</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span></span></span></pre></font></li><li><font face="courier new" size="2">委托泛型：<pre style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; white-space: pre-wrap; word-break: break-all; word-wrap: break-word; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// 创建委托实例</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">NumberChanger</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">&lt;int&gt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> nc1 </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">new</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">NumberChanger</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">&lt;int&gt;</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">AddNum</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">NumberChanger</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">&lt;int&gt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> nc2 </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">new</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">NumberChanger</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">&lt;int&gt;</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">MultNum</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span></span></span></span></span></pre></font></li></ul></ul><li><font style="font-size: 14px;" face="Helvetica Neue"><b>c#匿名方法</b>：</font></li><ul><li><font style="font-size: 14px;" face="Helvetica Neue">定义：<font style="font-family: 'Helvetica Neue';">提供了一种传递代码块作为委托参数的技术，</font>类似于block，可以捕获外部变量。</font></li><li><font style="font-size: 14px;" face="Helvetica Neue">要点：</font></li><ul><li><font style="font-size: 14px;" face="Helvetica Neue">由于c#中没有基本数据类型，全是对象，所以将会捕获外部变量</font></li><li><font style="font-size: 14px;" face="Helvetica Neue"><font style="font-family: 'Helvetica Neue';">匿名方法是没有名称只有主体的方法。</font><br></font></li><li><font style="font-size: 14px;" face="Helvetica Neue"><font style="font-family: 'Helvetica Neue';"><font style="font-family: 'Helvetica Neue';">在匿名方法中您不需要指定返回类型，它是从方法主体内的 return 语句推断的。</font><br></font></font></li><li><font style="font-size: 14px;" face="Helvetica Neue"><font style="font-family: 'Helvetica Neue';"><font style="font-family: 'Helvetica Neue';"><font style="font-family: 'Helvetica Neue';">匿名方法是通过使用 delegate 关键字创建委托实例来声明的。</font></font></font></font></li></ul><li><font face="Helvetica Neue">示例：<pre style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; white-space: pre-wrap; word-break: break-all; word-wrap: break-word; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">delegate</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">void</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">NumberChanger</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> n</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);<pre style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; white-space: pre-wrap; word-break: break-all; word-wrap: break-word; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">// 使用匿名方法创建委托实例</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">NumberChanger</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> nc </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">delegate</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> x</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+               </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Anonymous Method: {0}"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> x</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">);</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">};</span></span></pre></span></span></span></pre></font></li></ul></ul><div><span style="font-size: 12px;"><span style="font-family: 'courier new';"><span style="color: rgb(102, 102, 0);"><br></span></span></span></div><div><span style="font-size: 12px;"><span style="font-family: 'courier new';"><span style="color: rgb(102, 102, 0);"><br></span></span></span></div><div><b>C#API集合</b>：</div><ul>
+<li>所有Collection都可以使用 foreach语句</li><li>ArrayList：动态数组
+
+</li><ul>
+<li>参考文章：<a href="http://www.runoob.com/csharp/csharp-arraylist.html" target="_blank" rel="external">http://www.runoob.com/csharp/csharp-arraylist.html</a></li>
+<li>只要是 object 对象，就都可以加入数组，而C#所有对象都是继承于object的。</li>
+</ul>
+<li>Hashtable:哈希表【无序字典】，代表了一系列基于键的哈希代码组织起来的键/值对。它使用键来访问集合中的元素。</li><ul>
+<li>参考文章：<a href="http://www.runoob.com/csharp/csharp-hashtable.html" target="_blank" rel="external">http://www.runoob.com/csharp/csharp-hashtable.html</a></li><li>注意，key应该是一个不可变对象。</li>
+</ul><li>SortList:【有序字典】，按照key排序。</li><ul><li>参考文章：<a href="http://www.runoob.com/csharp/csharp-sortedlist.html" target="_blank" rel="external">http://www.runoob.com/csharp/csharp-sortedlist.html</a></li><li>不允许出现两个相同的key值，否则会报错。这里的相等使用的是 equals方法。两个相同内容的string对象，算是相同的key值。</li></ul><li>Stack：【堆栈】代表了一个后进先出的对象集合。当您需要对各项进行<b>后进先出</b>的访问时，则使用堆栈。当您在列表中添加一项，称为推入元素，当您从列表中移除一项时，称为弹出元素。</li><ul><li>参考文章：<a href="http://www.runoob.com/csharp/csharp-stack.html" target="_blank" rel="external">http://www.runoob.com/csharp/csharp-stack.html</a></li><li>使用foreach时，<b>依然遵照后进先出原则</b>。</li><li>使用ToArray()时，<font style="font-weight: bold;">依然遵照后进先出原则</font>。</li></ul><li>Queue：【队列】代表了一个先进先出的对象集合。当您需要对各项进行先进先出的访问时，则使用队列。当您在列表中添加一项，称为入队，当您从列表中移除一项时，称为出队。</li><ul><li>参考文章：<a href="http://www.runoob.com/csharp/csharp-queue.html" target="_blank" rel="external">http://www.runoob.com/csharp/csharp-queue.html</a></li><li style="">使用foreach时，<b>依然遵照先进先出原则</b>。</li><li style="">使用ToArray()时，<font style="font-weight: bold;">依然遵照先进先出原则</font>。</li></ul><li>BitArray：位数组。</li><ul><li>参考文章：<a href="http://www.runoob.com/csharp/csharp-bitarray.html" target="_blank" rel="external">http://www.runoob.com/csharp/csharp-bitarray.html</a></li><li>And( xxx ) 与 Xor( xxx )中，xxx操作必须确保与调用对象的长度是一致的。</li></ul><li>C#多线程：<br></li><ul><li>参考文章：<a href="http://www.runoob.com/csharp/csharp-multithreading.html" target="_blank" rel="external">http://www.runoob.com/csharp/csharp-multithreading.html</a></li><li>参考要点：</li><ul><li>主线程需要等待子线程执行结束才能退出。</li><li>当任一线程抛出异常或者意外终止时，整个程序都会退出。</li><li>线程可以在外部被终止，只需要对线程对象调用Abort()即可，具体来说就是 xxxThread.Abort()即可，该异常无法被 try-catch捕获，但是 如果有finally语句，依然可以执行。</li></ul></ul>
+</ul><div>
+<div>
+<div><br></div>
+<div><br></div>
+<div><b>C#实用技巧</b>：</div>
+<ul>
+<li>判断一个对象是否属于某个类型：o is Object ，返回值时 Boolean,对于null的对象值，永远返回false。</li>
+<li>强制转换对象：
+
+</li><ul>
+<li>方法一：在这个方法中，进行了两次类型检查，第一个if判断，第二次强制转换检查。is 等同于 OC中的 isKindOf: ,会查找继承链。</li>
+</ul>
+</ul>
+<div style="box-sizing: border-box; padding: 8px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902);">
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">if(o is Employee) {</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">Employee e = (Employee) o;</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">//在if语句中使用e</span></span></span></div>
+<div><span style="font-size: 12px;"><span style="font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;"><span style="color: rgb(51, 51, 51);">}</span></span></span></div>
+</div>
+<ul>
+
+<ul>
+<li>方法二：只进行一次类型检查，as是新推出的一个标识符。</li>
+</ul>
+
+</ul>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>Employee e = o as Employee;</div><div>if(e != null)</div><div>{</div><div>//在if语句中使用e</div><div>}</div></div>
+</div>
+<ul>
+<li><span style="border: 0px; padding: 0px;"><span style="color: rgb(0, 0, 136);">foreach </span>快速循环语句：foreach (MethodInfo m in type.GetMethods()) { … }可以迭代获取数组中的每一个成员。</span></li><li><span style="border: 0px; padding: 0px;">C#输出格式大全：</span></li><ul><li><span style="border: 0px; padding: 0px;">占位多少：{0，6}表示占6位，默认右对齐。{0，-6}表示占6位，但是左对齐。</span></li></ul><li>C#中值-结果参数的传递方法：swap( ref string a, ref string b )，需要使用 ref 标识对象，这样a和b取到的是外部指针本身。</li><li>unsafe：在c#中使用指针，必须为代码块添加上 unsafe 标识。该标识可以添加在方法修饰词位置，也可以单独形成一个代码块 unsafe{ … }.</li><ul><li>注意：Mono默认是不允许 unsafe 代码的，需要我们在项目设置中手动打开。详情参见Mono打开 unsafe 的方法。</li><li>用法：</li><ul><li>指向普通变量</li><li>指向数组变量：如果您需要使用指针变量访问数组数据，可以像我们通常在 C 或 C++ 中所做的那样，使用 fixed 关键字来固定指针。<pre style="border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgb(221, 221, 221); border-image: initial; padding: 10px 15px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: &quot;courier new&quot;; white-space: pre-wrap; word-break: break-all; word-wrap: break-word; background: url(&quot;/images/codecolorer_bg.gif&quot;) center top rgb(251, 251, 251); color: rgb(51, 51, 51); letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">[]</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">  list </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">10</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">100</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">200</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">};</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+         </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">fixed</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">*</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">ptr </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> list</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+
+         </span><span style="border: 0px; padding: 0px; color: rgb(136, 0, 0);">/* 显示指针中数组地址 */</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+         </span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">for</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> i </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">=</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">0</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> i </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">&lt;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(0, 102, 102);">3</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">;</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> i</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">++)</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+         </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">{</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Address of list[{0}]={1}"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">i</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 136);">int</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">)(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">ptr </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">+</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> i</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">));</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+            </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">WriteLine</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">(</span><span style="border: 0px; padding: 0px; color: rgb(0, 136, 0);">"Value of list[{0}]={1}"</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> i</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">,</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">*(</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">ptr </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">+</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);"> i</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">));</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+         </span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">}</span><span style="border: 0px; padding: 0px; color: rgb(0, 0, 0);">
+         </span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">Console</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">.</span><span style="border: 0px; padding: 0px; color: rgb(102, 0, 102);">ReadKey</span><span style="border: 0px; padding: 0px; color: rgb(102, 102, 0);">();</span></span></span></span></span></span></span></span></span></span></pre></li></ul></ul></ul>
+
+</div><div><br></div><div><br></div><div><b>常见问题</b>：</div><div><ul><li>C#不允许使用实例变量去调用它的静态方法。</li></ul></div><div><br></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Unity/" rel="tag"># Unity</a>
+          
+            <a href="/tags/游戏/" rel="tag"># 游戏</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/Unity引擎学习笔记/" rel="next" title="Unity引擎学习笔记">
+                <i class="fa fa-chevron-left"></i> Unity引擎学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/09/Effective Objective-C 2.0读书笔记：内存管理/" rel="prev" title="Effective Objective-C 2.0读书笔记：内存管理">
+                Effective Objective-C 2.0读书笔记：内存管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/09/C#学习笔记/"
+     data-title="C#学习笔记"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/09/C#学习笔记/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/09/C#学习笔记/"
+           data-title="C#学习笔记" data-url="https://treasureu.github.io/2017/02/09/C#学习笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,1101 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,脚本," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Python常用库
+
+
+
+python库更新问题：
+
+库过旧可能导致的问题：即当使用多个库时，他们之前一般有最低版本要求。如果其中一个版本过低，会导致无法协作开发。
+解决方案：（需要注意的是，一旦涉及到文件读写，那么都需要 sudo 权限）
+
+
+安装pip ：sudo easy_install pip
+使用pip更新 python库：http://www.cnblogs.com/luckju">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python常用库">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/09/Python常用库/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="Python常用库
+
+
+
+python库更新问题：
+
+库过旧可能导致的问题：即当使用多个库时，他们之前一般有最低版本要求。如果其中一个版本过低，会导致无法协作开发。
+解决方案：（需要注意的是，一旦涉及到文件读写，那么都需要 sudo 权限）
+
+
+安装pip ：sudo easy_install pip
+使用pip更新 python库：http://www.cnblogs.com/luckju">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Python%E5%B8%B8%E7%94%A8%E5%BA%93.resources/FAF87D4B-8DE8-4CC4-BD47-643AE54BC8C5.png">
+<meta property="og:updated_time" content="2017-02-09T04:10:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python常用库">
+<meta name="twitter:description" content="Python常用库
+
+
+
+python库更新问题：
+
+库过旧可能导致的问题：即当使用多个库时，他们之前一般有最低版本要求。如果其中一个版本过低，会导致无法协作开发。
+解决方案：（需要注意的是，一旦涉及到文件读写，那么都需要 sudo 权限）
+
+
+安装pip ：sudo easy_install pip
+使用pip更新 python库：http://www.cnblogs.com/luckju">
+<meta name="twitter:image" content="https://treasureu.github.io/Resources/Python%E5%B8%B8%E7%94%A8%E5%BA%93.resources/FAF87D4B-8DE8-4CC4-BD47-643AE54BC8C5.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/09/Python常用库/"/>
+
+
+
+
+
+  <title> Python常用库 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/09/Python常用库/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python常用库
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T12:10:03+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Python笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/09/Python常用库/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/09/Python常用库/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="15.97232055664063"><meta name="author" content="程剑锋"><meta name="created" content="2016-06-15 16:00:12 +0000"><meta name="latitude" content="31.21598822891665"><meta name="longitude" content="121.3024098819116"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-12-11 07:20:31 +0000"><title>Python常用库</title></head><body><div>
+<div>
+<div>
+<div>
+<div><b>python库更新问题</b>：</div>
+<ul>
+<li>库过旧可能导致的问题：即当使用多个库时，他们之前一般有最低版本要求。如果其中一个版本过低，会导致无法协作开发。</li>
+<li>解决方案：（需要注意的是，一旦涉及到文件读写，那么都需要 sudo 权限）
+
+</li><ul>
+<li>安装pip ：sudo easy_install pip</li>
+<li>使用pip更新 python库：<a href="http://www.cnblogs.com/luckjun/p/4958338.html" target="_blank" rel="external">http://www.cnblogs.com/luckjun/p/4958338.html</a>  。</li>
+</ul>
+</ul>
+<div><b><br></b></div>
+<div><b>excel处理相关内容</b>:</div>
+<div>
+<ul>
+<li>excel格式问题：主要分为 xls 和 xlsx
+
+</li><ul>
+<li>xls可以被所有的excel程序打开，而xlsx则只能被office 07以上的excel程序打开。</li>
+<li>07版以后的扩展名都是.xlsx ，是用新的基于XML的压缩文件格式取代了其目前专有的默认文件格式，在传统的文件名扩展名后面添加了字母x（即.docx取代.doc、.xlsx取代.xls，等等），使其占用空间更小。</li>
+</ul>
+<li>Excel Python 主要有三个库：（前两者不能混用）
+
+</li><ul>
+<li>xlwt是 xls 格式的写入库</li>
+<li>xlsxWriter 是 xlsx的写入库</li>
+<li>xlrd是excel读入库，可以兼容 xls 和 xlsx（对后者的支持力度有限）。</li>
+<li>具体比较可以参考：<a href="http://www.gocalf.com/blog/python-read-write-excel.html" target="_blank" rel="external">http://www.gocalf.com/blog/python-read-write-excel.html</a></li>
+</ul>
+<li>读入的表的行数序号是从0开始算起的，而不是按照文件打开显示的列号。</li>
+<li>因此，建议使用 xlrd来读取文件内容，使用 xlsxWriter 来创建文件内容。</li>
+<li>xlsxWriter的使用方式：<a href="https://www.linuxyw.com/464.html" target="_blank" rel="external">https://www.linuxyw.com/464.html</a></li>
+</ul>
+<div><br></div>
+<div><br></div>
+<div><b>JSON数据读取问题</b>：</div>
+<ul>
+<li>因为字典key不存在会引发crash问题，数组越界也会引发crash问题，因此建议使用try-catch 捕获异常，来直接获取数据，避免复杂的取值判断操作。</li>
+<li>目前建议使用JSON 库作为官方解析工具。</li>
+</ul>
+</div>
+<div><br></div>
+<div><b>文件操作</b>：</div>
+</div>
+<ul>
+<li>API集合：<a href="http://www.cnblogs.com/rollenholt/archive/2012/04/23/2466179.html" target="_blank" rel="external">http://www.cnblogs.com/rollenholt/archive/2012/04/23/2466179.html</a></li>
+<li>os.removedirs( “xxxx/xxx” ):删除一个空的叶子目录，并向上回溯，如果上级目录也是空的，那么也将其删除，依次类推，直到权限不够或者目录非空为止。</li>
+<li>os.makedirs( “xxx/xxx” )：一次性创建多级目录</li>
+<li>软链接和硬链接：
+
+</li><ul>
+<li>软链接实际上是一个文件跳转路径，它本质就是一个文本文件，记录了实际指向文件的地址。但它不影响实际文件的引用计数。</li>
+<li>硬链接相比于软链接更为高级，它将增加指向文件的引用计数。只有所有硬链接和源文件都被删除的情况下，那份文件数据才会从硬盘上被删除，否则是不会的。</li>
+<li>软链接：os.symlink( src , dst )</li>
+<li>硬链接：os.link( src , dst ),只在unix和windows下有效，对于mac来说，其执行的是简单的copy操作，无法达到指向同一份硬盘数据块的目的。</li>
+<li>在填写链接地址时，<b>一定要注意，你写入的src地址，是相对于你dst文件所在的位置的src地址</b>。例如：<img src="/Resources/Python%E5%B8%B8%E7%94%A8%E5%BA%93.resources/FAF87D4B-8DE8-4CC4-BD47-643AE54BC8C5.png" height="284" width="1140">我们可以看到，  -&gt; 指定的地址系统是直接写入了我们传入的src地址，因此，<b>我们src的值一定要是相对于dst所在的位置，src的相对路径</b>。</li>
+</ul>
+<li>在Mac的文件操作中，不要出现类似于它不允许出现的字符，这些字符也许通过代码可以生成相应的文件夹，但是在搜索和链接时，都会出现问题。（最近碰到软链接时出错的问题。）</li>
+<li>Mac在 file.open( “xxx” ) 时，如果xxx是一个软链接文件，那么也是可以正常打开的。最后会打开这个软链接指向的实际文件，并操作相关内容。</li>
+</ul>
+<div><br></div>
+<div><b>多线程与多进程</b>：</div>
+</div>
+<div>
+<ul>
+<li>多线程使用 threading 库，但是python的多线程是伪多线程，因为其在语言解释器层级还有一个GIL，这个锁会导致语言解释器会串行的解释脚本。</li>
+<li>多进程使用 mutilprocess 库，这个库提供了两种并行方式：
+
+</li><ul>
+<li>进程对象管理方式： process</li>
+<li>进程池方式：pool。因为mac电脑可以超线程运行，因此，一旦开启就会导致出错，要手动设置 Pool的大小比较好。</li>
+<li>在使用这个库时，可以使用 Manager 来管理共享数据，manager 生成的数据，是共享内存的。对于，全局变量，都是复制捕获类型。</li>
+</ul>
+</ul>
+</div>
+<div><br></div>
+<div><br></div>
+</div>
+<div><b>邮件处理代码</b>：</div>
+</div><ul>
+<li>当使用网易邮箱时，我们需要在邮箱设置中打开 stmp设置，打开授权码。在发送邮件时，邮箱密码需要写为授权码，而不是真实的邮箱密码。</li>
+<li>使用网易邮箱，当你一个邮件发送给多个收件人时，会被返回错误，错误信息（554，”DT:SPM “）,表示被网易判定为垃圾邮件拒绝发送。因为比较稳妥的办法是，一次一个收件人。</li>
+<li>示例代码如下：</li>
+</ul><div>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div># 邮件相关头文件</div><div>import smtplib</div><div>from email.mime.text import MIMEText</div><div><br></div><div># 邮箱全局变量配置区域</div><div>global_mail_host = "smtp.163.com"            # 使用的邮箱的smtp服务器地址，这里是163的smtp地址</div><div>global_mail_user = "673302055"                           # 用户名</div><div>global_mail_pass = "280153CJFok"                             # 密码,网易规定必须使用授权码</div><div>global_mail_postfix = "163.com"                     # 邮箱的后缀，网易就是163.com</div><div>global_mail_user_name = "程剑锋"</div><div><br></div><div>def send_mail(to_list, sub, content):</div><div>    global global_mail_host</div><div>    global global_mail_user</div><div>    global global_mail_pass</div><div>    global global_mail_postfix</div><div>    global global_mail_user_name</div><div><br></div><div>    # 常规项配置内容</div><div>    mail_host = global_mail_host</div><div>    mail_user = global_mail_user</div><div>    mail_pass = global_mail_pass</div><div>    mail_postfix = global_mail_postfix</div><div>    mail_user_name = global_mail_user_name</div><div><br></div><div>    # 邮件发送代码</div><div>    # if isinstance(content,unicode):</div><div>    #     content = str(content)</div><div><br></div><div>    me = mail_user_name + "&lt;" + mail_user + "@" + mail_postfix + "&gt;"</div><div>    msg = MIMEText(content, _subtype = 'plain',_charset = 'utf-8')</div><div>    if not isinstance(sub,unicode):</div><div>        sub = unicode(sub)</div><div>    msg['Subject'] = sub</div><div>    msg['From'] = me</div><div>    msg['To'] = ";".join(to_list)                # 将收件人列表以‘；’分隔</div><div>    msg["Accept-Language"]="zh-CN"</div><div>    msg["Accept-Charset"]="ISO-8859-1,utf-8"</div><div>    try:</div><div>        server = smtplib.SMTP()</div><div>        server.connect(mail_host)                            # 连接服务器</div><div>        server.login(mail_user, mail_pass)               # 登录操作</div><div>        server.sendmail(me, to_list, msg.as_string())</div><div>        server.close()</div><div>        return True</div><div>    except Exception, e:</div><div>        print "邮件发送失败：%s" % (str(e))</div><div>        return False</div></div>
+<div><br></div>
+<div>
+<div><br></div>
+<div><b>时间处理库</b>：</div>
+<ul>
+<li>date和time的结合库：datetime，<a href="http://www.cnblogs.com/shijingjing07/p/5753175.html" target="_blank" rel="external">http://www.cnblogs.com/shijingjing07/p/5753175.html</a></li>
+</ul><div><br></div><div><b>科学计算库</b>：</div>
+<div><ul><li>可支持多维度计算，参考文章：<a href="http://www.tuicool.com/articles/RBzyUv" target="_blank" rel="external">http://www.tuicool.com/articles/RBzyUv</a></li></ul><div><br></div></div><div><br></div><div><b>HTTP/HTTPS网络库相关</b>：</div><div><ul><li>推荐使用<b>requests</b>，语法简单，自动处理重定向。但目前不支持http2.0。</li><ul><li>github:<a href="http://docs.python-requests.org/en/master/user/quickstart/#make-a-request" target="_blank" rel="external">http://docs.python-requests.org/en/master/user/quickstart/#make-a-request</a></li></ul><li>直接使用系统提供的 urllib 也不错。</li><li>httplib2由Google开发，但是不支持自动重定向，且语法不如requests易用。</li></ul></div>
+</div>
+</div><div><br></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/脚本/" rel="tag"># 脚本</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/Python 异常处理指南/" rel="next" title="Python 异常处理指南">
+                <i class="fa fa-chevron-left"></i> Python 异常处理指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/09/多版本python管理工具：pyenv的使用/" rel="prev" title="多版本python管理工具：pyenv的使用">
+                多版本python管理工具：pyenv的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/09/Python常用库/"
+     data-title="Python常用库"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/09/Python常用库/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/09/Python常用库/"
+           data-title="Python常用库" data-url="https://treasureu.github.io/2017/02/09/Python常用库/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

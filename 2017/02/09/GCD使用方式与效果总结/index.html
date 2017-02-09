@@ -1,0 +1,1051 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="GCD使用方式与效果总结理论知识请参考： Effective Objective-C 2.0读书笔记：块与大中枢派发基本GCD使用方法总结：
+调度执行方法：（只选择block方式执行的，不考虑使用 context+function方式的用法）
+
+
+void dispatch_async( dispatch_queue_t queue, dispatch_block_t block ): 将b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GCD使用方式与效果总结">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/09/GCD使用方式与效果总结/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="GCD使用方式与效果总结理论知识请参考： Effective Objective-C 2.0读书笔记：块与大中枢派发基本GCD使用方法总结：
+调度执行方法：（只选择block方式执行的，不考虑使用 context+function方式的用法）
+
+
+void dispatch_async( dispatch_queue_t queue, dispatch_block_t block ): 将b">
+<meta property="og:updated_time" content="2017-02-09T03:19:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GCD使用方式与效果总结">
+<meta name="twitter:description" content="GCD使用方式与效果总结理论知识请参考： Effective Objective-C 2.0读书笔记：块与大中枢派发基本GCD使用方法总结：
+调度执行方法：（只选择block方式执行的，不考虑使用 context+function方式的用法）
+
+
+void dispatch_async( dispatch_queue_t queue, dispatch_block_t block ): 将b">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/09/GCD使用方式与效果总结/"/>
+
+
+
+
+
+  <title> GCD使用方式与效果总结 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/09/GCD使用方式与效果总结/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                GCD使用方式与效果总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T11:19:07+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/09/GCD使用方式与效果总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/09/GCD使用方式与效果总结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="author" content="程剑锋"><meta name="created" content="2016-03-16 02:47:21 +0000"><meta name="updated" content="2016-12-16 04:04:11 +0000"><title>GCD使用方式与效果总结</title></head><body><div><b>理论知识请参考</b>： <a style="color:#69aa35" href="evernote:///view/8887184/s39/e10c5fa2-8013-4f4f-b72b-5b7dbef5952f/e10c5fa2-8013-4f4f-b72b-5b7dbef5952f/" target="_blank" rel="external">Effective Objective-C 2.0读书笔记：块与大中枢派发</a></div><div><br></div><div><b>基本GCD使用方法总结</b>：</div><ul>
+<li>调度执行方法：（只选择block方式执行的，不考虑使用 context+function方式的用法）
+
+</li><ul>
+<li>void dispatch_async( dispatch_queue_t queue, dispatch_block_t block ): 将block加入到queue中异步执行（可能同步/异步，取决于queue的性质），当前调用者不等待。</li>
+<li>void dispatch_sync( dispatch_queue_t queue, dispatch_block_t block ): 将block加入到queue中同步执行（可能同步/异步，取决于queue的性质） ，当前调用者阻塞等待。</li>
+<li>void dispatch_apply( size_t itertions , dispatch_queue_t queue , void(^block)(size_t)) :　将block（该block与上面的不同，其带有入参size_t）加入queue中多次执行，itertions指明了需要执行多少次，可以用这个方法来对collection进行遍历。需要注意的是，该方法是<b>同步执行的（即调用者需要阻塞等待</b>）。而且该方法<b>可能会并发执行（取决与queue的性质</b>），必要的话，我们需要在内部做好数据的同步保护机制。</li>
+<li>void dispatch_after( dispatch_time_t when , dispatch_queue_t queue,dispatch_block_t block ): 该方法将block加入到queue中，并延后 when时间后执行。此函数是异步执行的，调用者不等待。dispatch_time_t 我们一般使用 dispatch_time （DISPATCH_TIME_NOW, xxx * NSEC_PER_SEC）生成延迟时间。</li>
+<li>void dispatch_barrier_async( dispatch_queue_t queue,dispatch_block_t block ): 主要用于在并发队列中，加入互斥标记，使采用此方法执行的block不会并发执行（在同一个队列中，有且只有一个标记，所有采用此类方法加入的block，都需要互斥执行代码） 。同时这是个异步调用，调用者不等待。</li>
+<li>void dispatch_barrier_sync( dispatch_queue_t queue,dispatch_block_t block ): 主要用于在并发队列中，加入互斥标记，使采用此方法执行的block不会并发执行（在同一个队列中，有且只有一个标记，所有采用此类方法加入的block，都需要互斥执行代码）。同时这是个同步调用，调用者阻塞等待其执行完毕。</li>
+</ul>
+<li>获取当前queue（建议废弃）：dispatch_queue_t dispatch_get_current_queue() : 获取代码块当前执行所在的queue。该函数以被废弃，且无法避免target设置所带来的死锁问题，建议不要使用。</li>
+<li>创建/获取可执行的queue：
+
+</li><ul>
+<li>dispatch_queue_t dispatch_get_mian_queue(  ) :　返回主线程执行的queue。</li>
+<li>dispatch_queue_t dispatch_get_global_queue（long identifier, unsigned long flags）：返回全局的并发执行的queue。它的第一个参数是全局的queue的优先级，（全局queue有多个队列，每个队列有不同的优先级，共有四种：DISPATCH_QUEUE_PRIORITY_HIGH、DISPATCH_QUEUE_PRIORITY_DEFAULT 、DISPATCH_QUEUE_PRIORITY_LOW 、DISPATCH_QUEUE_PRIORITY_BACKGROUND ），第二个参数是个保留字，传0即可。</li>
+<li>dispatch_queue_t dispatch_queue_create( const char* label , dispatch_queue_attr_t attr ):创建一个指定名字的<b>串行队列（</b>注意，不可创建并行队列<b>）</b>。第一个参数是队列的名字（一般使用反域名的形式命名），第二个参数一般传NULL。该queue在使用完毕之后，需要<b>使用 dispatch_release( dispatch_queue_t queue )去释放</b>它（由于其是C对象，ARC无法接管其生命周期）。</li>
+</ul>
+<li>获取queue的label：const char* dispatch_queue_get_label( dispatch_queue_t queue ) ，该函数可以获取指定queue的名字。</li>
+<li>设置queue的优先级或者是target关系：void dispatch_set_target_queue( dispatch_object_t object , dispatch_queue_t queue ), 第一个参数是自定义queue，第二个参数可以自定义或者系统queue。其可以将前者的优先级设置为和后者一致，且设置他们之间的target关系。即前者的block将在后者的线程中执行调用。</li>
+<li>设置/获取关联标记：
+
+</li><ul>
+<li>void dispatch_queue_set_specific( dispatch_queue_t queue, const void *key, void *context,dispatch_function_t destructor ):设置一个queue的关联标记，设置方式类似与关联对象，其key和value都是void*指针，最后一个参数是value的析构函数，用于防止内存泄露。详情请参考P183.</li>
+<li>void* dispatch_queue_get_specific( dispatch_queue_t queue, const void *key ) ：用于获取指定queue上的关联标记。可向上回溯到target关系中的queue的设置。</li>
+<li>void* dispatch_get_specific( const void *key ) : 用于获取当前正在执行的queue上的指定key的value。可向上回溯到target关系中的queue的设置。</li>
+</ul>
+</ul><div><b>GCD Group组使用方法</b>：</div><ul>
+<li>用于<b>多线程同步</b>。</li>
+<li>dispatch_group_t dispatch_group_create() : 创建一个group组。</li>
+<li>使用方式分为两种：
+
+</li><ul>
+<li>Block使用方式：void dispatch_group_async( dispatch_group_t group, dispatch_queue_t queue, dispatch_block_t block )：以<b>异步调用</b>的形式将代码加入 queue中执行，并加此任务在group中标记。注意，<b>加入组中的任务只能是异步调用的</b>，否则就失去了使用group的意义。</li>
+<li>手动管理方式：使用 进入前调用void <b>dispatch_group_enter</b>( dispatch_group_t group )  + 异步线程中调用void <b>dispatch_group_leave</b>( dispatch_group_t group ) 这两个函数实现，其效果与上方的类似，但是<b>其更适用于在别人掌控的多线程中调用</b>。可以参见网站：<a href="http://stackoverflow.com/questions/10643797/wait-until-multiple-networking-requests-have-all-executed-including-their-comp/10644282#10644282" target="_blank" rel="external">http://stackoverflow.com/questions/10643797/wait-until-multiple-networking-requests-have-all-executed-including-their-comp/10644282#10644282</a></li>
+</ul>
+<li>完成通知方式有两种：
+
+</li><ul>
+<li>阻塞等待方式：long dispatch_group_wait( dispatch_group_t group, dispatch_time_t timeout )，调用此语句，可以原线程等待 group执行完成。同时，我们可以指定最长的 等待时间 timeout，其中timeout设置为 DISPATCH_TIME_FOREVER 则表示永不过期。</li>
+<li>异步通知回调方式： void dispatch_group_notify( dispatch_group_t group, dispatch_queue_t queue, dispatch_block_t block )，可以在group内任务执行完成后，在指定的queue中回调这个block。</li>
+</ul>
+<li>主要作用：group主要用于协调多项并发任务，获知其并发任务的结束时间。</li>
+</ul><div><b>GCD Semaphore使用</b>：</div><div>
+<ul>
+<li>创建信号量：dispatch_semaphore_t dispatch_semaphore_create( long value ) ：创建一个信号量，value的值表示信号量资源池内初始的资源数量。如果为0，那么调用wait时含义立即等待，如果小于0，那么将返回NULL，如果大于0，表示有多余资源可用。</li>
+<li>等待信号量操作：long dispatch_semaphore_wait（dispatch_semaphore_t dsema, dispatch_time_t timeout）,等待并获取一个信号量资源，设置一个最长等待时间（可设置为DISPATCH_TIME_FOREVER ，表示永不过期  ）。如果超时前成功获取那么就返回0，否则返回超时时间。</li>
+<li>增加信号量资源操作：long dispatch_semaphore_signal（dispatch_semaphore_t dsema）,增加一个信号量资源，如果有一个线程因此苏醒，那么返回值大于0，否则返回值为0.</li>
+<li>主要作用：semaphore主要用于单项异步任务的协调，及时获取该异步任务的进度。（我们可以用这个函数把一个异步任务变成同步任务，这对于系统函数block回调行为很有用）</li>
+</ul><div><b>GCD Barrier使用</b>：【屏障】</div><div><ul><li>作用：主要是对并发GCD队列使用，可以使一个并发GCD队列内的任务在执行时存在依赖关系。</li><li>参考文章：<a href="http://blog.csdn.net/u013046795/article/details/47057585" target="_blank" rel="external">http://blog.csdn.net/u013046795/article/details/47057585</a></li><li>主要函数：</li><ul><li>void dispatch_barrier_sync(dispatch_queue_t queue, DISPATCH_NOESCAPE dispatch_block_t block):函数会同步等待代码块内的任务执行完成后【它执行的前提是之前提交的block都执行完成】，才继续调用函数的执行。</li><li>void dispatch_barrier_async(dispatch_queue_t queue, dispatch_block_t block)：只是单纯的设置屏障关系，立即返回调用函数继续执行。</li></ul></ul></div>
+</div><div> </div><div><b>附注内容</b>：</div><ul>
+<li>关于dispatch_time_t 的时间描述，他有两种时间生成方式：
+
+</li><ul>
+<li>dispatch_time_t  dispatch_time( dispatch_time_t when , int64_t delta  ): 表示的是绝对时间戳，其实格林尼治时间1970开始计算的绝对时间，不会随着系统时间设置的改变而改变。<b>我们一般采用这个生成延迟时间</b>。</li>
+<li>dispatch_time_t  dispatch_walltime( const struct timespec *when , int64_t delta  ):表示的系统时钟时间，可以被用户自由更改。</li>
+</ul>
+<li>采用设置/获取关联标记的方法，我们可以代替 dispatch_get_current_queue（) ，更加明确当前queue的target关系。</li>
+<li>dispatch_queue_t 对象的内存管理方式：（由于是C语言对象，需要我们自己管理内存）
+
+</li><ul>
+<li>dispatch_retain( dispatch_object_t object )</li>
+<li>dispatch_release(  dispatch_object_t object )</li>
+</ul>
+</ul><div>
+<div><b>参考文章</b>：</div>
+</div><div>
+<ul>
+<li>书本内容：《Effeective Objective-C 2.0》</li>
+<li>GCD分析博客: <a href="http://www.cnblogs.com/sunfrog/p/3313424.html" target="_blank" rel="external">http://www.cnblogs.com/sunfrog/p/3313424.html</a> (系列文章)</li>
+</ul>
+</div><div><br></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/IOS动态库与静态库指南/" rel="next" title="IOS动态库与静态库指南">
+                <i class="fa fa-chevron-left"></i> IOS动态库与静态库指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/09/KSCrash翻译版/" rel="prev" title="KSCrash翻译版">
+                KSCrash翻译版 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/09/GCD使用方式与效果总结/"
+     data-title="GCD使用方式与效果总结"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/09/GCD使用方式与效果总结/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/09/GCD使用方式与效果总结/"
+           data-title="GCD使用方式与效果总结" data-url="https://treasureu.github.io/2017/02/09/GCD使用方式与效果总结/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

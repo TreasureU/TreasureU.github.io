@@ -1,0 +1,986 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="IOS动态库与静态库指南.Framework和.a的区别：参考文章：http://blog.csdn.net/lvxiangan/article/details/43115131用户可以打出动态库，但是iOS8之后苹果才允许程序加载动态库，但是所有动态库必须预先放置在Bundle中。程序库可以分为静态库和动态库：
+静态库：链接时完整地拷贝至可执行文件中，被多次使用就有多份冗余拷贝。动态库：链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IOS动态库与静态库指南">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/09/IOS动态库与静态库指南/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="IOS动态库与静态库指南.Framework和.a的区别：参考文章：http://blog.csdn.net/lvxiangan/article/details/43115131用户可以打出动态库，但是iOS8之后苹果才允许程序加载动态库，但是所有动态库必须预先放置在Bundle中。程序库可以分为静态库和动态库：
+静态库：链接时完整地拷贝至可执行文件中，被多次使用就有多份冗余拷贝。动态库：链">
+<meta property="og:updated_time" content="2017-02-09T03:19:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IOS动态库与静态库指南">
+<meta name="twitter:description" content="IOS动态库与静态库指南.Framework和.a的区别：参考文章：http://blog.csdn.net/lvxiangan/article/details/43115131用户可以打出动态库，但是iOS8之后苹果才允许程序加载动态库，但是所有动态库必须预先放置在Bundle中。程序库可以分为静态库和动态库：
+静态库：链接时完整地拷贝至可执行文件中，被多次使用就有多份冗余拷贝。动态库：链">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/09/IOS动态库与静态库指南/"/>
+
+
+
+
+
+  <title> IOS动态库与静态库指南 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/09/IOS动态库与静态库指南/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                IOS动态库与静态库指南
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T11:19:07+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/09/IOS动态库与静态库指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/09/IOS动态库与静态库指南/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="altitude" content="16.07379913330078"><meta name="author" content="程剑锋"><meta name="created" content="2016-05-04 06:53:59 +0000"><meta name="latitude" content="31.22305139279499"><meta name="longitude" content="121.3562906791592"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-12-19 13:18:43 +0000"><title>IOS动态库与静态库指南</title></head><body><div><b>.Framework和.a的区别</b>：</div><ul><li>参考文章：<a href="http://blog.csdn.net/lvxiangan/article/details/43115131" target="_blank" rel="external">http://blog.csdn.net/lvxiangan/article/details/43115131</a></li><li>用户可以打出动态库，但是iOS8之后苹果才允许程序加载动态库，但是所有动态库必须预先放置在Bundle中。</li><li>程序库可以分为静态库和动态库：
+</li><ul><li>静态库：链接时完整地拷贝至可执行文件中，被多次使用就有多份冗余拷贝。</li><li>动态库：链接时不复制，程序运行开始时由系统动态加载到内存，供程序调用，系统只加载一次，多个程序共用，节省内存。【如果是自己的动态库，那么需要加到程序文件中才行】</li></ul><li>iOS静态库的格式：.a 和 .framework（<b>用户生成的framework</b>）</li><li>iOS动态库的格式：.dylib 和 .framework（<b>系统提供的framework</b>）
+</li><ul><li>这类库用户自己无法生成，不在讨论范围内。</li></ul><li>只要修改库Project - Build Setting - Mach-O Type，即可更改静态库或者动态库属性。</li><li>静态库中.a 和 .framework 的区别：
+</li><ul><li>.a 是一个纯二进制文件，.framework中除了有二进制文件之外还有资源文件。</li><li>.a 文件不能直接使用，至少要有.h文件配合，.framework文件可以直接使用（整个都打包在其中）。</li><li>.a + .h + sourceFile = .framework。</li></ul><li>使用静态库的注意点：
+</li><ul><li>注意理解：无论是.a静态库还.framework静态库，我们需要的都是二进制文件+.h+其它资源文件的形式，不同的是，.a本身就是二进制文件，需要我们自己配上.h和其它文件才能使用，而.framework本身已经包含了.h和其它文件，可以直接使用。</li><li><b>图片资源的处理</b>：两种静态库，一般都是把图片文件单独的放在一个.bundle文件中，一般.bundle的名字和.a或.framework的名字相同。.bundle文件很好弄，新建一个文件夹，把它改名为.bundle就可以了，右键，显示包内容可以向其中添加图片资源。</li><li>category是我们实际开发项目中经常用到的，把category打成静态库是没有问题的，但是在用这个静态库的工程中，<b>调用category中的方法时会有找不到该方法的运行时错误（selector not recognized），解决办法是：在使用静态库的工程中配置other linker flags的值为-ObjC</b>。
+</li><ul><li>关于不同等级的配置参数：-Objc、-force_load、-all_load
+</li><ul><li>参考文章：<a href="https://my.oschina.net/u/728866/blog/194741" target="_blank" rel="external">https://my.oschina.net/u/728866/blog/194741</a></li></ul></ul><li>如果一个静态库很复杂，需要暴露的.h比较多的话，就可以在静态库的内部创建一个.h文件（一般这个.h文件的名字和静态库的名字相同），然后把所有需要暴露出来的.h文件都集中放在这个.h文件中，而那些原本需要暴露的.h都不需要再暴露了，只需要把这个.h暴露出来就可以了。</li></ul><li>使用差别：
+</li><ul><li>Embed Binaries：<br></li><ul><li>在动态库使用时，有时会发现必须要将整个库Embed Binaries到项目中，否则会出现 链接数据不正常，或者 ipatool Error: xxxx dylib search path not exist</li><li>在使用静态库时，不允许将整个库Embed Binaries到项目中，否则会出现error: warning: Found an unexpected Mach-O header code: 0x72613c21的错误。</li></ul><li>第三方库依赖：
+</li><ul><li>动态库因为是完全动态的，所以可以自己链接，相对来说，主工程就不需要再额外添加framework依赖。</li><li>静态库需要添加上所有的依赖。</li></ul></ul><li>程序加载自己的动态库时的操作：
+</li><ul><li>动态库一定要作为Embed Binaries中的一项添加到项目中，否则，在导出ipa时会提示找不到dylib的地址。</li></ul></ul><div><div><b><br></b></div><div><b><br></b></div><div><b>头文件设置</b>：在Xcode中打包库时，可以配置头文件可见性的方式：</div><div><ul><li>参考链接：<a href="https://developer.apple.com/library/ios/recipes/xcode_help-project_editor/Articles/Setting%20the%20Role%20of%20a%20Header%20File.html" target="_blank" rel="external">https://developer.apple.com/library/ios/recipes/xcode_help-project_editor/Articles/Setting%20the%20Role%20of%20a%20Header%20File.html</a></li><li>具体的设置路径：Build Phases —&gt; Headers，将头文件 + 到其中，并放入到某一个具体的分组即可。</li><li>关于这个文件夹下三个分组的不同之处：
+
+</li><ul style="">
+
+
+<li>public：完全公开的头文件，客户端可以任何的使用和读取。</li><li>private：理论上是私有头文件，但是在打包时还是一起暴露在外了。但是会放在一个单独的深层级目录中。客户端应该避免使用这些头文件中的内容。</li><li>project：完全私有的头文件，不对客户端做暴露。</li></ul></ul></div><div><b><br></b></div><div><b><br></b></div><div><b>打包流程：（示例流程）</b></div><ul><li>需要新建一个Target，将 Builid Setting的Valid Architectures 设置为 arm7、arm7s（可不选）、arm64、i386（用于32位模拟器）、x86_64（用于64位模拟器）。</li><li><span style="color: rgb(4, 51, 255);">【可选】</span>使用 Aggregate 为工程添加一个 target，并在该target中设置 dependency，目标为之前的那个库target。且这个traget的 Builid Setting的Valid Architectures 设置为 arm7、arm7s（可不选）、arm64、i386（用于32位模拟器）、x86_64（用于64位模拟器）.
+</li><ul><li><b>因为最终还是由脚本提供所有功能，Aggregate只是为了提供一个可视化的操作环境以及脚本中的环境变量</b>。</li></ul><li>创建一个新的运行脚本，framework 和 .a 是两种不同的脚本。具体可以在 ownerSpace中找到。</li><li><span style="color: rgb(4, 51, 255);">【可选，任意切换】</span>将 scheme 中 RUN 和 Archive 的配置改为 Release状态。</li><li>选中 Aggregate 这个Target， 使用 <b>Build</b> 构建库，并在 Product 目录下获取到相应文件下的产物。</li></ul><div><br></div><div><br></div><div><b>打包脚本需要完成的工作</b>：</div></div><div><ol><li>删除 Build_Dir 下的旧文件</li><li>使用 xcodebuild 按照当前Target的 configuration 进行编译。通用编译指令如下：
+</li><ol><li>xcodeproject使用方法：xcodebuild -target  &lt;项目文件所在的位置&gt;  -configuration ${CONFIGURATION} -sdk iphoneos/iphonesimulator clean  build</li><li>workspace 使用方法：xcodebuild -workspace &lt;项目文件所在的位置&gt; -scheme xxxx -configuration ${CONFIGURATION} -sdk iphoneos/iphonesimulator clean build</li></ol><li>创建universal文件夹</li><li>使用 lipo -create xxx xxx -o xxx ，将模拟器和真机的库合并到一起，输出合并库。</li><li>将头文件copy到universal文件夹下。</li></ol><div><br></div><div><br></div><div><b>指令集合</b>：</div><ul><li>使用 <span style="font: 12.0px 'Andale Mono'; font-variant-ligatures: no-common-ligatures; color: #29f914; background-color: #000000">lipo -info 文件名</span>  可以校验该文件支持的平台架构。可以支持验证dsym支持的架构类型。</li><li>使用 lipo -create  &lt;源文件1.a&gt;  &lt;源文件2.a&gt;  -o 最终文件.a</li></ul></div><div><br></div><div><br></div><div><b>动态库打包脚本示例</b>：</div><div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div># Sets the target folders and the final framework product.</div><div>FMK_NAME=${PROJECT_NAME}</div><div><br></div><div># Install dir will be the final output to the framework.</div><div># The following line create it in the root folder of the current project.</div><div>INSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework</div><div><br></div><div># Working dir will be deleted after the framework creation.</div><div>WRK_DIR=build</div><div>DEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework</div><div>SIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework</div><div><br></div><div># -configuration ${CONFIGURATION}</div><div># Clean and Building both architectures.</div><div>xcodebuild -configuration ${CONFIGURATION} -target "${FMK_NAME}" -sdk iphoneos clean build</div><div>xcodebuild -configuration ${CONFIGURATION} -target "${FMK_NAME}" -sdk iphonesimulator clean build</div><div><br></div><div># Cleaning the oldest.</div><div>if [ -d "${INSTALL_DIR}" ]</div><div>then</div><div>rm -rf "${INSTALL_DIR}"</div><div>fi</div><div><br></div><div>mkdir -p "${INSTALL_DIR}"</div><div><br></div><div>cp -R "${DEVICE_DIR}/" "${INSTALL_DIR}/"</div><div><br></div><div># Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.</div><div>lipo -create "${DEVICE_DIR}/${FMK_NAME}" "${SIMULATOR_DIR}/${FMK_NAME}" -output "${INSTALL_DIR}/${FMK_NAME}"</div><div><br></div><div># open framework exist directory</div><div>open "${INSTALL_DIR}/.."</div><div><br></div><div>rm -r "${WRK_DIR}"</div></div><div><br></div><div><br></div><div><b>静态库打包脚本示例</b>：</div><div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div># remove old build first</div><div>rm -rf $(BUILD_DIR)/${CONFIGURATION}-universal</div><div>rm -rf $(BUILD_DIR)/${CONFIGURATION}-iphoneos</div><div>rm -rf $(BUILD_DIR)/${CONFIGURATION}-iphonesimulator</div><div><br></div><div># define output folder environment variable</div><div>UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal</div><div><br></div><div># Step 1. Build Device and Simulator versions</div><div>xcodebuild -workspace iOS.xcworkspace -scheme KSCrashLib -configuration ${CONFIGURATION} -sdk iphoneos clean build</div><div>xcodebuild -workspace iOS.xcworkspace -scheme KSCrashLib -configuration ${CONFIGURATION} -sdk iphonesimulator clean build</div><div><br></div><div># make sure the output directory exists</div><div>mkdir -p "${UNIVERSAL_OUTPUTFOLDER}"</div><div><br></div><div># Step 2. Create universal binary file using lipo</div><div>lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/libKSCrashLib.a" "${BUILD_DIR}/${CONFIGURATION}-iphoneos/libKSCrashLib.a" "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/libKSCrashLib.a"</div><div><br></div><div># Last touch. copy the header files. Just for convenience</div><div>cp -R "${BUILD_DIR}/${CONFIGURATION}-iphoneos/include" "${UNIVERSAL_OUTPUTFOLDER}/"</div><div>cp -R "${BUILD_DIR}/${CONFIGURATION}-iphoneos/usr" "${UNIVERSAL_OUTPUTFOLDER}/"</div></div><div><br></div><div><br></div><div><b>watch静态库脚本打开示例</b>：</div><div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;"><div>WRK_DIR=build</div><div><br></div><div># remove old build first</div><div>rm -rf $(WRK_DIR)/${CONFIGURATION}-universal</div><div>rm -rf $(WRK_DIR)/${CONFIGURATION}-watchos</div><div>rm -rf $(WRK_DIR)/${CONFIGURATION}-watchsimulator</div><div><br></div><div># define output folder environment variable</div><div>UNIVERSAL_OUTPUTFOLDER=${WRK_DIR}/${CONFIGURATION}-universal</div><div><br></div><div># Step 1. Build Device and Simulator versions</div><div>xcodebuild -target TestWatchFramework -configuration ${CONFIGURATION} -sdk watchos clean build</div><div>xcodebuild -target TestWatchFramework -configuration ${CONFIGURATION} -sdk watchsimulator clean build</div><div><br></div><div># make sure the output directory exists</div><div>mkdir -p "${UNIVERSAL_OUTPUTFOLDER}"</div><div><br></div><div># Step 2. Create universal binary file using lipo</div><div>lipo -create -output "${UNIVERSAL_OUTPUTFOLDER}/libTestWatchFramework.a" "${WRK_DIR}/${CONFIGURATION}-watchos/libTestWatchFramework.a" "${WRK_DIR}/${CONFIGURATION}-watchsimulator/libTestWatchFramework.a"</div><div><br></div><div># Last touch. copy the header files. Just for convenience</div><div>cp -R "${WRK_DIR}/${CONFIGURATION}-watchos/include" "${UNIVERSAL_OUTPUTFOLDER}/"</div><div>cp -R "${WRK_DIR}/${CONFIGURATION}-watchos/usr" "${UNIVERSAL_OUTPUTFOLDER}/"</div><div><br></div><div># open dir</div><div>open "${UNIVERSAL_OUTPUTFOLDER}"</div></div><div><br></div><div><div><br></div><div>参考文章：<a href="http://www.cocoachina.com/industry/20140613/8810.html" target="_blank" rel="external">http://www.cocoachina.com/industry/20140613/8810.html</a>（制作和加载动态库的方法）</div><div><br></div><div><b>加载方式</b>：</div><ul><li>在编译时添加引用关系，包将放入bundle中，在需要是被调用。</li><li>从远端下载库到Document中，使用代码从 Document中加载代码</li></ul><div><br></div><div>参考文章：<a href="https://yq.aliyun.com/articles/3024#9" target="_blank" rel="external">https://yq.aliyun.com/articles/3024#9</a></div></div><div><br></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/横竖屏适配经验/" rel="next" title="横竖屏适配经验">
+                <i class="fa fa-chevron-left"></i> 横竖屏适配经验
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/09/GCD使用方式与效果总结/" rel="prev" title="GCD使用方式与效果总结">
+                GCD使用方式与效果总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/09/IOS动态库与静态库指南/"
+     data-title="IOS动态库与静态库指南"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/09/IOS动态库与静态库指南/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/09/IOS动态库与静态库指南/"
+           data-title="IOS动态库与静态库指南" data-url="https://treasureu.github.io/2017/02/09/IOS动态库与静态库指南/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

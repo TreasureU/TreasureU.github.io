@@ -1,0 +1,1462 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="前端," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cheng JianFeng's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Head First:HTML与CSS读书笔记注意：本文所有的样式展示均采用 chrome mac 2016/07 最新版编写。HTML部分：
+功能定义：负责描述网页的结构。
+元素分类：
+
+
+内联：
+
+
+内联元素：不会再元素的周围插入换行。比如&amp;lt;img&amp;gt;、&amp;lt;quote&amp;gt;等
+块元素：会在元素的两边插入换行
+
+内容：
+
+
+空元素：元素只有单个&amp;lt;&amp;gt;，不需要内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Head First:HTML与CSS读书笔记">
+<meta property="og:url" content="https://treasureu.github.io/2017/02/09/Head First:HTML与CSS读书笔记/index.html">
+<meta property="og:site_name" content="Cheng JianFeng's Blog">
+<meta property="og:description" content="Head First:HTML与CSS读书笔记注意：本文所有的样式展示均采用 chrome mac 2016/07 最新版编写。HTML部分：
+功能定义：负责描述网页的结构。
+元素分类：
+
+
+内联：
+
+
+内联元素：不会再元素的周围插入换行。比如&amp;lt;img&amp;gt;、&amp;lt;quote&amp;gt;等
+块元素：会在元素的两边插入换行
+
+内容：
+
+
+空元素：元素只有单个&amp;lt;&amp;gt;，不需要内容。">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/E8632F90-CC73-4979-B4F2-1608CC5FAAA2.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/BAB17DC9-843B-481B-BCDC-DFB682BC3EDA.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/E8632F90-CC73-4979-B4F2-1608CC5FAAA2.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/BAB17DC9-843B-481B-BCDC-DFB682BC3EDA.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/C6993DFB-DA5B-4202-AA77-C167BBB168CB.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/D98D2A20-82EE-4760-9BE6-1116B8EC0ADE.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/21487F8F-A227-4488-9FCA-708BA143B261.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/7A791A97-1C67-4AC7-8950-23F9C9739021.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/F38C8D76-DE5D-4658-A781-BE13A04CBF8B.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/09C26047-3518-4425-84E5-5C72769A2B29.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/98D9A9E0-33BB-457C-A57E-04BCE1916631.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/DB39268E-66F0-44E3-8F70-59B0790F5793.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/38931B57-F41D-4B3F-8938-68A31CA32B6D.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/716B3776-7758-4486-A16B-1CD636C68C54.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/EC5011D9-3289-4318-A9AC-F1A4E3E48D82.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/BD6AADBD-F344-4F33-96F7-ECCCB289C0E1.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/6DD223EA-9BE9-4129-A6B0-37C6F55C5EDE.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/5BB806FA-C249-4BCB-9614-A253E1EBFAE2.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/066E5BDE-7104-45E5-8A96-65C4C3D7185A.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/C65653AD-6DE9-4129-AF7E-41DDF4E7542A.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/9A5E286C-068E-4C45-9A2B-57F6F34A7FEF.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/5E745EF3-4A3C-45B1-8C5E-E50A0E3FE997.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/142DC182-6B76-4AFE-B23D-FD80F6D5D7DF.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/ED5ECF99-4607-43B7-B8A6-F7C789EC3BA0.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/CD8F720D-C9A9-4F42-B647-EC139D518C1A.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/56FCD4D2-BE4D-4671-AAAA-06DB8AB58046.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/C0A083CB-BFD5-45D3-8243-1B496A4927E4.png">
+<meta property="og:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/21E160D5-8ED9-470F-80AB-A75ABB1C87F4.png">
+<meta property="og:updated_time" content="2017-02-09T03:19:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Head First:HTML与CSS读书笔记">
+<meta name="twitter:description" content="Head First:HTML与CSS读书笔记注意：本文所有的样式展示均采用 chrome mac 2016/07 最新版编写。HTML部分：
+功能定义：负责描述网页的结构。
+元素分类：
+
+
+内联：
+
+
+内联元素：不会再元素的周围插入换行。比如&amp;lt;img&amp;gt;、&amp;lt;quote&amp;gt;等
+块元素：会在元素的两边插入换行
+
+内容：
+
+
+空元素：元素只有单个&amp;lt;&amp;gt;，不需要内容。">
+<meta name="twitter:image" content="https://treasureu.github.io/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/E8632F90-CC73-4979-B4F2-1608CC5FAAA2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6369437447528383000',
+      author: '健康哥哥'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://treasureu.github.io/2017/02/09/Head First:HTML与CSS读书笔记/"/>
+
+
+
+
+
+  <title> Head First:HTML与CSS读书笔记 | Cheng JianFeng's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cheng JianFeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">心有猛虎,细嗅蔷薇.</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th-list"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://treasureu.github.io/2017/02/09/Head First:HTML与CSS读书笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cheng JianFeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cheng JianFeng's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cheng JianFeng's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Head First:HTML与CSS读书笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T11:19:53+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端学习/" itemprop="url" rel="index">
+                    <span itemprop="name">前端学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/09/Head First:HTML与CSS读书笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/09/Head First:HTML与CSS读书笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.10 (454269)"><meta name="keywords" content="读书笔记"><meta name="altitude" content="13.66733169555664"><meta name="author" content="程剑锋"><meta name="created" content="2016-07-11 07:44:22 +0000"><meta name="latitude" content="31.223127046307"><meta name="longitude" content="121.3563658812918"><meta name="source" content="desktop.mac"><meta name="updated" content="2016-12-24 16:09:23 +0000"><title>Head First:HTML与CSS读书笔记</title></head><body><div><b>注意：本文所有的样式展示均采用 chrome mac 2016/07 最新版编写。</b></div><div><b><br></b></div><div><b>HTML部分</b>：</div><ul>
+<li>功能定义：负责描述网页的结构。</li>
+<li>元素分类：
+
+</li><ul>
+<li>内联：
+
+</li><ul>
+<li>内联元素：不会再元素的周围插入换行。比如&lt;img&gt;、&lt;quote&gt;等</li>
+<li>块元素：会在元素的两边插入换行</li>
+</ul>
+<li>内容：
+
+</li><ul>
+<li>空元素：元素只有单个&lt;&gt;，不需要内容。比如：&lt;br&gt;、&lt;img&gt;</li>
+<li>普通元素：元素有一对&lt;&gt;，需要添加内容，否则没有意义。</li>
+</ul>
+</ul>
+<li>img是一个内联元素，且是一个空元素。</li>
+<li>浏览器加载图像的规则是：先加载HTML网页，然后再加载图像。因此，可能会引起页面跳跃。建议提前设置图像的width 和height，提供结构信息。</li>
+<li>HTML中过多的空白符会被简化为一个空格，换行必须使用&lt;br&gt;来完成。</li>
+<li><b>HTML4.0语法规范：</b>
+
+</li><ul>
+<li>&lt;head&gt;元素是放置&lt;title&gt;、&lt;meta&gt;和&lt;style&gt;元素唯一合法的地方。</li>
+<li>只能在&lt;body&gt;元素下直接放置块元素，所有内联元素和文本都必须包含在块元素中。</li>
+<li>块元素禁止包含在&lt;p&gt;元素中</li>
+<li>列表&lt;ul&gt;和&lt;ol&gt;中只允许直接放置&lt;li&gt;元素，其他元素不允许直接放置。
+
+</li><ul>
+<li>ul使用 如下样式展示：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/E8632F90-CC73-4979-B4F2-1608CC5FAAA2.png" height="148" width="122"><br></li>
+<li>ol 使用如下样式展示：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/BAB17DC9-843B-481B-BCDC-DFB682BC3EDA.png" height="132" width="88"><br></li>
+</ul>
+<li>&lt;blockquote&gt;中应该先加入块元素，再加入文本。</li>
+</ul>
+<li><b>XHMTL是一种格式规范</b>。它采用xml的格式编写，使HTML更加规范化，且易于扩展。
+
+</li><ul>
+<li>格式规范要求：
+
+</li><ul>
+<li>把DOCTYPE改为XHTML。</li>
+<li>在&lt;html&gt;标签中添加 xlmns、lang和 xml:lang 属性。示例：&lt;html xmlns=“http://www.w3.org/1999/xhtml” lang=“en” xml:lang=“en”&gt;.</li>
+<li>确保&lt;html&gt;是DOCTYPE后第一个标记，且&lt;/html&gt;是最后一个标记。</li>
+<li>所有的元素名称必须使用小写字母表示。</li>
+<li>所有开始标记都必须有对应的结束标记。<b>如果是空元素，那么它的标记必须以空格结尾，后跟/&gt;</b>.</li>
+<li>所有属性的值必须非空，且带有双引号。</li>
+</ul>
+<li>优点：
+
+</li><ul>
+<li>严格规范的语法方便浏览器解析，以及不同浏览器取得统一的行为。</li>
+<li>可以扩展新标记</li>
+<li>只要能读取XML的程序，都可以直接解析HTML。</li>
+<li>对移动设备的支持更好</li>
+</ul>
+</ul>
+<li><b>高级布局部分</b>：
+
+</li><ul>
+<li>div元素：用于将多个块元素进行进行逻辑划分。</li>
+<li>span：给内联元素的内容划分区域。
+
+</li><ul>
+<li>可以使用CSS盒模式编程。但是边界的话，只有左右两侧是有效的，而上下两侧是无效的。补白也是左右有效，上下侧则占用公共空间（即不影响该元素与其他元素之前的位置），会产生重叠效果。</li>
+</ul>
+</ul>
+<li>表格元素：
+
+</li><ul>
+<li>表格的元素：
+
+</li><ul>
+<li>&lt;table&gt;：表示这是一个表格，其内有有一个 summary 属性，这个属性可以设置表格的摘要，但是摘要完全不会再网页上显示出来，只是为了使表格更加可读。</li>
+<li>&lt;caption&gt;:表格的标题</li>
+<li>&lt;tr&gt;:表示这是表格的一行内容</li>
+<li>&lt;th&gt;:表示这是表格的头行的标题单元格</li>
+<li>&lt;td&gt;:表示这是普通单元格</li>
+</ul>
+<li>HTML中表格采用的是<b>基于行布局</b>的模式。</li>
+<li>请不要把表格和列表搞混了，后者是 &lt;ul&gt; 和 &lt;ol&gt;的内容。</li>
+<li>表格的单元格的外貌设置类似于盒模式，内容区、补白、边框都一致，但是边界稍有不同。单元格的边界是不能单独设置的（即 margin 属性对于 th 或者 td 是无效的），而是整个表格统一设置一个表格间距，需要在 table 选择符的CSS 中设置该属性： <b>border-spacing：10px 30px</b> （前者为水平间距，后者为竖直间距）</li>
+<li>在单元格元素中 使用rowspan 或者 colspan 添加 行合并 或者是 列合并。在有合并存在的表格中，合并表格的位置，在其设置之初就决定了，剩下的单元格只是单填充空格。</li>
+<li>table不受 text-align 属性影响。</li>
+</ul>
+<li>列表元素：
+
+</li><ul>
+<li>列表的元素：
+
+</li><ul>
+<li>&lt;ul&gt;：无序列表</li>
+<li>&lt;ol&gt;：有序列表</li>
+<li>&lt;li&gt;：列表项</li>
+</ul>
+<li>ul默认使用 如下样式展示：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/E8632F90-CC73-4979-B4F2-1608CC5FAAA2.png" height="148" width="122"><br></li>
+<li>ol 默认使用如下样式展示：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/BAB17DC9-843B-481B-BCDC-DFB682BC3EDA.png" height="132" width="88"><br></li>
+<li>li 项的样式可以变的，可以在CSS中调整 list-style-type 属性：
+
+</li><ul>
+<li>disc：实心圆点</li>
+<li>circle：空心圆点</li>
+<li>square：方块标志</li>
+<li>None：无</li>
+<li>…………多的是哦，反正在 webstorm上可以自动填充</li>
+</ul>
+<li>也可以使用 list-style-image: url(xxxxx); 来指定自定义标识</li>
+</ul>
+<li>表单元素：
+
+</li><ul>
+<li>在最外围使用 &lt;form action=“xxxxx.php” method=“POST”&gt;，里面的 action 属性指明了提交的url地址，method指明了 提交的方式。</li>
+<li>我们可以将任意的块元素放入表单中。</li>
+<li>交互表单元素：
+
+</li><ul>
+<li>&lt;input type=“text” name=“xxxxx” maxlength=“100” /&gt;：文本输入框，name用于WEB程序提取值，可以设置输入字数限制,maxlength表示输入字符限制。</li>
+<li>&lt;input type=“password” name=“xxxxx” maxlength=“100” /&gt;：密码输入框</li>
+<li>&lt;input type=“submit” value=“name" /&gt;：确认按钮,value是按钮上显示的名字</li>
+<li>&lt;input type=“reset” value=“name" /&gt;：重置按钮,value是按钮上显示的名字</li>
+<li>&lt;input type=“radio” name=“xxxx” value=“xxx” checked=“checked” /&gt;：单选框，name相同的为同一个单选组，value可以各不相同.</li>
+<li>&lt;label for=“xxxx”&gt;:使用示例如下，但一般来说，我们会直接使用文本代替。<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/C6993DFB-DA5B-4202-AA77-C167BBB168CB.png" height="336" width="1242"><br></li>
+<li>&lt;input type=“checkbox” name=“xxxx” value=“xxx” /&gt;：复选框，name相同的为同一个复选组</li>
+<li>&lt;textarea name=“xxx” rows=“10” cols=“10”&gt;—初始化文本—&lt;/textarea&gt;：一个<b>多行</b>文本输入区，<b>rows 和 cols告诉浏览器文本框的宽度和高度</b>，以字符作为计数标准。</li>
+<li><img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/D98D2A20-82EE-4760-9BE6-1116B8EC0ADE.png" height="272" width="616">:选择列表及其选项。可以在 select中添加 multiple=“multiple”，是单选变成多选，但是不太好用，需要使用 ctrl或者command采用实现多选。</li>
+<li>fieldset(控件组) 和 legend（传说） ：用来块状组合表单元素，示例如下：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/21487F8F-A227-4488-9FCA-708BA143B261.png" height="486" width="948">，效果如下：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/7A791A97-1C67-4AC7-8950-23F9C9739021.png" height="312" width="794"><br></li>
+<li>&lt;input type=“file” name=“xxx”&gt;：表示选择文件，该文件给将随着请求一起发送给服务端，这意味着我们必须采用POST方式。</li>
+</ul>
+<li>在 &lt;input&gt;元素中 添加 checked=“checked”，表示默认选中状态。</li>
+<li>布局方式：
+
+</li><ul>
+<li>采用CSS布局表单</li>
+<li>采用表格布局表单</li>
+<li><b>采用表格搭建表单位置框架，配合CSS调整表单外观（最佳方式）</b></li>
+</ul>
+</ul>
+</ul><div><br></div><div><br></div><div><b>CSS部分</b>：</div><ul>
+<li>功能定义：负责描述网页的样式。</li>
+<li>基本语法：
+
+</li><ul>
+<li>CSS规则需要写在&lt;head&gt;标签内，使用如下格式： <img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/F38C8D76-DE5D-4658-A781-BE13A04CBF8B.png" height="182" width="490"><br></li>
+<li>其中p表示的是 html的语法元素，这句话将整体的修改p元素的样式。</li>
+<li>为多个元素定义同一套规则，可以使用“ , ”将多个元素分隔开来。例如：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/09C26047-3518-4425-84E5-5C72769A2B29.png" height="136" width="466"><br></li>
+<li>元素的样式可以多次定义取其合集作为最终样式标准。<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/98D9A9E0-33BB-457C-A57E-04BCE1916631.png" height="258" width="534"><br></li>
+<li>如果使用外部引用的CSS文件，那么需要使用link元素。例如：&lt;link type=“text/css” rel=“stylesheet” href=“./lounge.css” /&gt;，注意，link元素是一个空元素，需要在结尾加上“ /&gt;”才可。
+
+</li><ul>
+<li>type：表示信息的类型，此处表示是一个css文件。</li>
+<li>rel：表示XHTML与需要链接的文件之间的关系，此处表示为 样式表。</li>
+<li>href：表示被链接文件的地址。</li>
+<li><b>样式链接冲突规则</b>：<b>后链接（优先）</b>的相同选择符的属性将覆盖先链接的选择符的属性。</li>
+</ul>
+<li>在单独的CSS文件内部，我们不要引入任何xhtml元素，只要完全按照css的语法编写即可。</li>
+<li>可以为样式创建单独的子类，子类将继承父类元素（即主选择符，如果没有，那就是XHTML中上级元素）的属性。例如：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/DB39268E-66F0-44E3-8F70-59B0790F5793.png" height="216" width="402"><br></li>
+<li>可以为所有选择符添加子类，包括未声明的。例如：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/38931B57-F41D-4B3F-8938-68A31CA32B6D.png" height="106" width="296">。此时，所有的XHTML元素都可以使用 class=“greentea” 这一样式属性了，例如：&lt;p class=“greentea”&gt;…………&lt;/p&gt;</li>
+<li>注意，一个元素可以加入多个样式类，比如：&lt;p class=“greentea raspberry biueberry”&gt;，此时三个类的样式将共同作用于该元素上。</li>
+<li><b>样式使用冲突应用规则</b>：当有多个类，以及继承关系上的属性<b>存在冲突(非冲突元素将全部继承)</b>时，将按照以下规则为内容选择样式：
+
+</li><ul>
+<li>在继承关系上，子类属性覆盖父类属性，子元素覆盖父元素。</li>
+<li>优先级：具体子类 &gt; 模糊子类（.） &gt; 具体选择符 &gt; 该选择符的父元素</li>
+<li>如果优先级相同，那么选择样式描述语句中<b>最靠后的规则</b>。</li>
+</ul>
+<li>id的定义：当为全页面中唯一的元素添加样式时，最好选用<b>id来保证互斥性</b>。id的定义语法：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/716B3776-7758-4486-A16B-1CD636C68C54.png" height="276" width="458">。使用方法：例如&lt;h3 class="test3" id="testid"&gt;asncnqkwnxdqw xkqpwdxqw qkdxkdk&lt;/h3&gt;，在这个例子中，h3的背景颜色\文本颜色和下划线都显示了出来，即<b>id和class是可以共存的</b>。</li>
+<li><b>类和id之间唯一的区别</b>：id选择符只跟页面中一个元素匹配。（注意，<b>此处的id与 XHTML中a元素的 id锚点 是同时生效的，也就是说他们成为了定位目标</b>。）</li>
+<li>link和style元素都有一个 media 属性，该属性指明了该样式表应用于哪种设备。
+
+</li><ul>
+<li>设备通常可以分为 电脑屏幕、移动设备、打印机、电视、盲文等。</li>
+<li>当使用 media 属性时，浏览器只在特定设备上启用相应的样式表。</li>
+<li>如果没有指定 media 属性，那么样式表将作用于所有设备。</li>
+<li>最好将应用于所有设备的样式表，放在前面，然后将特定设备的样式表放在后面。这样可以确保优先使用特定设备样式表内的属性。</li>
+</ul>
+<li>可以特别的指定特定作用于的选择符，例如：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/EC5011D9-3289-4318-A9AC-F1A4E3E48D82.png" height="376" width="474">.在这个例子中，cjf p比div p更加精确，将实行优先覆盖。这种空格隔开的表示，<b>在最后一个空格前的容器内的特定孩子元素，使用相应的样式</b>。
+
+</li><ul>
+<li>扩展（<b>可以指定多层容器</b>）：div blockquote p：{……} 表示在 div 容器下的 blockquote 容器内的 p孩子（可以是儿子、孙子或者曾孙等等），使用此样式。</li>
+</ul>
+</ul>
+<li>CSS的基本元素叫选择符，其对应一个XHTML元素起作用。<b>由于XHTML元素是树形层级结构，因此样式落实到某个具体的叶子节点是将会是叠加的（可以理解为是<span style="color: rgb(4, 51, 255);">继承关系</span>）</b>。比如：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/BD6AADBD-F344-4F33-96F7-ECCCB289C0E1.png" height="132" width="1070">，在这里面，p选择符和em选择符的样式将共同作用于 “qwlknlkqwndlkq”这段内容。如果是相同的样式属性，那么 em选择符的样式属性将覆盖 p选择符的样式属性。但是，并不是所有的元素都可以被继承，大体上，影响你文本外观的样式，比如字体颜色、字体以及字体样式等，都可以被继承。但是。例如边框这样的属性，就不可以被继承。</li>
+<li>基本字体分类：（是按照样式划分族类的）
+
+</li><ul>
+<li>Serif Family：衬线字体，字正方圆，一般用于报纸印刷。<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/6DD223EA-9BE9-4129-A6B0-37C6F55C5EDE.png" height="292" width="474"><br></li>
+<li>Sans-serif family:无衬线字体，相比于衬线字体更具有可读性。<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/5BB806FA-C249-4BCB-9614-A253E1EBFAE2.png" height="314" width="608"><br></li>
+<li>Monospace Family：等宽字体。<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/066E5BDE-7104-45E5-8A96-65C4C3D7185A.png" height="244" width="408"><br></li>
+<li>Cursive Family：手写字体。<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/C65653AD-6DE9-4129-AF7E-41DDF4E7542A.png" height="250" width="446"><br></li>
+<li>Fantasy Family：趣味字体。<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/9A5E286C-068E-4C45-9A2B-57F6F34A7FEF.png" height="196" width="442"><br></li>
+</ul>
+<li>颜色空间的表示方式：
+
+</li><ul>
+<li>直接使用CSS内置的颜色属性，目前约17种。比如 yellow/green等。</li>
+<li>使用 rgb( 80%,40%,0% )：分别代表 红色80%，绿色40%，蓝色0%。</li>
+<li>使用 rgb( 80,102,0 )：分别代表 红色80，绿色102，蓝色0.</li>
+<li>直接使用十六进制表示：#cc6600</li>
+</ul>
+<li><b>CSS常见属性使用</b>详解：
+
+</li><ul>
+<li>width 和 height ：可以指定元素的大小，使用px作为单位，或者是相对于元素所在容器(比如div或body等)的百分比表示。块元素的width默认值是auto，将扩展到浏览器的边界，而高度将由内容与width计算后决定。显示设置宽度后，元素的大小不再随着浏览器的变化而变化。</li>
+<li>text-align:内容对齐方式。</li>
+<li>font-family:可以指定元素使用到字体。可以使用列表形式，将优先匹配前面的字体。例如：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/5E745EF3-4A3C-45B1-8C5E-E50A0E3FE997.png" height="96" width="754">。在这个例子中，我们可以按照优先级列出我们想要使用的字体，一旦浏览器发现某一个字体可用，那就不再继续匹配。一般最后一个是一个字体族，以确保有可用字体。(注意对于包含空格的字体名，请使用”"包裹使用)</li>
+<li>font-size：
+
+</li><ul>
+<li>浏览器默认字体大小是16px。</li>
+<li>字体大小描述：
+
+</li><ul>
+<li>使用px直接描述大小，比如 font-size：12px</li>
+<li>使用%百分比，表示与父元素（父类）相比的差值。比如 font-size:150%</li>
+<li>使用关键字描述大小，关键字如下：xx-small、x-small、small、medium和large、x-large和xx-large。基本上以20%的比例在递增，其中small通常定为12px。</li>
+</ul>
+<li>网页字体设计规范技巧：
+
+</li><ul>
+<li>定义body的字体大小，最好选用关键字定义，方便与浏览器共进退。</li>
+<li>用百分比描述其他子元素相对于body元素的字体大小。</li>
+</ul>
+</ul>
+<li>font-weight：控制字体的粗细。有 normal 和 bold两种值。</li>
+<li>font-style：可以选择为斜体，italic或者oblique表示斜体。</li>
+<li>font-variant:设置字体的异体。取值有 normal 和 small-caps。其效果是缩放小写字母。</li>
+<li>text-decoration：（线的长度与文本长度一致，<b>这些值可以共存</b>）
+
+</li><ul>
+<li>underline：下划线</li>
+<li>overline：顶部线</li>
+<li>blink：闪烁，但基本无效</li>
+<li>line-through：删除线</li>
+<li>none：无装饰</li>
+</ul>
+<li>color：定义了文本的前景颜色，包括文本颜色和边框颜色。</li>
+<li>background-color：背景颜色</li>
+</ul>
+<li><b>CSS盒模式</b>：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/142DC182-6B76-4AFE-B23D-FD80F6D5D7DF.png" height="970" width="1310">
+
+</li><ul>
+<li>内容区：一个大小与内容切边的区域，不会有留白。</li>
+<li>补白（可选）：在内容区和边框之间的一层留白区域，四边的大小都是可控的。补白本身是透明的，没有颜色或者装饰。（但是可以显示背景色或者背景图像）</li>
+<li>边框（可选）：围绕着补白的一条线。边框可以有各种宽度、颜色和样式。</li>
+<li>边界（可选）：包围着边框，用于分隔开其他盒子。边界本身也是透明的，没有颜色或装饰。（但是可以显示背景色或者背景图像）</li>
+<li>注意事项：
+
+</li><ul>
+<li>元素的背景色或者背景图像会延伸到补白底下，但不会到边界。</li>
+</ul>
+<li>语法属性：
+
+</li><ul>
+<li>border-color：边框颜色，可以单独指定。否则将使用color中的值。</li>
+<li>line-height：定义文本行高度，可以像font-size一样，使用 px,%,em等来定义。扩大了每一行文本的高度。</li>
+<li>border-color 和 border-top-color等：边框线的颜色</li>
+<li>border-width 和 border-top-width等：边框线的宽度，使用px。也可以使用关键字，thin瘦，medium中等，thick厚。</li>
+<li>border-style 和 border-top-style等：边框的样式。分为solid实线，dotted点线，double双线（内外两根，不同色），dashed虚线，groove凹框线，inset嵌入式框，outset凸框线，ridge突出边界样式。</li>
+<li>可以使用一条语句完整的描述三个边框属性，比如：
+
+</li><ul>
+<li>border:solid thin black;（style width color）</li>
+<li>border-bottom:dashed 6px #ff0000；</li>
+</ul>
+<li>padding 和 padding-left 等：使用px描述补白的宽度。注意，后设置的属性将覆盖先设置的同类属性的值。</li>
+<li>margin 和 margin-left等：使用px描述边框的宽度。注意，后设置的属性将覆盖先设置的同类属性的值。</li>
+<li>background-image:url(image/background.gif) 使用如上格式引入背景图片。（注意，背景图片更多的是起到背景装饰作用，其会与内容产生重叠。因此不可以代替&lt;img&gt;元素）</li>
+<li>background-repeat：设置是否重复元素。有以下几种取值：no-repeat、repeat-x、repeat-y、inherit。</li>
+<li>background-position：决定背景图像的位置。</li>
+</ul>
+</ul>
+<li><b>CSS常见缩写</b>：
+
+</li><ul>
+<li>padding：0px 20px 30px 40px（上，右，下，左）</li>
+<li>padding：20px（当四边元素都一样时使用）</li>
+<li>margin：0px 20px 30px 40px（上，右，下，左）</li>
+<li>margin：20px（当四边元素都一样时使用）</li>
+<li>border：solid 7px #007e7e（样式，宽度，颜色）</li>
+<li>background（背景）：white url(./sadasd/asd.gif) repeat-x（颜色，图片地址，重复）</li>
+<li>font：font-style font-variant font-weight font-size（必选）/line-height font-family（其他都是可选的，字体family里不同字体采用,隔开）</li>
+</ul>
+<li>伪类：伪类的本质是覆盖浏览器自动生成的类。每一个伪类实际上是代表着一个具体的元素样式，可能与状态有关。
+
+</li><ul>
+<li>伪类的语法：例如 a:link{……}</li>
+<li>常见的伪类：a:link、a:visited、a:focus、a:visited、a:hover、a:active</li>
+</ul>
+<li><b>层叠样式表属性值确定方法</b>：（以某一个元素的属性为例）
+
+</li><ul>
+<li>把所有样式表集中起来（作者、读者、浏览器）</li>
+<li>找出和该元素属性相一致的属性规则定义</li>
+<li>将符合的规则按照 作者 &gt; 读者 &gt; 浏览器 的方式排列</li>
+<li>按照声明的 <b>具体程度</b> 来进行排序
+
+</li><ul>
+<li>具体程度的计算方式：
+
+</li><ul>
+<li>初始化三个数字： 0 0 0</li>
+<li>如果这个选择符有id，那么每个id都使首位数字+1</li>
+<li>如果这个选择符有类或者伪类，那么每个类都使中间的数字+1</li>
+<li>如果这个选择符有元素名称，那么每个名称都使末位的数字+1</li>
+<li>最后，数字越大的元素，优先级越高</li>
+</ul>
+</ul>
+<li>当此时还有冲突时，按照他们在文件（引用文件）中<b>出现的顺序</b>来决定</li>
+<li>然后，顺序中的第一个规则就是胜者。</li>
+</ul>
+<li>在属性后面使用 <b>!important</b> 可以使该属性规则达到最优级别。例如：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/ED5ECF99-4607-43B7-B8A6-F7C789EC3BA0.png" height="126" width="518"><br></li><li>CSS在实际使用中，应该<b>多用组合，少用继承</b>，这样可以增加灵活性。</li><ul><li>比如使用&lt;div class="box fs-12 pd-20"&gt;this a clear color fontsize12px padding20px box&lt;/div&gt;，里面一共有 box、fs-12、pd-20 这3种自定义CSS类样式。</li><li>CSS还支持多重继承，即 .box 类定义后， .box.gray 、 .box.red  样式也是可以被定义的。在具体使用时，例如&lt;div class=“box gray fs-12 pd-20"&gt;this a gray fontsize12px padding20px box&lt;/div&gt;。可以看出， 【box gray】是这种多重继承类的正确引用方法。</li></ul>
+
+</ul><div><br></div><div><br></div><div><b>其他部分</b>：</div><ul>
+<li>颜色空间使用建议：
+
+</li><ul>
+<li>文本和背景要使用高对比颜色以提高可读性，最高做到文本用深颜色，背景用浅颜色。</li>
+</ul>
+</ul><div><br></div><div><b>集合部分</b>：</div><ul>
+<li>浏览器布局原则：
+
+</li><ul>
+<li>浏览器布局是采用<b>流式原则</b>放置元素。</li>
+<li><b>块元素的布局顺序是从上至下</b>，按照XHTML中的写法依次排列的。块元素之间有换行，每个块元素如果不指定width，那么默认占据上层元素全部的大小。（如果是浏览器，那就是全部的浏览器大小）</li>
+<li><b>内联元素</b>的布局顺序是在块元素的限制下，按照<b>左上角至右下角</b>的顺序依次填充的</li>
+<li>相邻块元素之间的间距（主要是边界距离计算），是按照<b>两个块元素较大一方的边界值</b>来计算的，而不是累加的。</li>
+</ul>
+<li><b>漂移布局</b>要点：（这是浏览器布局的基础，即使使用其他布局，也是建立在流式布局的原则上的）
+
+</li><ul>
+<li>适用范围：主要表现为一部分与浏览器贴边，而页面的其他元素，需要随着浏览器的变化而变化自身的大小。</li>
+<li>漂移元素被移出了正常的文档流，放到了左边或者右边。漂移的范围是相对于他的父元素而言的。</li>
+<li>要<b>漂移的元素的width必须是固定的</b>，而填充在此处的另一个块元素，其大小就是浏览器宽度（就块元素本身而言，它是和漂移的块元素发生重叠的）。但是块元素里面的内容，<b>会在触及漂移元素的边界时换行</b>，最后的布局效果还是正确的。</li>
+<li><b>要一个块元素发生漂移的起始位置，一定是在他在XHTML中上一个块元素的下面</b>。且<b>发生漂移的块元素的width一定是固定的</b>。</li>
+<li>而自动适应宽度的块元素，需要在发生漂移的块元素的下面。在实际的显示层级上，自适应宽度的块元素的宽度实际上一直等于浏览器宽度，只是内容元素的布局在遇到漂移漂移元素的边界时会换行。例如：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/CD8F720D-C9A9-4F42-B647-EC139D518C1A.png" height="854" width="854">，在这里面，漂移元素一直覆盖在自适应块元素的上面。</li>
+<li><b>块元素漂移，需要设置 float:right/left</b> ，注意，这个样式一般使用id来定义。</li>
+<li>可以对<b>块元素设置 clear:right | left</b> 这两个属性，来确保不会有漂移元素在他们右边/左边/两边。避免覆盖是需要包含边界计算的。</li>
+<li>在使用漂移布局时，有两种策略：<b>左紧右松</b> 和 <b>左松右紧</b>。他们的共同特点是 浮动层都在上面，而固定曾在下面。具体使用哪种，需要根据实际情况决定。需要注意的是，在小屏幕上，浮动层先于固定层显示，而不是在同一行显示。</li>
+</ul>
+<li><b>冻结布局</b>要点：（非常喜欢）
+
+</li><ul>
+<li>在body里创建一个固定大小的 div，并在里面进行主要元素的布局。</li>
+<li>该 固定div的有以下必要元素是一定需要写的：
+
+</li><ul>
+<li>width：一定要写具体值，确保固定布局</li>
+<li>margin-left &amp;&amp; margin-right：auto。当把一个块元素的 width设置为auto时，浏览器会根据内容区的需要调整内容区的宽度。而当把边界设置为 auto时，浏览器会确保两边的边界是相等的，且计算出一个合适的大小。最终显示效果是内容区居中显示。</li>
+</ul>
+</ul>
+<li><b>绝对布局</b>要点：（比漂移布局优先）
+
+</li><ul>
+<li>一个新的属性 position，其有四个属性值。
+
+</li><ul>
+<li>static:将元素放到正常的文档流中参与流式布局。如果某个元素使用了 float 属性，那么他的本身不参与文档流的布局，但是其大小将会影响文档流中元素的内容区布局。</li>
+<li>absolute：将元素从文档流中抽离，其他元素完全感受不到这个元素的存在。是完全哦！</li>
+<li>fixed：使用的是相对于浏览器的固定位置布局，而absolute使用的是基于页面的固定位置布局。这意味着fixed将会固定停留在浏览器的某个位置上，即使我们滚动网页也不会消失。</li>
+<li>relative:元素依然是文档流中的一部分，在参与完流式布局后，有了一个位置，然后再根据设置的相对位置属性，对元素进行偏移操作。</li>
+</ul>
+<li>使用 top、right、bottom、left 这四个元素来指定这个元素的绝对位置。可以用 px指定绝对位置，或者是 百分比，指定相对关系。（注意，这也将形成一个黏着效果）</li>
+<li>绝对布局的属性可以对 块元素 或者是 内联元素 使用，这一点上没有限制。但建议使用块元素&lt;div&gt; 包裹内联元素后再使用。</li>
+<li>可以使用 z-index 指定同为 绝对布局的元素，在页面层级显示上的优先关系。</li>
+</ul>
+<li>三种基础布局的比较：
+
+</li><ul>
+<li>漂移布局：主要涉及 float 属性，但是他要求漂浮元素在HTML中的顺序需要先于固定元素，这在小屏幕设备上将造成困扰。</li>
+<li>冻结布局：外围 使用 div 创建一个固定的大小，所有元素都在这个固定大小内实现布局。</li>
+<li>绝对布局：可以将漂浮元素变成绝对布局元素，来达到我们的显示要求。但是此时在小设备上，将会产生覆盖，且由于 clear属性的失效，对于绝对布局元素的边界处理时非常困难的。</li>
+<li>综上所述，我个人还是<b>最喜欢 冻结布局</b>。</li>
+</ul>
+<li><b>固定布局</b>要点：
+
+</li><ul>
+<li>这是一种相对于浏览器的布局方式。</li>
+<li>需要将 position 属性置为fixed，被设置的元素也完全从文件流中移除。</li>
+<li>剩下的就是设置 top、left、bottom、right这四个属性</li>
+</ul>
+<li><b>相对布局</b>要点：
+
+</li><ul>
+<li>相对布局是<b>在流式布局完后</b>，对使用了相对布局的元素，根据他们设置的属性，使他们<b>发生相对于当前位置的偏移</b>。</li>
+<li>相对布局的元素首先需要参与流式布局，然后进行微调。</li>
+<li>需要把 position属性设置为 relative</li>
+<li>剩下的就是设置 top、left、bottom、right这四个属性</li>
+<li>它和直接调整补白和边界相比，后者你无论如何调整，都是无法把一个元素放到它所处的盒子外面，但是这个可以。</li>
+</ul>
+</ul><div><br></div><div><b>附注内容</b>：</div><ul>
+<li>更多的CSS选择符：
+
+</li><ul>
+<li>伪类选择符：
+
+</li><ul>
+<li>p:first-letter : 段落的首个字符</li>
+<li>p:first-line ： 段落的首行</li>
+</ul>
+<li>属性选择符：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/56FCD4D2-BE4D-4671-AAAA-06DB8AB58046.png" height="362" width="1088"><br></li>
+<li>基于兄弟的选择符：h1+p{ ….} 表示对一个紧跟着h1的段落使用CSS属性。</li>
+<li>组合选择符：
+
+</li><ul>
+<li>.blueberry p{}:表示选择了blueberry类的一个元素的子孙段落。</li>
+<li>div#greentea &gt; blockquote p:first-line</li>
+</ul>
+</ul>
+<li>框架，支持划分页面，引入第三方页面展示，但是不被 W3C建议。</li>
+<li>使用 Object 完成多媒体的播放。</li>
+<li>搜索引擎建议：
+
+</li><ul>
+<li>提高你的排序：主要是 描述 和 关键字<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/C0A083CB-BFD5-45D3-8243-1B496A4927E4.png" height="174" width="1082"><br></li>
+<li>组织搜索引擎：<img src="/Resources/Head%20First%3AHTML%E4%B8%8ECSS%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.resources/21E160D5-8ED9-470F-80AB-A75ABB1C87F4.png" height="188" width="740"><br></li>
+</ul>
+<li>关于打印的样式表编写建议：
+
+</li><ul>
+<li>文本背景颜色设置为白色</li>
+<li>建议使用 serif 字体族</li>
+<li>建议隐藏导航菜单栏、工具条以及其他无关、辅助内容等，使用CSS的 display:none即可</li>
+<li>注意固定宽度的元素，可能不适合打印</li>
+</ul>
+</ul><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div></body></html>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin_pay.JPG" alt="Cheng JianFeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao_pay.JPG" alt="Cheng JianFeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/JavaScript常见问题学习指南/" rel="next" title="JavaScript常见问题学习指南">
+                <i class="fa fa-chevron-left"></i> JavaScript常见问题学习指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/09/HTTP指南/" rel="prev" title="HTTP指南">
+                HTTP指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/09/Head First:HTML与CSS读书笔记/"
+     data-title="Head First:HTML与CSS读书笔记"
+     data-content=""
+     data-url="https://treasureu.github.io/2017/02/09/Head First:HTML与CSS读书笔记/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/09/Head First:HTML与CSS读书笔记/"
+           data-title="Head First:HTML与CSS读书笔记" data-url="https://treasureu.github.io/2017/02/09/Head First:HTML与CSS读书笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpg"
+               alt="Cheng JianFeng" />
+          <p class="site-author-name" itemprop="name">Cheng JianFeng</p>
+          <p class="site-description motion-element" itemprop="description">iOS,Python,Unity</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TreasureU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://treasureu.github.io/" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-book"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cheng JianFeng</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"ChengJianFeng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
